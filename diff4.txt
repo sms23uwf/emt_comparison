@@ -1,4 +1,0 @@
-Base file contains emitter '000001' with attribute $BEAM_ATTRIBUTE that is missing from Comparison file.
-Base file contains emitter with elnot: '000006' that is not found in Comparison file.
-Comparison file contains emitter '000001' with attribute $NEW_EMITTER_ATTRIBUTE that is missing from Base file.
-Comparison file contains emitter with elnot: '000007' that is not found in Base file.

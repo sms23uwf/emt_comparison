@@ -214,6 +214,7 @@ def findEmitterMode(emitterModeName, comparisonEmitter):
 def findGenerator(generatorNumber, comparisonEmitterMode):
         for comparisonGenerator in comparisonEmitterMode.get_generators():
             if comparisonGenerator.get_generator_number() == generatorNumber:
+                print("just about to return generator: {} as match for generator: {}".format(comparisonGenerator.get_generator_number(), generatorNumber))
                 return comparisonGenerator
           
         return []
@@ -266,17 +267,7 @@ def compareEMTFiles(wf, base_emitter_collection, comparison_emitter_collection, 
                         comparisonGenerator = findGenerator(baseGenerator.get_generator_number(), comparisonEmitterMode)
                     
                     if not comparisonGenerator:
-                        wf.write("{} mode {} contains generator: {} that is missing from the mode in {}.\n".format(bFileName, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), cFileName))
-                    else:
-                        for baseGeneratorAttribute in baseGenerator.get_attributes():
-                            comparisonGeneratorAttribute = findAttribute(baseGeneratorAttribute.get_name(), comparisonGenerator)
-                            
-                            if not comparisonGeneratorAttribute:
-                                wf.write("{} emitter:{}.mode:{}.generator:{} contains attribute:{} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseGeneratorAttribute.get_name(), cFileName))
-                            else:
-                                print("comparisonGeneratorAttribute:{}={} - baseGeneratorAttribute:{}={}".format(comparisonGeneratorAttribute.get_name(), comparisonGeneratorAttribute.get_value(), baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value()))
-                                if comparisonGeneratorAttribute.get_value() != baseGeneratorAttribute.get_value():
-                                    wf.write("{} emitter:{}.mode:{}.generator:{} contains attribute:{} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value(), comparisonGeneratorAttribute.get_value(), cFileName))
+                        wf.write("{} mode {} contains generator: {} that is missing from the mode in {}".format(bFileName, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), cFileName))
                         
                                 
                             
