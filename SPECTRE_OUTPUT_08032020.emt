@@ -1,0 +1,2213 @@
+$EMITTER
+   $ELINT				=	'abc001xyz'
+   $NAME				=	'1RL33M1'
+   $MANUFACTURER		=	'Raytheon'
+   $NAT					=	'US'
+   $PLTFRM				=	'G,K'
+   $SENSOR				=	'FC'
+   $RFS					=	'6'
+   $ISD					=	'1999'
+   $ALIAS				=	'Big Mac,Guns and Butter'
+   $FXAGILITY			=	'9999.99'
+   $LAT					=	'64,21,42.08'
+   $N_S					=	'S'
+   $LONG				=	'103,18,37.35'
+   $E_W					=	'E'
+   $ANTENNAS			=	'Parabolic Refractor'
+   $MAX_T_U_RANGE		=	'200'
+   $MDR					=	'6'
+   $AZ					=	'8'
+   $ELEVATION			=	'700'
+   $HZ_BEAM_WIDTH		=	'2.35'
+   $V_BEAM_WIDTH		=	'22.00'
+   $BEAM_ATTRIBUTE		=	'455'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc001xyz01'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $MODE_INFO3			=   'new info'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc001xyz02'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc001xyz03'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J6'
+   $CSF					=	'Paas'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'690.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'979.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END 
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc001xyz04'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'etc,etc,etc'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'26'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END 
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+
+
+$EMITTER
+   $ELINT				=	'abc002xyz'
+   $NAME				=	'2RL33M1'
+   $MANUFACTURER		=	'TASCO'
+   $NAT					=	'US'
+   $PLTFRM				=	'G'
+   $SENSOR				=	'FC'
+   $RFS					=	'6'
+   $ISD					=	'1999'
+   $ALIAS				=	'Johnny 7'
+   $FXAGILITY			=	'9999.99'
+   $LAT					=	'64,21,42.08'
+   $N_S					=	'S'
+   $LONG				=	'103,18,37.35'
+   $E_W					=	'E'
+   $ANTENNAS			=	'Parabolic Reflector'
+   $MAX_T_U_RANGE		=	'200'
+   $MDR					=	'6'
+   $AZ					=	'8'
+   $ELEVATION			=	'700'
+   $HZ_BEAM_WIDTH		=	'2.35'
+   $V_BEAM_WIDTH		=	'22.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc002xyz01'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc002xyz02'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc002xyz03'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'X'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+
+
+
+
+
+$EMITTER
+   $ELINT				=	'abc003xyz'
+   $NAME				=	'3RL33M1'
+   $MANUFACTURER		=	'Strela Research'
+   $NAT					=	'US'
+   $PLTFRM				=	'G'
+   $SENSOR				=	'FC'
+   $RFS					=	'6'
+   $ISD					=	'1999'
+   $ALIAS				=	'Gun Dish, RPK-2, SHILKA'
+   $FXAGILITY			=	'9999.99'
+   $LAT					=	'64,21,42.08'
+   $N_S					=	'S'
+   $LONG				=	'103,18,37.35'
+   $E_W					=	'E'
+   $ANTENNAS			=	'Parabolic Reflector'
+   $MAX_T_U_RANGE		=	'200'
+   $MDR					=	'6'
+   $AZ					=	'8'
+   $ELEVATION			=	'700'
+   $HZ_BEAM_WIDTH		=	'2.35'
+   $V_BEAM_WIDTH		=	'22.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc003xyz01'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc003xyz02'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT	
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc003xyz03'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+
+
+$EMITTER
+   $ELINT				=	'abc004xyz'
+   $NAME				=	'2RL33M1'
+   $MANUFACTURER		=	'TASCO'
+   $NAT					=	'US'
+   $PLTFRM				=	'G'
+   $SENSOR				=	'FC'
+   $RFS					=	'6'
+   $ISD					=	'1999'
+   $ALIAS				=	'Johnny On The Spot'
+   $FXAGILITY			=	'9999.99'
+   $LAT					=	'64,21,42.08'
+   $N_S					=	'S'
+   $LONG				=	'103,18,37.35'
+   $E_W					=	'E'
+   $ANTENNAS			=	'Parabolic Reflector'
+   $MAX_T_U_RANGE		=	'200'
+   $MDR					=	'6'
+   $AZ					=	'8'
+   $ELEVATION			=	'700'
+   $HZ_BEAM_WIDTH		=	'2.35'
+   $V_BEAM_WIDTH		=	'22.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc004xyz01'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc004xyz02'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'	
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc004xyz03'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER
+   $ELINT				=	'abc005xyz'
+   $NAME				=	'2RL33M1'
+   $MANUFACTURER		=	'TASCO'
+   $NAT					=	'US'
+   $PLTFRM				=	'G'
+   $SENSOR				=	'FC'
+   $RFS					=	'6'
+   $ISD					=	'1999'
+   $ALIAS				=	'Johnny 7'
+   $FXAGILITY			=	'9999.99'
+   $LAT					=	'64,21,42.08'
+   $N_S					=	'S'
+   $LONG				=	'103,18,37.35'
+   $E_W					=	'E'
+   $ANTENNAS			=	'Parabolic Reflector'
+   $MAX_T_U_RANGE		=	'200'
+   $MDR					=	'6'
+   $AZ					=	'8'
+   $ELEVATION			=	'700'
+   $HZ_BEAM_WIDTH		=	'2.35'
+   $V_BEAM_WIDTH		=	'22.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc005xyz01'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc005xyz02'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'	
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc005xyz03'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER
+   $ELINT				=	'abc006xyz'
+   $NAME				=	'2RL33M1'
+   $MANUFACTURER		=	'TASCO'
+   $NAT					=	'US'
+   $PLTFRM				=	'G'
+   $SENSOR				=	'FC'
+   $RFS					=	'6'
+   $ISD					=	'1999'
+   $ALIAS				=	'Johnny 7'	
+   $FXAGILITY			=	'9999.99'
+   $LAT					=	'64,21,42.08'
+   $N_S					=	'S'
+   $LONG				=	'103,18,37.35'
+   $E_W					=	'E'
+   $ANTENNAS			=	'Parabolic Reflector'
+   $MAX_T_U_RANGE		=	'200'
+   $MDR					=	'6'
+   $AZ					=	'8'
+   $ELEVATION			=	'700'
+   $HZ_BEAM_WIDTH		=	'2.35'
+   $V_BEAM_WIDTH		=	'22.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc006xyz01'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc006xyz02'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$EMITTER_MODE
+   $MODE_NAME			=	'abc006xyz03'
+   $MODE_INFO			=	'blah'
+   $MODE_INFO2			=	'blah'
+   $RFC					=	'T'
+   $RF					=	'989'
+   $BEAMS				=	'6'
+   $PRC					=	'2'
+   $STAGGER_ELEMENTS	=	'4'
+   $POLARIZATION		=	'H'
+   $ANTENNA_GAIN		=	'99.9'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'1'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	='1'
+   $SEGMENT_TYPE		='TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'2'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
+
+$GENERATOR
+   $GENERATOR_NUMBER	=	'3'
+   $GENERATOR_KIND		=	'type1'
+   $PCR					=	'999N'
+   $SCAN_TYPE			=	'J4'
+   $CSF					=	'Pa'
+$END
+
+$PRI_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$PRI_SEGMENT
+   $PRI_SEGMENT_NUMBER	=	'1'
+   $I_PRF				=	'999.99'
+   $PD					=	'999.99'
+   $COPD				=	'999.99Z'
+   $SCAN_PERIOD			=	'600.01'
+   $CHIRP				=	'256U'
+   $PRC					=	'4'
+   $PRI					=	'6'
+$END
+
+$FREQ_SEQUENCE
+   $NUMBER_OF_SEGMENTS	=	'1'
+   $SEGMENT_TYPE		=	'TYPE1'
+$END
+
+$FREQ_SEGMENT
+   $FREQ_SEGMENT_NUMBER	=	'1'
+   $RF_BEAMS			=	'5'
+   $RF_HOP_STEP			=	'422'
+   $PRF					=	'88'
+   $IPRF				=	'678.00'
+$END
