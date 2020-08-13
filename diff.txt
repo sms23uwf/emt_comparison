@@ -1,31 +1,93 @@
-SPECTRE_OUTPUT_07032020.emt emitter 'abc001xyz' contains attribute: $PLTFRM with value: 'G' which is different from SPECTRE_OUTPUT_08032020.emt attribute value of 'G,K'.
-SPECTRE_OUTPUT_07032020.emt emitter 'abc001xyz' contains attribute: $ANTENNAS with value: 'Parabolic Reflector' which is different from SPECTRE_OUTPUT_08032020.emt attribute value of 'Parabolic Refractor'.
-SPECTRE_OUTPUT_07032020.emt emitter mode 'abc001xyz01' contains attribute $MODE_INFO2 with value: 'blah,blah' which is different from SPECTRE_OUTPUT_08032020.emt attribute value of 'blah'.
-SPECTRE_OUTPUT_07032020.emt emitter mode 'abc001xyz01' contains attribute $POLARIZATION with value: 'Z' which is different from SPECTRE_OUTPUT_08032020.emt attribute value of 'H'.
-SPECTRE_OUTPUT_07032020.emt emitter mode 'abc001xyz01' contains attribute $ANTENNA_GAIN with value: '79.9' which is different from SPECTRE_OUTPUT_08032020.emt attribute value of '99.9'.
-SPECTRE_OUTPUT_07032020.emt emitter:'abc001xyz'.mode:'abc001xyz01'.generator:'1' contains attribute:$SCAN_TYPE with value:'J2' that is different than the value:'J4' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
-SPECTRE_OUTPUT_07032020.emt emitter:'abc001xyz'.mode:'abc001xyz01'.generator:'1' contains attribute:$CSF with value:'Px' that is different than the value:'Pa' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
-SPECTRE_OUTPUT_07032020.emt mode 'abc001xyz02' contains generator: '2' that is missing from the mode in SPECTRE_OUTPUT_08032020.emt.
-SPECTRE_OUTPUT_07032020.emt emitter 'abc002xyz' contains attribute: $MANUFACTURER with value: 'NABISCO' which is different from SPECTRE_OUTPUT_08032020.emt attribute value of 'TASCO'.
-SPECTRE_OUTPUT_07032020.emt contains emitter mode 'abc002xyz02' with attribute $PRC that is missing from the emitter mode in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz') contains attribute: $PLTFRM with value: 'G' which is different from the same path attribute value of 'G,K' in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz') contains attribute: $ANTENNAS with value: 'Parabolic Reflector' which is different from the same path attribute value of 'Parabolic Refractor' in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz').mode:('abc001xyz01') contains attribute $MODE_INFO2 with value: 'blah,blah' which is different than the value:'blah' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz').mode:('abc001xyz01') contains attribute $POLARIZATION with value: 'Z' which is different than the value:'H' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz').mode:('abc001xyz01') contains attribute $ANTENNA_GAIN with value: '79.9' which is different than the value:'99.9' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz').mode:('abc001xyz01').generator:('1') contains attribute:$SCAN_TYPE with value:'J2' that is different than the value:'J4' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz').mode:('abc001xyz01').generator:('1') contains attribute:$CSF with value:'Px' that is different than the value:'Pa' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc001xyz').mode('abc001xyz02').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc001xyz').mode('abc001xyz02').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc001xyz').mode('abc001xyz02').generator('2') contains 1 PRI Sequences - but the same path generator in SPECTRE_OUTPUT_08032020.emt contains 0 PRI Sequences.
+SPECTRE_OUTPUT_07032020.emt emitter('abc001xyz').mode('abc001xyz02').generator('2') contains 1 FREQ Sequences - but the same path generator in SPECTRE_OUTPUT_08032020.emt contains 0 FREQ Sequences.
+SPECTRE_OUTPUT_07032020.emt emitter('abc001xyz').mode('abc001xyz02').generator('2') contains PRISequence in ordinal position 0 that is missing from the same path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc001xyz').mode('abc001xyz02').generator('2') contains FREQSequence in ordinal position 0 that is missing from the same path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz').mode:('abc001xyz02') contains generator: '3' that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz').mode:('abc001xyz03') contains attribute $MODE_INFO2 with value: 'baaaah' which is different than the value:'blah' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz').mode:('abc001xyz03') contains attribute $PRC with value: '8' which is different than the value:'2' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz').mode:('abc001xyz03').generator:('1') contains attribute:$SCAN_TYPE with value:'J4' that is different than the value:'J6' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc001xyz').mode:('abc001xyz03').generator:('1') contains attribute:$CSF with value:'Pa' that is different than the value:'Paas' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc001xyz').mode('abc001xyz03').generator('1') contains PRISequence in ordinal position 2 that is missing from the same path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc001xyz').mode('abc001xyz03').generator('1') contains PRISequence in ordinal position 3 that is missing from the same path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc001xyz').mode('abc001xyz03').generator('2').PRISequence(0) contains PRI Segment number: '3' that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+
+SPECTRE_OUTPUT_07032020.emt emitter:('abc002xyz') contains attribute: $MANUFACTURER with value: 'NABISCO' which is different from the same path attribute value of 'TASCO' in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc002xyz').mode('abc002xyz01').generator('3').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc002xyz').mode('abc002xyz01').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc002xyz').mode:('abc002xyz02') contains attribute $PRC that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc002xyz').mode('abc002xyz02').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc002xyz').mode('abc002xyz02').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc002xyz').mode('abc002xyz02').generator('2').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
 SPECTRE_OUTPUT_07032020.emt emitter 'abc002xyz' contains emitterMode 'abc002xyz04' that is missing from SPECTRE_OUTPUT_08032020.emt.
-SPECTRE_OUTPUT_07032020.emt contains emitter with elnot: 'abc007xyz' that is not found in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter:('abc002xyz').mode:('abc002xyz03') contains attribute $RFC with value: 'T' which is different than the value:'X' in the same path attribute in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc002xyz').mode('abc002xyz03').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc002xyz').mode('abc002xyz03').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc002xyz').mode('abc002xyz03').generator('2').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+
+SPECTRE_OUTPUT_07032020.emt emitter('abc003xyz').mode('abc003xyz01').generator('3').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc003xyz').mode('abc003xyz01').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc003xyz').mode('abc003xyz02').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc003xyz').mode('abc003xyz02').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc003xyz').mode('abc003xyz02').generator('2').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc003xyz').mode('abc003xyz03').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc003xyz').mode('abc003xyz03').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc003xyz').mode('abc003xyz03').generator('2').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+
+SPECTRE_OUTPUT_07032020.emt emitter('abc005xyz').mode('abc005xyz01').generator('3').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc005xyz').mode('abc005xyz01').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc005xyz').mode('abc005xyz02').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc005xyz').mode('abc005xyz02').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc005xyz').mode('abc005xyz02').generator('2').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc005xyz').mode('abc005xyz03').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+SPECTRE_OUTPUT_07032020.emt emitter('abc005xyz').mode('abc005xyz03').generator('1').PRISequence(0).PRISegment('1') contains attribute: $CHIRP that is missing from this path in SPECTRE_OUTPUT_08032020.emt.
+
+SPECTRE_OUTPUT_07032020.emt emitter 'abc006xyz' contains emitterMode 'abc006xyz03' that is missing from SPECTRE_OUTPUT_08032020.emt.
+
+SPECTRE_OUTPUT_07032020.emt contains emitter:('abc007xyz') that is not found in SPECTRE_OUTPUT_08032020.emt.
 
 
-SPECTRE_OUTPUT_08032020.emt emitter 'abc001xyz' contains attribute: $PLTFRM with value: 'G,K' which is different from SPECTRE_OUTPUT_07032020.emt attribute value of 'G'.
-SPECTRE_OUTPUT_08032020.emt contains emitter 'abc001xyz' with attribute $FXAGILITY that is missing from SPECTRE_OUTPUT_07032020.emt.
-SPECTRE_OUTPUT_08032020.emt emitter 'abc001xyz' contains attribute: $ANTENNAS with value: 'Parabolic Refractor' which is different from SPECTRE_OUTPUT_07032020.emt attribute value of 'Parabolic Reflector'.
-SPECTRE_OUTPUT_08032020.emt emitter mode 'abc001xyz01' contains attribute $MODE_INFO2 with value: 'blah' which is different from SPECTRE_OUTPUT_07032020.emt attribute value of 'blah,blah'.
-SPECTRE_OUTPUT_08032020.emt contains emitter mode 'abc001xyz01' with attribute $MODE_INFO3 that is missing from the emitter mode in SPECTRE_OUTPUT_07032020.emt.
-SPECTRE_OUTPUT_08032020.emt emitter mode 'abc001xyz01' contains attribute $POLARIZATION with value: 'H' which is different from SPECTRE_OUTPUT_07032020.emt attribute value of 'Z'.
-SPECTRE_OUTPUT_08032020.emt emitter mode 'abc001xyz01' contains attribute $ANTENNA_GAIN with value: '99.9' which is different from SPECTRE_OUTPUT_07032020.emt attribute value of '79.9'.
-SPECTRE_OUTPUT_08032020.emt emitter:'abc001xyz'.mode:'abc001xyz01'.generator:'1' contains attribute:$SCAN_TYPE with value:'J4' that is different than the value:'J2' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
-SPECTRE_OUTPUT_08032020.emt emitter:'abc001xyz'.mode:'abc001xyz01'.generator:'1' contains attribute:$CSF with value:'Pa' that is different than the value:'Px' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
-SPECTRE_OUTPUT_08032020.emt contains emitter mode 'abc001xyz02' with attribute $MODE_INFO2 that is missing from the emitter mode in SPECTRE_OUTPUT_07032020.emt.
-SPECTRE_OUTPUT_08032020.emt emitter 'abc001xyz' contains emitterMode 'abc001xyz03' that is missing from SPECTRE_OUTPUT_07032020.emt.
-SPECTRE_OUTPUT_08032020.emt emitter 'abc002xyz' contains attribute: $MANUFACTURER with value: 'TASCO' which is different from SPECTRE_OUTPUT_07032020.emt attribute value of 'NABISCO'.
-SPECTRE_OUTPUT_08032020.emt contains emitter 'abc002xyz' with attribute $FXAGILITY that is missing from SPECTRE_OUTPUT_07032020.emt.
-SPECTRE_OUTPUT_08032020.emt contains emitter 'abc003xyz' with attribute $FXAGILITY that is missing from SPECTRE_OUTPUT_07032020.emt.
-SPECTRE_OUTPUT_08032020.emt contains emitter with elnot: 'abc004xyz' that is not found in SPECTRE_OUTPUT_07032020.emt.
-SPECTRE_OUTPUT_08032020.emt contains emitter 'abc005xyz' with attribute $FXAGILITY that is missing from SPECTRE_OUTPUT_07032020.emt.
-SPECTRE_OUTPUT_08032020.emt contains emitter 'abc006xyz' with attribute $FXAGILITY that is missing from SPECTRE_OUTPUT_07032020.emt.
+
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz') contains attribute: $PLTFRM with value: 'G,K' which is different from the same path attribute value of 'G' in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz') contains attribute $FXAGILITY that is missing from SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz') contains attribute: $ANTENNAS with value: 'Parabolic Refractor' which is different from the same path attribute value of 'Parabolic Reflector' in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz01') contains attribute $MODE_INFO2 with value: 'blah' which is different than the value:'blah,blah' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz01') contains attribute $MODE_INFO3 that is missing from this path in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz01') contains attribute $POLARIZATION with value: 'H' which is different than the value:'Z' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz01') contains attribute $ANTENNA_GAIN with value: '99.9' which is different than the value:'79.9' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz01').generator:('1') contains attribute:$SCAN_TYPE with value:'J4' that is different than the value:'J2' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz01').generator:('1') contains attribute:$CSF with value:'Pa' that is different than the value:'Px' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz02') contains attribute $MODE_INFO2 that is missing from this path in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter('abc001xyz').mode('abc001xyz02').generator('2') contains 0 PRI Sequences - but the same path generator in SPECTRE_OUTPUT_07032020.emt contains 1 PRI Sequences.
+SPECTRE_OUTPUT_08032020.emt emitter('abc001xyz').mode('abc001xyz02').generator('2') contains 0 FREQ Sequences - but the same path generator in SPECTRE_OUTPUT_07032020.emt contains 1 FREQ Sequences.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz03') contains attribute $MODE_INFO2 with value: 'blah' which is different than the value:'baaaah' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz03') contains attribute $PRC with value: '2' which is different than the value:'8' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz03').generator:('1') contains attribute:$SCAN_TYPE with value:'J6' that is different than the value:'J4' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz03').generator:('1') contains attribute:$CSF with value:'Paas' that is different than the value:'Pa' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter('abc001xyz').mode('abc001xyz03').generator('1') contains PRISequence in ordinal position 0 that is missing from the same path in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter('abc001xyz').mode('abc001xyz03').generator('1') contains PRISequence in ordinal position 1 that is missing from the same path in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter('abc001xyz').mode('abc001xyz03').generator('2').PRISequence(0) contains PRI Segment number: '1' that is missing from this path in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter('abc001xyz').mode('abc001xyz03').generator('2').PRISequence(0) contains PRI Segment number: '1' that is missing from this path in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc001xyz').mode:('abc001xyz03') contains generator: '3' that is missing from this path in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter 'abc001xyz' contains emitterMode 'abc001xyz04' that is missing from SPECTRE_OUTPUT_07032020.emt.
+
+SPECTRE_OUTPUT_08032020.emt emitter:('abc002xyz') contains attribute: $MANUFACTURER with value: 'TASCO' which is different from the same path attribute value of 'NABISCO' in SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc002xyz') contains attribute $FXAGILITY that is missing from SPECTRE_OUTPUT_07032020.emt.
+SPECTRE_OUTPUT_08032020.emt emitter:('abc002xyz').mode:('abc002xyz03') contains attribute $RFC with value: 'X' which is different than the value:'T' in the same path attribute in SPECTRE_OUTPUT_07032020.emt.
+
+SPECTRE_OUTPUT_08032020.emt emitter:('abc003xyz') contains attribute $FXAGILITY that is missing from SPECTRE_OUTPUT_07032020.emt.
+
+SPECTRE_OUTPUT_08032020.emt contains emitter:('abc004xyz') that is not found in SPECTRE_OUTPUT_07032020.emt.
+
+SPECTRE_OUTPUT_08032020.emt emitter:('abc005xyz') contains attribute $FXAGILITY that is missing from SPECTRE_OUTPUT_07032020.emt.
+
+SPECTRE_OUTPUT_08032020.emt emitter:('abc006xyz') contains attribute $FXAGILITY that is missing from SPECTRE_OUTPUT_07032020.emt.
+

@@ -60,30 +60,39 @@ def parseFile(fName, emitter_collection):
             if line.strip() == constant.EMITTER:
                 currentEntity = constant.EMITTER
                 if passNumber > 0:
+                    if modePass > 0:
+                        emitter.add_mode(emitter_mode)
+                        
                     emitter_collection.append(emitter)
+                    modePass = 0
                     
                 emitter = Emitter()
                 passNumber += 1
-                modePass = 0
-                generatorPass = 0
-                priSeqPass = 0
-                freqSeqPass = 0
-                priSegmentPass = 0
-                freqSegmentPass = 0
                 
             elif line.strip() == constant.EMITTER_MODE:
                 currentEntity = constant.EMITTER_MODE
                 if modePass > 0:
+                    if generatorPass > 0:
+                        emitter_mode.add_generator(generator)
+                        
                     emitter.add_mode(emitter_mode)
+                    generatorPass = 0
                     
                 emitter_mode = EmitterMode()
                 modePass += 1
-                generatorPass = 0
                 
             elif line.strip() == constant.GENERATOR:
                 currentEntity = constant.GENERATOR
                 if generatorPass > 0:
+                    if priSeqPass > 0:
+                        generator.add_pri_sequence(pri_sequence)
+
+                    if freqSeqPass > 0:
+                        generator.add_freq_sequence(freq_sequence)
+
                     emitter_mode.add_generator(generator)
+                    priSeqPass = 0
+                    freqSeqPass = 0
                     
                 generator = Generator()
                 generatorPass += 1
@@ -91,12 +100,15 @@ def parseFile(fName, emitter_collection):
             elif line.strip() == constant.PRI_SEQUENCE:
                 currentEntity = constant.PRI_SEQUENCE
                 if priSeqPass > 0:
+                    if priSegmentPass > 0:
+                        pri_sequence.add_segment(pri_segment)
+                    
                     generator.add_pri_sequence(pri_sequence)
+                    priSegmentPass = 0
                     
                 pri_sequence = Pri_Sequence()
                 pri_sequence.set_ordinal_pos(priSeqPass)
                 priSeqPass += 1
-                priSegmentPass = 0
                 
             elif line.strip() == constant.PRI_SEGMENT:
                 currentEntity = constant.PRI_SEGMENT
@@ -109,12 +121,15 @@ def parseFile(fName, emitter_collection):
             elif line.strip() == constant.FREQ_SEQUENCE:
                 currentEntity = constant.FREQ_SEQUENCE
                 if freqSeqPass > 0:
+                    if freqSegmentPass > 0:
+                        freq_sequence.add_segment(freq_segment)
+
                     generator.add_freq_sequence(freq_sequence)
+                    freqSegmentPass = 0
                     
                 freq_sequence = Freq_Sequence()
                 freq_sequence.set_ordinal_pos(freqSeqPass)
                 freqSeqPass += 1
-                freqSegmentPass = 0
                 
             elif line.strip() == constant.FREQ_SEGMENT:
                 currentEntity = constant.FREQ_SEGMENT
@@ -247,7 +262,7 @@ def findPRISequenceByOrdinalPos(ordinalPos, comparisonGenerator):
     for cPRISequence in comparisonGenerator.get_pri_sequences():
         if cPRISequence.get_ordinal_pos() == ordinalPos:
             return cPRISequence
-        
+     
     return []
 
 
@@ -283,17 +298,17 @@ def compareEMTFiles(wf, base_emitter_collection, comparison_emitter_collection, 
         comparisonEmitter = findElnot(bElnot, comparisonArray)
         
         if not comparisonEmitter:
-            wf.write("{} contains emitter with elnot: {} that is not found in {}.\n".format(bFileName, bElnot, cFileName))
+            wf.write("{} contains emitter:({}) that is not found in {}.\n".format(bFileName, bElnot, cFileName))
         else:
             for baseAttribute in baseEmitter.get_attributes():
                 #print("baseAttribute: {} = {}".format(baseAttribute.get_name(), baseAttribute.get_value()))
                 comparisonAttribute = findAttribute(baseAttribute.get_name(), comparisonEmitter)
                 
                 if not comparisonAttribute:
-                    wf.write("{} contains emitter {} with attribute {} that is missing from {}.\n".format(bFileName, bElnot, baseAttribute.get_name(), cFileName))
+                    wf.write("{} emitter:({}) contains attribute {} that is missing from {}.\n".format(bFileName, bElnot, baseAttribute.get_name(), cFileName))
                 else:
                     if comparisonAttribute.get_value() != baseAttribute.get_value():
-                        wf.write("{} emitter {} contains attribute: {} with value: {} which is different from {} attribute value of {}.\n".format(bFileName, bElnot, baseAttribute.get_name(), baseAttribute.get_value(), cFileName, comparisonAttribute.get_value()))
+                        wf.write("{} emitter:({}) contains attribute: {} with value: {} which is different from the same path attribute value of {} in {}.\n".format(bFileName, bElnot, baseAttribute.get_name(), baseAttribute.get_value(), comparisonAttribute.get_value(), cFileName))
                         
             for baseEmitterMode in baseEmitter.get_modes():
                 comparisonEmitterMode = findEmitterMode(baseEmitterMode.get_name(), comparisonEmitter)
@@ -305,96 +320,98 @@ def compareEMTFiles(wf, base_emitter_collection, comparison_emitter_collection, 
                         comparisonModeAttribute = findAttribute(baseModeAttribute.get_name(), comparisonEmitterMode)
                         
                         if not comparisonModeAttribute:
-                            wf.write("{} contains emitter mode {} with attribute {} that is missing from the emitter mode in {}.\n".format(bFileName, baseEmitterMode.get_name(), baseModeAttribute.get_name(), cFileName))
+                            wf.write("{} emitter:({}).mode:({}) contains attribute {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseModeAttribute.get_name(), cFileName))
                         else:
                             if comparisonModeAttribute.get_value() != baseModeAttribute.get_value():
-                                wf.write("{} emitter mode {} contains attribute {} with value: {} which is different from {} attribute value of {}.\n".format(bFileName, baseEmitterMode.get_name(), baseModeAttribute.get_name(), baseModeAttribute.get_value(), cFileName, comparisonModeAttribute.get_value()))
+                                wf.write("{} emitter:({}).mode:({}) contains attribute {} with value: {} which is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseModeAttribute.get_name(), baseModeAttribute.get_value(), comparisonModeAttribute.get_value(), cFileName))
                                 
                     for baseGenerator in baseEmitterMode.get_generators():
                         comparisonGenerator = findGenerator(baseGenerator.get_generator_number(), comparisonEmitterMode)
                     
                         if not comparisonGenerator:
-                            wf.write("{} mode {} contains generator: {} that is missing from the mode in {}.\n".format(bFileName, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), cFileName))
+                            wf.write("{} emitter:({}).mode:({}) contains generator: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), cFileName))
                         else:
                             for baseGeneratorAttribute in baseGenerator.get_attributes():
                                 comparisonGeneratorAttribute = findAttribute(baseGeneratorAttribute.get_name(), comparisonGenerator)
                                 
                                 if not comparisonGeneratorAttribute:
-                                    wf.write("{} emitter:{}.mode:{}.generator:{} contains attribute:{} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseGeneratorAttribute.get_name(), cFileName))
+                                    wf.write("{} emitter:({}).mode:({}).generator:({}) contains attribute:{} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseGeneratorAttribute.get_name(), cFileName))
                                 else:
                                     if comparisonGeneratorAttribute.get_value() != baseGeneratorAttribute.get_value():
-                                        wf.write("{} emitter:{}.mode:{}.generator:{} contains attribute:{} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value(), comparisonGeneratorAttribute.get_value(), cFileName))
+                                        wf.write("{} emitter:({}).mode:({}).generator:({}) contains attribute:{} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value(), comparisonGeneratorAttribute.get_value(), cFileName))
                         
-                                    bgPRISequences = baseGenerator.get_pri_sequences()
-                                    bgFREQSequences = baseGenerator.get_freq_sequences()
-                                    cpPRISequences = comparisonGenerator.get_pri_sequences()
-                                    cpFREQSequences = comparisonGenerator.get_freq_sequences()
-                                    
-                                    if len(bgPRISequences) != len(cpPRISequences):
-                                        wf.write("{} emitter({}).mode({}).generator({}) contains {} PRI Sequences - but the same path generator in {} contains {} PRI Sequences.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), len(bgPRISequences), cFileName, len(cpPRISequences)))
-            
-                                    if len(bgFREQSequences) != len(cpFREQSequences):
-                                        wf.write("{} emitter({}).mode({}).generator({}) contains {} FREQ Sequences - but the same path generator in {} contains {} FREQ Sequences.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), len(bgFREQSequences), cFileName, len(cpFREQSequences)))
-                                    
-                                    for basePRISequence in baseGenerator.get_pri_sequences():
-                                        comparisonPRISequence = findPRISequenceByOrdinalPos(basePRISequence.get_ordinal_pos(), comparisonGenerator)
+                            bgPRISequences = baseGenerator.get_pri_sequences()
+                            bgFREQSequences = baseGenerator.get_freq_sequences()
+                            cpPRISequences = comparisonGenerator.get_pri_sequences()
+                            cpFREQSequences = comparisonGenerator.get_freq_sequences()
+                            
+                            if len(bgPRISequences) != len(cpPRISequences):
+                                wf.write("{} emitter({}).mode({}).generator({}) contains {} PRI Sequences - but the same path generator in {} contains {} PRI Sequences.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), len(bgPRISequences), cFileName, len(cpPRISequences)))
+    
+                            if len(bgFREQSequences) != len(cpFREQSequences):
+                                wf.write("{} emitter({}).mode({}).generator({}) contains {} FREQ Sequences - but the same path generator in {} contains {} FREQ Sequences.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), len(bgFREQSequences), cFileName, len(cpFREQSequences)))
+                            
+                            for basePRISequence in baseGenerator.get_pri_sequences():
+                                comparisonPRISequence = findPRISequenceByOrdinalPos(basePRISequence.get_ordinal_pos(), comparisonGenerator)
+                                
+                                if not comparisonPRISequence:
+                                    wf.write("{} emitter({}).mode({}).generator({}) contains PRISequence in ordinal position {} that is missing from the same path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), cFileName))
+                                else:
+                                    for bPRISeqAttribute in basePRISequence.get_attributes():
+                                        cPRISeqAttribute = findAttribute(bPRISeqAttribute.get_name(), comparisonPRISequence)
                                         
-                                        if not comparisonPRISequence:
-                                            wf.write("{} emitter({}).mode({}).generator({}) contains PRISequence in ordinal position {} that is missing from the same path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), cFileName))
+                                        if not cPRISeqAttribute:
+                                            wf.write("{} emitter({}).mode({}).generator({}).PRISequence({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISeqAttribute.get_name(), cFileName))
                                         else:
-                                            for bPRISeqAttribute in basePRISequence.get_attributes():
-                                                cPRISeqAttribute = findAttribute(bPRISeqAttribute.get_name(), comparisonPRISequence)
-                                                
-                                                if not cPRISeqAttribute:
-                                                    wf.write("{} emitter({}).mode({}).generator({}).PRISequence({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISeqAttribute.get_name(), cFileName))
-                                                else:
-                                                    if cPRISeqAttribute.get_value() != bPRISeqAttribute.get_value():
-                                                        wf.write("{} emitter({}).mode({}).generator({}).PRISequence({}) contains attribute:{} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISeqAttribute.get_name(), bPRISeqAttribute.get_value(), cPRISeqAttribute.get_value(), cFileName))
-            
-                                            for bPRISegment in basePRISequence.get_segments():
-                                                cPRISegment = findSegmentBySegmentNumber(bPRISegment.get_segment_number(), comparisonPRISequence)
-                                                
-                                                if not cPRISegment:
-                                                    wf.write("{} emitter({}).mode({}).generator({}).PRISequence({}) contains PRI Segment number: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISegment.get_segment_number(), cFileName))
-                                                else:
-                                                    for bSegmentAttribute in bPRISegment.get_attributes():
-                                                        cSegmentAttribute = findAttribute(bSegmentAttribute.get_name(), cPRISegment)
-                                                        
-                                                        if not cSegmentAttribute:
-                                                            wf.write("{} emitter({}).mode({}).generator({}).PRISequence({}).PRISegment({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISegment.get_segment_number(), bSegmentAttribute.get_name(), cFileName))
-                                                        else:
-                                                            if cSegmentAttribute.get_value() != bSegmentAttribute.get_value():
-                                                                wf.write("{} emitter({}).mode({}).generator({}).PRISequence({}).PRISegment({}) contains attribute: {} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISegment.get_segment_number(), bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), cSegmentAttribute.get_value(), cFileName))
-                        
-                                    for baseFREQSequence in baseGenerator.get_freq_sequences():
-                                        comparisonFREQSequence = findFREQSequenceByOrdinalPos(baseFREQSequence.get_ordinal_pos(), comparisonGenerator)
+                                            if cPRISeqAttribute.get_value() != bPRISeqAttribute.get_value():
+                                                wf.write("{} emitter({}).mode({}).generator({}).PRISequence({}) contains attribute:{} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISeqAttribute.get_name(), bPRISeqAttribute.get_value(), cPRISeqAttribute.get_value(), cFileName))
+    
+                                    for bPRISegment in basePRISequence.get_segments():
+                                        cPRISegment = findSegmentBySegmentNumber(bPRISegment.get_segment_number(), comparisonPRISequence)
                                         
-                                        if not comparisonFREQSequence:
-                                            wf.write("{} emitter({}).mode({}).generator({}) contains FREQSequence in ordinal position {} that is missing from the same path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), cFileName))
+                                        if not cPRISegment:
+                                            wf.write("{} emitter({}).mode({}).generator({}).PRISequence({}) contains PRI Segment number: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISegment.get_segment_number(), cFileName))
                                         else:
-                                            for bFREQSeqAttribute in baseFREQSequence.get_attributes():
-                                                cFREQSeqAttribute = findAttribute(bFREQSeqAttribute.get_name(), comparisonFREQSequence)
+                                            for bSegmentAttribute in bPRISegment.get_attributes():
+                                                cSegmentAttribute = findAttribute(bSegmentAttribute.get_name(), cPRISegment)
                                                 
-                                                if not cFREQSeqAttribute:
-                                                    wf.write("{} emitter({}).mode({}).generator({}).FREQSequence({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSeqAttribute.get_name(), cFileName))
+                                                if not cSegmentAttribute:
+                                                    wf.write("{} emitter({}).mode({}).generator({}).PRISequence({}).PRISegment({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISegment.get_segment_number(), bSegmentAttribute.get_name(), cFileName))
                                                 else:
-                                                    if cFREQSeqAttribute.get_value() != bFREQSeqAttribute.get_value():
-                                                        wf.write("{} emitter({}).mode({}).generator({}).FREQSequence({}) contains attribute:{} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSeqAttribute.get_name(), bFREQSeqAttribute.get_value(), cFREQSeqAttribute.get_value(), cFileName))
-            
-                                            for bFREQSegment in baseFREQSequence.get_segments():
-                                                cFREQSegment = findSegmentBySegmentNumber(bFREQSegment.get_segment_number(), comparisonFREQSequence)
+                                                    if cSegmentAttribute.get_value() != bSegmentAttribute.get_value():
+                                                        wf.write("{} emitter({}).mode({}).generator({}).PRISequence({}).PRISegment({}) contains attribute: {} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISegment.get_segment_number(), bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), cSegmentAttribute.get_value(), cFileName))
+                
+                            for baseFREQSequence in baseGenerator.get_freq_sequences():
+                                comparisonFREQSequence = findFREQSequenceByOrdinalPos(baseFREQSequence.get_ordinal_pos(), comparisonGenerator)
+                                
+                                if not comparisonFREQSequence:
+                                    wf.write("{} emitter({}).mode({}).generator({}) contains FREQSequence in ordinal position {} that is missing from the same path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), cFileName))
+                                else:
+                                    for bFREQSeqAttribute in baseFREQSequence.get_attributes():
+                                        cFREQSeqAttribute = findAttribute(bFREQSeqAttribute.get_name(), comparisonFREQSequence)
+                                        
+                                        if not cFREQSeqAttribute:
+                                            wf.write("{} emitter({}).mode({}).generator({}).FREQSequence({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSeqAttribute.get_name(), cFileName))
+                                        else:
+                                            if cFREQSeqAttribute.get_value() != bFREQSeqAttribute.get_value():
+                                                wf.write("{} emitter({}).mode({}).generator({}).FREQSequence({}) contains attribute:{} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSeqAttribute.get_name(), bFREQSeqAttribute.get_value(), cFREQSeqAttribute.get_value(), cFileName))
+    
+                                    for bFREQSegment in baseFREQSequence.get_segments():
+                                        cFREQSegment = findSegmentBySegmentNumber(bFREQSegment.get_segment_number(), comparisonFREQSequence)
+                                        
+                                        if not cFREQSegment:
+                                            wf.write("{} emitter({}).mode({}).generator({}).FREQSequence({}) contains FREQ Segment number: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSegment.get_segment_number(), cFileName))
+                                        else:
+                                            for bSegmentAttribute in bFREQSegment.get_attributes():
+                                                cSegmentAttribute = findAttribute(bSegmentAttribute.get_name(), cFREQSegment)
                                                 
-                                                if not cFREQSegment:
-                                                    wf.write("{} emitter({}).mode({}).generator({}).FREQSequence({}) contains FREQ Segment number: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSegment.get_segment_number(), cFileName))
+                                                if not cSegmentAttribute:
+                                                    wf.write("{} emitter({}).mode({}).generator({}).FREQSequence({}).FREQSegment({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSegment.get_segment_number(), bSegmentAttribute.get_name(), cFileName))
                                                 else:
-                                                    for bSegmentAttribute in bFREQSegment.get_attributes():
-                                                        cSegmentAttribute = findAttribute(bSegmentAttribute.get_name(), cFREQSegment)
+                                                    if cSegmentAttribute.get_value() != bSegmentAttribute.get_value():
+                                                        wf.write("{} emitter({}).mode({}).generator({}).FREQSequence({}).FREQSegment({}) contains attribute: {} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSegment.get_segment_number(), bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), cSegmentAttribute.get_value(), cFileName))
                                                         
-                                                        if not cSegmentAttribute:
-                                                            wf.write("{} emitter({}).mode({}).generator({}).FREQSequence({}).FREQSegment({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSegment.get_segment_number(), bSegmentAttribute.get_name(), cFileName))
-                                                        else:
-                                                            if cSegmentAttribute.get_value() != bSegmentAttribute.get_value():
-                                                                wf.write("{} emitter({}).mode({}).generator({}).FREQSequence({}).FREQSegment({}) contains attribute: {} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSegment.get_segment_number(), bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), cSegmentAttribute.get_value(), cFileName))
+        wf.write("\n")
                             
                             
                             
