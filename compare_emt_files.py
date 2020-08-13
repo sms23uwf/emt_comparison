@@ -297,6 +297,7 @@ def compareEMTFiles(wf, base_emitter_collection, comparison_emitter_collection, 
         bElnot = baseEmitter.get_elnot()
         comparisonEmitter = findElnot(bElnot, comparisonArray)
         
+        
         if not comparisonEmitter:
             wf.write("{} contains emitter:({}) that is not found in {}.\n".format(bFileName, bElnot, cFileName))
         else:
