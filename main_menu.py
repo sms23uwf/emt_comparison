@@ -22,14 +22,18 @@ def NewFile():
     print("New File!")
     
 
+
 def OpenFile():
     name = askopenfilename()
     print(name)
 
 
+
 def About():
     print("This is a simple example of a menu.")
+  
     
+  
 def CallCompareEMTFiles():
     print("not yet implemented")
     print("baseFileName: {}".format(baseFilePath))
@@ -39,10 +43,12 @@ def GetBaseFilePath():
     baseFilePath = askopenfilename()
     
 
+
 def GetComparisonFilePath():
     comparisonFilePath = askopenfilename()
     
-        
+    
+    
 def GetDiffFiles():
     entryform = Tk()
     entryform.title("Compare two EMT files for differences")
@@ -69,10 +75,7 @@ def GetDiffFiles():
     btnGo.grid(row=5, column=1, padx=15, pady=15)
     btnCancel.grid(row=5, column=2, padx=15, pady=15)
     
-    
-    
-    
-    
+   
 root = Tk()
 
 menu = Menu(root)
