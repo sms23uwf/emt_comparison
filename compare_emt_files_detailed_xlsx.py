@@ -32,6 +32,8 @@ class CompareEMTFiles():
         self.baseFileName = bFilePath[0]
         self.comparisonFileName = cFilePath[0]
         self.compareTheFiles()
+        self.bfDisplay = self.baseFileName
+        self.cfDisplay = self.comparisonFileName
 
 
     writeFile = 'diff.txt'
@@ -307,27 +309,57 @@ class CompareEMTFiles():
         
     def writeSpecificCell(self, ws, wsRow, wsCol, cellValue):
         ws.range(wsRow, wsCol).value = cellValue
-        ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignTop
+        ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignCenter
+        ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignCenter
         ws.range(wsRow, wsCol).WrapText = True
 
     def writeValueCell(self, ws, wsRow, wsCol, cellValue):
         ws.range(wsRow, wsCol).value = cellValue
-        ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignLeft
-        ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignTop
-        ws.range(wsRow, wsCol).WrapText = True
-
+        try:
+            ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignLeft
+            ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignTop
+            ws.range(wsRow, wsCol).WrapText = True
+        except Exception:
+            print("exception was thrown")
+            
 
     def writeLabelCell(self, ws, wsRow, wsCol, cellValue):
         ws.range(wsRow, wsCol).value = cellValue
-        ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignRight
-        ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignTop
-        ws.range(wsRow, wsCol).WrapText = True
-        if cellValue == constant.XL_MISSING_TEXT:
-            ws.range(wsRow, wsCol).api.Font.Color = rgb_to_int((255,0,0))
+        try:
+            ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignRight
+            ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignTop
+            ws.range(wsRow, wsCol).WrapText = True
+            if cellValue == constant.XL_MISSING_TEXT:
+                ws.range(wsRow, wsCol).api.Font.Color = rgb_to_int((255,0,0))
+
+        except Exception:
+            print("exception was thrown")
+
+    
+    
+    
+    def getShortFileNames(self):
+        bfIdx = self.baseFileName.rfind('/')
+        cfIdx = self.comparisonFileName.rfind('/')
+        
+        if bfIdx > -1:
+            bfArray = self.baseFileName.rsplit('/', 1)
+            self.bfDisplay = bfArray[1]
+        else:
+            self.bfDisplay = self.baseFileName
+            
+        if cfIdx > -1:
+            cfArray = self.comparisonFileName.rsplit('/', 1)
+            self.cfDisplay = cfArray[1]
+        else:
+            self.cfDisplay = self.comparisonFileName
+            
+        
     
     def writeTitleCells(self, ws):
-        bfTitle = "Base File: {}".format(self.baseFileName)
-        cfTitle = "Comparison File: {}".format(self.comparisonFileName)
+        
+        bfTitle = "Base File: {}".format(self.bfDisplay)
+        cfTitle = "Comparison File: {}".format(self.cfDisplay)
         
         ws.range((1,1), (1,12)).merge(across=True)
         self.writeSpecificCell(ws, 1, 1, bfTitle)
@@ -338,8 +370,6 @@ class CompareEMTFiles():
 
 
     def setColorMarkBoundary(self, wsBkgColorMarks, wsRows):
-        print("wsRows: {} - wsBkgColorMarks.count: {}".format(wsRows, len(wsBkgColorMarks)))
-        
         if wsRows > 2:
             wsBkgColorMarks[-1].set_bottomboundary(wsRows)
             wsRows += 1
@@ -352,6 +382,109 @@ class CompareEMTFiles():
             wsBkgColorMarks.append(wsColorMarks)
             
             
+    
+    def writeEmitter(self, wsEmitters, wsEmittersRow, bElnot, comparisonEmitter, emitterWritten):
+        self.writeLabelCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        self.writeValueCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        self.writeLabelCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        self.writeValueCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
+        emitterWritten = True
+        
+
+    def writeMode(self, wsModes, wsModesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, modeWritten):
+        self.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        self.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        self.writeValueCell(wsModes, wsModesRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
+
+        self.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        self.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterMode.get_name())
+        self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterMode.get_name())
+        modeWritten = True
+        
+    
+    def writeGenerator(self, wsGenerators, wsGeneratorsRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, generatorWritten):
+        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
+
+        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterMode.get_name())
+        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterMode.get_name())
+
+        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_VAL, baseGenerator.get_generator_number())
+        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_VAL, comparisonGenerator.get_generator_number())
+        generatorWritten = True
+        
+        
+    def writePRISequence(self, wsPRISequences, wsPRISequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, basePRISequence, comparisonPRISequence, priSequenceWritten):
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
+
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterMode.get_name())
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterMode.get_name())
+
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_GENERATOR_VAL, baseGenerator.get_generator_number())
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_GENERATOR_VAL, comparisonGenerator.get_generator_number())
+        
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
+        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, basePRISequence.get_ordinal_pos())
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
+        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, comparisonPRISequence.get_ordinal_pos())
+        priSequenceWritten = True
+        
+    
+    def writePRISegment(self, wsPRISequences, wsPRISequencesRow, bPRISegment, cPRISegment, priSegmentWritten):
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
+        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, bPRISegment.get_segment_number())
+        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
+        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, cPRISegment.get_segment_number())
+        priSegmentWritten = True
+        
+    
+    def writeFREQSequence(self, wsFREQSequences, wsFREQSequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, baseFREQSequence, comparisonFREQSequence, freqSequenceWritten):
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
+
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterMode.get_name())
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterMode.get_name())
+
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_GENERATOR_VAL, baseGenerator.get_generator_number())
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_GENERATOR_VAL, comparisonGenerator.get_generator_number())
+        
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
+        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, baseFREQSequence.get_ordinal_pos())
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
+        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, comparisonFREQSequence.get_ordinal_pos())
+        freqSequenceWritten = True
+        
+
+    def writeFREQSegment(self, wsFREQSequences, wsFREQSequencesRow, bFREQSegment, cFREQSegment, freqSegmentWritten):
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
+        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, bFREQSegment.get_segment_number())
+        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
+        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, cFREQSegment.get_segment_number())
+        freqSegmentWritten = True
+        
+
+        
     def compareEMTFiles(self, wb, base_emitter_collection, comparison_emitter_collection, comparisonArray, bFileName, cFileName):
          
         wsCount = wb.sheets.count
@@ -399,42 +532,17 @@ class CompareEMTFiles():
         wsFREQSequencesBkgColorMarks = []
         
         
-# BASE_XL_COL_ELNOT_LBL = 1
-# BASE_XL_COL_ELNOT_VAL = 2
-# BASE_XL_COL_EMITTER_ATTRIB_LBL = 2
-# BASE_XL_COL_EMITTER_ATTRIB_VAL = 3
-# BASE_XL_COL_MODE_LBL = 3
-# BASE_XL_COL_MODE_VAL = 4
-# BASE_XL_COL_MODE_ATTRIB_LBL = 4
-# BASE_XL_COL_MODE_ATTRIB_VAL = 5
-# BASE_XL_COL_GENERATOR_LBL = 5
-# BASE_XL_COL_GENERATOR_VAL = 6
-# BASE_XL_COL_GENERATOR_ATTRIB_LBL = 6
-# BASE_XL_COL_GENERATOR_ATTRIB_VAL = 7
-# BASE_XL_COL_PF_SEQUENCE_LBL = 7
-# BASE_XL_COL_PF_SEQUENCE_VAL = 8
-# BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL = 8
-# BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL = 9
-# BASE_XL_COL_PF_SEGMENT_LBL = 9
-# BASE_XL_COL_PF_SEGMENT_VAL = 10
-# BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL = 10
-# BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL = 11
-        
         for baseEmitter in base_emitter_collection:
             bElnot = baseEmitter.get_elnot()
             comparisonEmitter = self.findElnot(bElnot, comparisonArray)
+            
+            emitterWritten = False
             
             self.setColorMarkBoundary(wsEmittersBkgColorMarks, wsEmittersRow)
             self.setColorMarkBoundary(wsModesBkgColorMarks, wsModesRow)
             self.setColorMarkBoundary(wsGeneratorsBkgColorMarks, wsGeneratorsRow)
             self.setColorMarkBoundary(wsPRISequencesBkgColorMarks, wsPRISequencesRow)
             self.setColorMarkBoundary(wsFREQSequencesBkgColorMarks, wsFREQSequencesRow)
-            
-            # print("wsEmittersRow: {}".format(wsEmittersRow))
-            # print("wsModesRow: {}".format(wsModesRow))
-            # print("wsGeneratorsRow: {}".format(wsGeneratorsRow))
-            # print("wsPRISequencesRow: {}".format(wsPRISequencesRow))
-            # print("wsFREQSequencesRow: {}".format(wsFREQSequencesRow))
             
             if not comparisonEmitter:
                 self.writeLabelCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
@@ -443,16 +551,15 @@ class CompareEMTFiles():
                 wsEmittersRow += 1
                
             else:
-                self.writeLabelCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-                self.writeValueCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-                self.writeLabelCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-                self.writeValueCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
-                wsEmittersRow += 1
 
                 for baseAttribute in baseEmitter.get_attributes():
                     comparisonAttribute = self.findAttribute(baseAttribute.get_name(), comparisonEmitter)
                     
                     if not comparisonAttribute:
+                        if emitterWritten == False:
+                            self.writeEmitter(wsEmitters, wsEmittersRow, bElnot, comparisonEmitter, emitterWritten)
+                            wsEmittersRow += 1
+                            
                         self.writeLabelCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, baseAttribute.get_name())
                         self.writeValueCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, baseAttribute.get_value())
                         self.writeLabelCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, constant.XL_MISSING_TEXT)
@@ -460,6 +567,11 @@ class CompareEMTFiles():
                         
                     else:
                         if comparisonAttribute.get_value() != baseAttribute.get_value():
+
+                            if emitterWritten == False:
+                                self.writeEmitter(wsEmitters, wsEmittersRow, bElnot, comparisonEmitter, emitterWritten)
+                                wsEmittersRow += 1
+
                             self.writeLabelCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, baseAttribute.get_name())
                             self.writeValueCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, baseAttribute.get_value())
                             self.writeLabelCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, comparisonAttribute.get_name())
@@ -469,6 +581,8 @@ class CompareEMTFiles():
                             
                 for baseEmitterMode in baseEmitter.get_modes():
                     comparisonEmitterMode = self.findEmitterMode(baseEmitterMode.get_name(), comparisonEmitter)
+                    
+                    modeWritten = False
                     
                     if not comparisonEmitterMode:
                         self.writeLabelCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
@@ -483,17 +597,6 @@ class CompareEMTFiles():
                             self.writeLabelCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterMode.get_name())
                             wsEmittersRow += 1
                         
-                        self.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-                        self.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-                        self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-                        self.writeValueCell(wsModes, wsModesRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
-
-                        self.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-                        self.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterMode.get_name())
-                        self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-                        self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterMode.get_name())
-                        
-                        wsModesRow += 1
                         
                         for baseModeAttribute in baseEmitterMode.get_attributes():
                             comparisonModeAttribute = self.findAttribute(baseModeAttribute.get_name(), comparisonEmitterMode)
@@ -501,7 +604,11 @@ class CompareEMTFiles():
                             if not comparisonModeAttribute:
                                 # cellValue = "{} emitter:({}).mode:({}) contains attribute {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseModeAttribute.get_name(), cFileName)
                                 # self.writeCell(wsModes, wsModesRow, cellValue)
-
+                                
+                                if modeWritten == False:
+                                    self.writeMode(wsModes, wsModesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, modeWritten)
+                                    wsModesRow += 1
+                                    
                                 self.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, baseModeAttribute.get_name())
                                 self.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_ATTRIB_VAL, baseModeAttribute.get_value())
                                 self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_MODE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
@@ -511,6 +618,11 @@ class CompareEMTFiles():
                                 if comparisonModeAttribute.get_value() != baseModeAttribute.get_value():
                                     # cellValue = "{} emitter:({}).mode:({}) contains attribute {} with value: {} which is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseModeAttribute.get_name(), baseModeAttribute.get_value(), comparisonModeAttribute.get_value(), cFileName)
                                     # self.writeCell(wsModes, wsModesRow, cellValue)
+                                    
+                                    if modeWritten == False:
+                                        self.writeMode(wsModes, wsModesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, modeWritten)
+                                        wsModesRow += 1
+                                    
                                     self.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, baseModeAttribute.get_name())
                                     self.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_ATTRIB_VAL, baseModeAttribute.get_value())
                                     self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_MODE_ATTRIB_LBL, comparisonModeAttribute.get_name())
@@ -521,9 +633,15 @@ class CompareEMTFiles():
                         for baseGenerator in baseEmitterMode.get_generators():
                             comparisonGenerator = self.findGenerator(baseGenerator.get_generator_number(), comparisonEmitterMode)
                         
+                            generatorWritten = False
+                            
                             if not comparisonGenerator:
                                 #cellValue = "{} emitter:({}).mode:({}) contains generator: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), cFileName)
                                 #self.writeCell(wsModes, wsModesRow, cellValue)
+                                
+                                if modeWritten == False:
+                                    self.writeMode(wsModes, wsModesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, modeWritten)
+                                    wsModesRow += 1
                                 
                                 self.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
                                 self.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_GENERATOR_VAL, baseGenerator.get_generator_number())
@@ -531,22 +649,6 @@ class CompareEMTFiles():
                                 
                                 wsModesRow += 1
                             else:
-                                
-                                self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-                                self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-                                self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-                                self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
-        
-                                self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-                                self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterMode.get_name())
-                                self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-                                self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterMode.get_name())
-
-                                self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
-                                self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_VAL, baseGenerator.get_generator_number())
-                                self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
-                                self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_VAL, comparisonGenerator.get_generator_number())
-                                wsGeneratorsRow += 1
                                 
                                 for baseGeneratorAttribute in baseGenerator.get_attributes():
                                     comparisonGeneratorAttribute = self.findAttribute(baseGeneratorAttribute.get_name(), comparisonGenerator)
@@ -556,6 +658,10 @@ class CompareEMTFiles():
                                         #cellValue = "{} emitter:({}).mode:({}).generator:({}) contains attribute:{} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseGeneratorAttribute.get_name(), cFileName)
                                         #self.writeCell(wsGenerators, wsGeneratorsRow, cellValue)
                                         
+                                        if generatorsWritten == False:
+                                            self.writeGenerator(wsGenerators, wsGeneratorsRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, generatorWritten)
+                                            wsGeneratorsRow += 1
+                                                
                                         self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, baseGeneratorAttribute.get_name())
                                         self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, baseGeneratorAttribute.get_value())
                                         self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, constant.XL_MISSING_TEXT)
@@ -566,6 +672,10 @@ class CompareEMTFiles():
                                         if comparisonGeneratorAttribute.get_value() != baseGeneratorAttribute.get_value():
                                             #cellValue = "{} emitter:({}).mode:({}).generator:({}) contains attribute:{} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value(), comparisonGeneratorAttribute.get_value(), cFileName)
                                             #self.writeCell(wsGenerators, wsGeneratorsRow, cellValue)
+
+                                            if generatorWritten == False:
+                                                self.writeGenerator(wsGenerators, wsGeneratorsRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, generatorWritten)
+                                                wsGeneratorsRow += 1
 
                                             self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, baseGeneratorAttribute.get_name())
                                             self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, baseGeneratorAttribute.get_value())
@@ -582,6 +692,10 @@ class CompareEMTFiles():
                                     #cellValue = "{} emitter({}).mode({}).generator({}) contains {} PRI Sequences - but the same path generator in {} contains {} PRI Sequences.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), len(bgPRISequences), cFileName, len(cpPRISequences))
                                     #self.writeCell(wsGenerators, wsGeneratorsRow, cellValue)
 
+                                    if generatorWritten == False:
+                                        self.writeGenerator(wsGenerators, wsGeneratorsRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, generatorWritten)
+                                        wsGeneratorsRow += 1
+
                                     self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCES[]:")
                                     self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, len(bgPRISequences))
                                     self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCES[]:")
@@ -591,6 +705,11 @@ class CompareEMTFiles():
                                 if len(bgFREQSequences) != len(cpFREQSequences):
                                     #cellValue = "{} emitter({}).mode({}).generator({}) contains {} FREQ Sequences - but the same path generator in {} contains {} FREQ Sequences.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), len(bgFREQSequences), cFileName, len(cpFREQSequences))
                                     #self.writeCell(wsGenerators, wsGeneratorsRow, cellValue)
+                                    
+                                    if generatorWritten == False:
+                                        self.writeGenerator(wsGenerators, wsGeneratorsRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, generatorWritten)
+                                        wsGeneratorsRow += 1
+                                    
                                     self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCES[]:")
                                     self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, len(bgFREQSequences))
                                     self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCES[]:")
@@ -599,10 +718,15 @@ class CompareEMTFiles():
                                 
                                 for basePRISequence in baseGenerator.get_pri_sequences():
                                     comparisonPRISequence = self.findPRISequenceByOrdinalPos(basePRISequence.get_ordinal_pos(), comparisonGenerator)
+                                    priSequenceWritten = False
                                     
                                     if not comparisonPRISequence:
                                         #cellValue = "{} emitter({}).mode({}).generator({}) contains PRISequence in ordinal position {} that is missing from the same path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), cFileName)
                                         #self.writeCell(wsGenerators, wsGeneratorsRow, cellValue)
+                                        
+                                        if generatorWritten == False:
+                                            self.writeGenerator(wsGenerators, wsGeneratorsRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, generatorWritten)
+                                            wsGeneratorsRow += 1
                                         
                                         self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
                                         self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, basePRISequence.get_ordinal_pos())
@@ -611,27 +735,6 @@ class CompareEMTFiles():
                                         wsGeneratorsRow += 1
                                     else:
                                         
-                                        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-                                        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-                                        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-                                        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
-                
-                                        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-                                        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterMode.get_name())
-                                        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-                                        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterMode.get_name())
-        
-                                        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
-                                        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_GENERATOR_VAL, baseGenerator.get_generator_number())
-                                        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
-                                        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_GENERATOR_VAL, comparisonGenerator.get_generator_number())
-                                        
-                                        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
-                                        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, basePRISequence.get_ordinal_pos())
-                                        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
-                                        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, comparisonPRISequence.get_ordinal_pos())
-                                        wsPRISequencesRow += 1
-                                        
                                         for bPRISeqAttribute in basePRISequence.get_attributes(): 
                                             cPRISeqAttribute = self.findAttribute(bPRISeqAttribute.get_name(), comparisonPRISequence)
                                             
@@ -639,6 +742,10 @@ class CompareEMTFiles():
                                                 #cellValue = "{} emitter({}).mode({}).generator({}).PRISequence({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISeqAttribute.get_name(), cFileName)
                                                 #self.writeCell(wsPRISequences, wsPRISequencesRow, cellValue)
                                                 
+                                                if priSequenceWritten == False:
+                                                    self.writePRISequence(wsPRISequences, wsPRISequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, basePRISequence, comparisonPRISequence, priSequenceWritten)
+                                                    wsPRISequencesRow += 1
+                                                    
                                                 self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, bPRISeqAttribute.get_name())
                                                 self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, bPRISeqAttribute.get_value())
                                                 self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
@@ -650,6 +757,11 @@ class CompareEMTFiles():
                                                     
                                                     #cellValue = "{} emitter({}).mode({}).generator({}).PRISequence({}) contains attribute:{} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISeqAttribute.get_name(), bPRISeqAttribute.get_value(), cPRISeqAttribute.get_value(), cFileName)
                                                     #self.writeCell(wsPRISequences, wsPRISequencesRow, cellValue)
+                                                    
+                                                    if priSequenceWritten == False:
+                                                        self.writePRISequence(wsPRISequences, wsPRISequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, basePRISequence, comparisonPRISequence, priSequenceWritten)
+                                                        wsPRISequencesRow += 1
+                                                    
                                                     self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, bPRISeqAttribute.get_name())
                                                     self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, bPRISeqAttribute.get_value())
                                                     self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, cPRISeqAttribute.get_name())
@@ -659,10 +771,15 @@ class CompareEMTFiles():
         
                                         for bPRISegment in basePRISequence.get_segments():
                                             cPRISegment = self.findSegmentBySegmentNumber(bPRISegment.get_segment_number(), comparisonPRISequence)
+                                            priSegmentWritten = False
                                             
                                             if not cPRISegment:
                                                 #cellValue = "{} emitter({}).mode({}).generator({}).PRISequence({}) contains PRI Segment number: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISegment.get_segment_number(), cFileName)
                                                 #self.writeCell(wsPRISequences, wsPRISequencesRow, cellValue)
+                                                
+                                                if priSequenceWritten == False:
+                                                    self.writePRISequence(wsPRISequences, wsPRISequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, basePRISequence, comparisonPRISequence, priSequenceWritten)
+                                                    wsPRISequencesRow += 1
                                                 
                                                 self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
                                                 self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, bPRISegment.get_segment_number())
@@ -671,12 +788,6 @@ class CompareEMTFiles():
                                                 wsPRISequencesRow += 1
                                             else:
                                                 
-                                                self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
-                                                self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, bPRISegment.get_segment_number())
-                                                self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEGMENT_LBL,  "PRI_SEGMENT:")
-                                                self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, cPRISegment.get_segment_number())
-                                                wsPRISequencesRow += 1
-                                                
                                                 for bSegmentAttribute in bPRISegment.get_attributes():
                                                     cSegmentAttribute = self.findAttribute(bSegmentAttribute.get_name(), cPRISegment)
                                                     
@@ -684,6 +795,14 @@ class CompareEMTFiles():
                                                         #cellValue = "{} emitter({}).mode({}).generator({}).PRISequence({}).PRISegment({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISegment.get_segment_number(), bSegmentAttribute.get_name(), cFileName)
                                                         #self.writeCell(wsPRISequences, wsPRISequencesRow, cellValue)
                                                         
+                                                        if priSequenceWritten == False:
+                                                            self.writePRISequence(wsPRISequences, wsPRISequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, basePRISequence, comparisonPRISequence, priSequenceWritten)
+                                                            wsPRISequencesRow += 1
+                                                        
+                                                        if priSegmentWritten == False:
+                                                            self.writePRISegment(wsPRISequences, wsPRISequencesRow, bPRISegment, cPRISegment, priSegmentWritten)
+                                                            wsPRISequencesRow += 1
+                                                            
                                                         self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, bSegmentAttribute.get_name())
                                                         self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, bSegmentAttribute.get_value())
                                                         self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.XL_MISSING_TEXT)
@@ -694,6 +813,15 @@ class CompareEMTFiles():
                                                         if cSegmentAttribute.get_value() != bSegmentAttribute.get_value():
                                                             #cellValue = "{} emitter({}).mode({}).generator({}).PRISequence({}).PRISegment({}) contains attribute: {} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), basePRISequence.get_ordinal_pos(), bPRISegment.get_segment_number(), bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), cSegmentAttribute.get_value(), cFileName)
                                                             #self.writeCell(wsPRISequences, wsPRISequencesRow, cellValue)
+                                                            
+                                                            if priSequenceWritten == False:
+                                                                self.writePRISequence(wsPRISequences, wsPRISequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, basePRISequence, comparisonPRISequence, priSequenceWritten)
+                                                                wsPRISequencesRow += 1
+                                                            
+                                                            if priSegmentWritten == False:
+                                                                self.writePRISegment(wsPRISequences, wsPRISequencesRow, bPRISegment, cPRISegment, priSegmentWritten)
+                                                                wsPRISequencesRow += 1
+                                                            
                                                             self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, bSegmentAttribute.get_name())
                                                             self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, bSegmentAttribute.get_value())
                                                             self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, cSegmentAttribute.get_name())
@@ -703,10 +831,15 @@ class CompareEMTFiles():
                     
                                 for baseFREQSequence in baseGenerator.get_freq_sequences():
                                     comparisonFREQSequence = self.findFREQSequenceByOrdinalPos(baseFREQSequence.get_ordinal_pos(), comparisonGenerator)
+                                    freqSequenceWritten = False
                                     
                                     if not comparisonFREQSequence:
                                         #cellValue = "{} emitter({}).mode({}).generator({}) contains FREQSequence in ordinal position {} that is missing from the same path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), cFileName)
                                         #self.writeCell(wsGenerators, wsGeneratorsRow, cellValue)
+                                        
+                                        if generatorWritten == False:
+                                            self.writeGenerator(wsGenerators, wsGeneratorsRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, generatorWritten)
+                                            wsGeneratorsRow += 1
                                         
                                         self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
                                         self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, baseFREQSequence.get_ordinal_pos())
@@ -715,28 +848,6 @@ class CompareEMTFiles():
 
                                     else:
                                         
-                                        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-                                        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-                                        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-                                        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
-                
-                                        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-                                        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterMode.get_name())
-                                        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-                                        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterMode.get_name())
-        
-                                        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
-                                        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_GENERATOR_VAL, baseGenerator.get_generator_number())
-                                        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
-                                        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_GENERATOR_VAL, comparisonGenerator.get_generator_number())
-                                        
-                                        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
-                                        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, baseFREQSequence.get_ordinal_pos())
-                                        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
-                                        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, comparisonFREQSequence.get_ordinal_pos())
-                                        wsFREQSequencesRow += 1
-
-
                                         for bFREQSeqAttribute in baseFREQSequence.get_attributes():
                                             cFREQSeqAttribute = self.findAttribute(bFREQSeqAttribute.get_name(), comparisonFREQSequence)
                                             
@@ -744,6 +855,10 @@ class CompareEMTFiles():
                                                 #cellValue = "{} emitter({}).mode({}).generator({}).FREQSequence({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSeqAttribute.get_name(), cFileName)
                                                 #self.writeCell(wsFREQSequences, wsFREQSequencesRow, cellValue)
                                                 
+                                                if freqSequenceWritten == False:
+                                                    self.writeFREQSequence(wsFREQSequences, wsFREQSequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, baseFREQSequence, comparisonFREQSequence, freqSequenceWritten)
+                                                    wsFREQSequencesRow += 1
+                                                    
                                                 self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, bFREQSeqAttribute.get_name())
                                                 self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, bFREQSeqAttribute.get_value())
                                                 self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
@@ -754,6 +869,10 @@ class CompareEMTFiles():
                                                     #cellValue = "{} emitter({}).mode({}).generator({}).FREQSequence({}) contains attribute:{} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSeqAttribute.get_name(), bFREQSeqAttribute.get_value(), cFREQSeqAttribute.get_value(), cFileName)
                                                     #self.writeCell(wsFREQSequences, wsFREQSequencesRow, cellValue)
                                                     
+                                                    if freqSequenceWritten == False:
+                                                        self.writeFREQSequence(wsFREQSequences, wsFREQSequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, baseFREQSequence, comparisonFREQSequence, freqSequenceWritten)
+                                                        wsFREQSequencesRow += 1
+                                                    
                                                     self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, bFREQSeqAttribute.get_name())
                                                     self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, bFREQSeqAttribute.get_value())
                                                     self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, cFREQSeqAttribute.get_name())
@@ -762,10 +881,15 @@ class CompareEMTFiles():
         
                                         for bFREQSegment in baseFREQSequence.get_segments():
                                             cFREQSegment = self.findSegmentBySegmentNumber(bFREQSegment.get_segment_number(), comparisonFREQSequence)
+                                            freqSegmentWritten = False
                                             
                                             if not cFREQSegment:
                                                 #cellValue = "{} emitter({}).mode({}).generator({}).FREQSequence({}) contains FREQ Segment number: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSegment.get_segment_number(), cFileName)
                                                 #self.writeCell(wsFREQSequences, wsFREQSequencesRow, cellValue)
+
+                                                if freqSequenceWritten == False:
+                                                    self.writeFREQSequence(wsFREQSequences, wsFREQSequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, baseFREQSequence, comparisonFREQSequence, freqSequenceWritten)
+                                                    wsFREQSequencesRow += 1
 
                                                 self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
                                                 self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, bFREQSegment.get_segment_number())
@@ -774,12 +898,6 @@ class CompareEMTFiles():
                                                 
                                             else:
                                                 
-                                                self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
-                                                self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, bFREQSegment.get_segment_number())
-                                                self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
-                                                self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, cFREQSegment.get_segment_number())
-                                                wsPRISequencesRow += 1
-                                                
                                                 for bSegmentAttribute in bFREQSegment.get_attributes():
                                                     cSegmentAttribute = self.findAttribute(bSegmentAttribute.get_name(), cFREQSegment)
                                                     
@@ -787,6 +905,14 @@ class CompareEMTFiles():
                                                         #cellValue = "{} emitter({}).mode({}).generator({}).FREQSequence({}).FREQSegment({}) contains attribute: {} that is missing from this path in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSegment.get_segment_number(), bSegmentAttribute.get_name(), cFileName)
                                                         #self.writeCell(wsFREQSequences, wsFREQSequencesRow, cellValue)
                                                         
+                                                        if freqSequenceWritten == False:
+                                                            self.writeFREQSequence(wsFREQSequences, wsFREQSequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, baseFREQSequence, comparisonFREQSequence, freqSequenceWritten)
+                                                            wsFREQSequencesRow += 1
+                                                        
+                                                        if freqSegmentWritten == False:
+                                                            self.writeFREQSegment(wsFREQSequences, wsFREQSequencesRow, bFREQSegment, cFREQSegment, freqSegmentWritten)
+                                                            wsFREQSequencesRow += 1
+                                                            
                                                         self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, bSegmentAttribute.get_name())
                                                         self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, bSegmentAttribute.get_value())
                                                         self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.XL_MISSING_TEXT)
@@ -797,6 +923,14 @@ class CompareEMTFiles():
                                                         if cSegmentAttribute.get_value() != bSegmentAttribute.get_value():
                                                             #cellValue = "{} emitter({}).mode({}).generator({}).FREQSequence({}).FREQSegment({}) contains attribute: {} with value:{} that is different than the value:{} in the same path attribute in {}.\n".format(bFileName, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number(), baseFREQSequence.get_ordinal_pos(), bFREQSegment.get_segment_number(), bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), cSegmentAttribute.get_value(), cFileName)
                                                             #self.writeCell(wsFREQSequences, wsFREQSequencesRow, cellValue)
+                                                            
+                                                            if freqSequenceWritten == False:
+                                                                self.writeFREQSequence(wsFREQSequences, wsFREQSequencesRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, baseFREQSequence, comparisonFREQSequence, freqSequenceWritten)
+                                                                wsFREQSequencesRow += 1
+                                                            
+                                                            if freqSegmentWritten == False:
+                                                                self.writeFREQSegment(wsFREQSequences, wsFREQSequencesRow, bFREQSegment, cFREQSegment, freqSegmentWritten)
+                                                                wsFREQSequencesRow += 1
                                                             
                                                             self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, bSegmentAttribute.get_name())
                                                             self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, bSegmentAttribute.get_value())
@@ -849,6 +983,8 @@ class CompareEMTFiles():
      
     def compareTheFiles(self):
     
+        self.getShortFileNames()
+        
         print("parsing Base File ...")
         self.parseBaseFile()
         

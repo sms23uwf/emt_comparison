@@ -37,7 +37,7 @@ class CompareEMTFilesMenu(QDialog):
         
         bFileButton = QPushButton("Select Base File")
         cFileButton = QPushButton("Select Comparison File")
-        
+         
         exButton = QPushButton("Compare EMT Files")
         cxButton = QPushButton("Cancel")
         
