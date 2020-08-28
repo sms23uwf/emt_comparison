@@ -10,6 +10,8 @@ class Emitter():
         self._elnot = ''
         self._attributes = []
         self._modes = []
+        self._bfile = ''
+        self._cfile = ''
         
     def set_elnot(self, elnot):
         self._elnot = elnot
@@ -28,3 +30,16 @@ class Emitter():
         
     def get_modes(self):
         return self._modes        
+    
+    def set_bfile(self, _file):
+        self._bfile = _file
+        
+    def get_bfile(self):
+        return self._bfile            
+    
+    def set_cfile(self, _file):
+        self._cfile = _file
+        
+    def get_cfile(self):
+        return self._cfile            
+    

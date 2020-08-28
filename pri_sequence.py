@@ -11,6 +11,9 @@ class Pri_Sequence():
         self._number_of_segments = ''
         self._attributes = []
         self._segments = []
+        self._bfile = ''
+        self._cfile = ''
+        
         
     def set_ordinal_pos(self, ordinal_pos):
         self._ordinal_pos = ordinal_pos
@@ -41,4 +44,21 @@ class Pri_Sequence():
         
 
     def get_segments(self):
-        return self._segments    
+        return self._segments   
+
+    
+    def set_bfile(self, _file):
+        self._bfile = _file
+
+        
+    def get_bfile(self):
+        return self._bfile            
+
+    
+    def set_cfile(self, _file):
+        self._cfile = _file
+
+        
+    def get_cfile(self):
+        return self._cfile            
+    

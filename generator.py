@@ -11,6 +11,8 @@ class Generator():
         self._attributes = []
         self._pri_sequences = []
         self._freq_sequences = []
+        self._bfile = ''
+        self._cfile = ''
         
     def set_generator_number(self, generator_number):
         self._generator_number = generator_number
@@ -35,4 +37,16 @@ class Generator():
         
     def get_freq_sequences(self):
         return self._freq_sequences
+    
+    def set_bfile(self, _file):
+        self._bfile = _file
+        
+    def get_bfile(self):
+        return self._bfile            
+    
+    def set_cfile(self, _file):
+        self._cfile = _file
+        
+    def get_cfile(self):
+        return self._cfile            
     
