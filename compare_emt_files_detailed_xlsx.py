@@ -1355,6 +1355,8 @@ class CompareEMTFiles():
      
     def compareTheFiles(self):
     
+        print("starting file comparison.")
+        
         self.getShortFileNames()
         
         print("parsing Base File ...")
@@ -1363,6 +1365,8 @@ class CompareEMTFiles():
         print("parsing Comparison File ...")
         self.parseComparisonFile()
     
+        xwApp = xw.App(visible=False)
+        
         wb = xw.Book()
      
        
@@ -1374,7 +1378,9 @@ class CompareEMTFiles():
        
         wb.save(r'EMT_Differences')
         wb.close()
+        xwApp.quit()
     
+        print("finished!")
                
     #if __name__ == '__main__':
      #   compareTheFiles()
