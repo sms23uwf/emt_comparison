@@ -13,6 +13,7 @@ class Generator():
         self._freq_sequences = []
         self._bfile = ''
         self._cfile = ''
+        self._hasDifferences = False
 
         
     def set_generator_number(self, generator_number):
@@ -61,7 +62,15 @@ class Generator():
         
     def get_cfile(self):
         return self._cfile            
+
     
+    def set_hasDifferences(self, hasDifferences):
+        self._hasDifferences = hasDifferences
+
+        
+    def get_hasDifferences(self):
+        return self._hasDifferences
+
     
     def findAttribute(self, attributeName):
         for attribute in self.get_attributes():
@@ -71,15 +80,92 @@ class Generator():
         return []
     
     
+    def findPRISequenceByOrdinalPos(self, ordinalPos):
+        for sequence in self.get_pri_sequences():
+            if sequence.get_ordinal_pos() == ordinalPos:
+                return sequence
+         
+        return []
+    
+    
+    def findFREQSequenceByOrdinalPos(self, ordinalPos):
+        for sequence in self.get_freq_sequences():
+            if sequence.get_ordinal_pos() == ordinalPos:
+                return sequence 
+            
+        return []
+
+    
     def sync_attributes(self, comparisonObj):
+        localDifferences = False
+        
         for cAttribute in enumerate(comparisonObj.get_attributes()):
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:
                bAttribute.set_cfile(comparisonObj.get_cfile())
                bAttribute.set_cvalue(cAttribute.get_cvalue())
+               if bAttribute.get_value() != bAttribute.get_cvalue():
+                   bAttribute.set_hasDifferences(True)
+                   localDifferences = True
             else:
+                self.set_hasDifferences(True)
                 self.add_attribute(cAttribute)
 
+        return localDifferences
 
+
+    def sync_priSequences(self, comparisonObj):
+        
+        localAttrDifferences = False
+        localSegmentDifferences = False
+        localDifferences = False
+        
+        for cSequence in enumerate(comparisonObj.get_pri_sequences()):
+            bSequence = self.findPRISequenceByOrdinalPos(cSequence.get_ordinal_pos())
+            
+            if bSequence:
+                bSequence.set_cfile(self.cfDisplay)
+                localSegmentDifferences = bSequence.sync_segments(comparisonObj)
+                localAttrDifferences = bSequence.sync_attributes(cSequence)
+                if bSequence.get_number_of_segments() != cSequence.get_number_of_segments():
+                    bSequence.set_hasDifferences(True)
+                    localDifferences = True
+            else:
+                cSequence.set_hasDifferences(True)
+                self.set_hasDifferences(True)
+                self.add_pri_sequence(cSequence)
+                
+        if localAttrDifferences == True or localSegmentDifferences == True:
+            localDifferences = True
+            
+        return localDifferences
     
+
+    def sync_freqSequences(self, comparisonObj):
+        
+        localAttrDifferences = False
+        localSegmentDifferences = False
+        localDifferences = False
+        
+        for cSequence in enumerate(comparisonObj.get_freq_sequences()):
+            bSequence = self.findFREQSequenceByOrdinalPos(cSequence.get_ordinal_pos())
+            
+            if bSequence:
+                bSequence.set_cfile(self.cfDisplay)
+                localSegmentDifferences = bSequence.sync_segments(comparisonObj)
+                localAttrDifferences = bSequence.sync_attributes(cSequence)
+                if bSequence.get_number_of_segments() != cSequence.get_number_of_segments():
+                    bSequence.set_hasDifferences(True)
+                    localDifferences = True
+            else:
+                cSequence.set_hasDifferences(True)
+                self.set_hasDifferences(True)
+                self.add_pri_sequence(cSequence)
+                
+        if localAttrDifferences == True or localSegmentDifferences == True:
+            localDifferences = True
+            
+        return localDifferences
+                    
+        

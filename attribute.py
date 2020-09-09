@@ -10,6 +10,9 @@ class Attribute():
         self._name = ''
         self._value = ''
         self._cvalue = ''
+        self._bfile = ''
+        self._cfile = ''
+        self._hasDifferences = False
         
         
     def set_name(self, name):
@@ -34,4 +37,28 @@ class Attribute():
         
     def get_cvalue(self):
         return self._cvalue
+
+
+    def set_bfile(self, _file):
+        self._bfile = _file
+
         
+    def get_bfile(self):
+        return self._bfile            
+
+    
+    def set_cfile(self, _file):
+        self._cfile = _file
+
+        
+    def get_cfile(self):
+        return self._cfile            
+
+        
+    def set_hasDifferences(self, hasDifferences):
+        self._hasDifferences = hasDifferences
+
+        
+    def get_hasDifferences(self):
+        return self._hasDifferences
+    
