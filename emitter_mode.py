@@ -44,3 +44,36 @@ class EmitterMode():
     def get_cfile(self):
         return self._cfile            
     
+    def findAttribute(self, attributeName):
+        for attribute in self.get_attributes():
+            if attribute.get_name() == attributeName:
+                return attribute
+            
+        return []
+
+
+    def findGenerator(self, generatorNumber):
+            for generator in self.get_generators():
+                if generator.get_generator_number() == generatorNumber:
+                    return generator
+              
+            return []
+
+
+    def sync_attributes(self, comparisonObj):
+        for cAttribute in enumerate(comparisonObj.get_attributes()):
+            bAttribute = self.findAttribute(cAttribute.get_name())
+            
+            if bAttribute:
+               bAttribute.set_cfile(comparisonObj.get_cfile())
+               bAttribute.set_cvalue(cAttribute.get_cvalue())
+            else:
+                self.add_attribute(cAttribute)
+
+
+    def sync_generators(self, comparisonObj):
+        for cGenerator in enumerate(comparisonObj.get_generators()):
+            baseGenerator = self.findGenerator(cGenerator.get_generator_number())
+                    
+            if baseGenerator:
+                baseGenerator.set_cfile(comparisonObj.get_cfile())

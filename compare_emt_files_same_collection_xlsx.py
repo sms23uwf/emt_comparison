@@ -474,14 +474,11 @@ class CompareEMTFiles():
                         if baseEmitter:
                             baseEmitter.set_cfile(self.cfDisplay)
 
-                            for cAttribute in enumerate(emitter.get_attributes()):
-                                bAttribute = self.findAttribute(cAttribute.get_name(), baseEmitter)
-                                
-                                if bAttribute:
-                                   bAttribute.set_cfile(self.cfDisplay)
-                                   bAttribute.set_cvalue(cAttribute.get_cvalue())
-                                else:
-                                    baseEmitter.add_attribute(cAttribute)
+                            baseEmitter.sync_attributes(emitter)
+                            baseEmitter.sync_modes(emitter)
+                            
+                            
+                            #HERE
                             
                             for cMode in enumerate(emitter.get_modes()):
                                 baseMode = self.findEmitterMode(cMode.get_name(), baseEmitter)
