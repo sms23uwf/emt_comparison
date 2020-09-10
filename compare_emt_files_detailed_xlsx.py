@@ -74,7 +74,16 @@ class CompareEMTFiles():
                         if modePass > 0:
                             emitter.add_mode(emitter_mode)
                             
-                        emitter_collection.append(emitter)
+                        if isBase == False:
+                            baseEmitter = self.findElnot(emitter.get_elnot(), emitter_collection) 
+                            if baseEmitter:
+                                baseEmitter.set_cfile(self.cfDisplay)
+    
+                                baseEmitter.sync_attributes(emitter)
+                                baseEmitter.sync_modes(emitter)
+                            else:
+                                emitter_collection.append(emitter)
+
                         modePass = 0
                         
                     emitter = Emitter()
@@ -167,7 +176,10 @@ class CompareEMTFiles():
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                attrib.set_value(line_value)
+                                if isBase == True:
+                                    attrib.set_value(line_value)
+                                else:
+                                    attrib.set_cvalue(line_value)
                                 emitter.add_attribute(attrib)
                         
                         elif currentEntity == constant.EMITTER_MODE:
@@ -181,7 +193,10 @@ class CompareEMTFiles():
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                attrib.set_value(line_value)
+                                if isBase == True:
+                                    attrib.set_value(line_value)
+                                else:
+                                    attrib.set_cvalue(line_value)
                                 emitter_mode.add_attribute(attrib)
                                 
                         elif currentEntity == constant.GENERATOR:
@@ -195,7 +210,10 @@ class CompareEMTFiles():
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                attrib.set_value(line_value)
+                                if isBase == True:
+                                    attrib.set_value(line_value)
+                                else:
+                                    attrib.set_cvalue(line_value)
                                 generator.add_attribute(attrib)
                                 
                         elif currentEntity == constant.PRI_SEQUENCE:
@@ -209,7 +227,10 @@ class CompareEMTFiles():
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                attrib.set_value(line_value)
+                                if isBase == True:
+                                    attrib.set_value(line_value)
+                                else:
+                                    attrib.set_cvalue(line_value)
                                 pri_sequence.add_attribute(attrib)
     
                         elif currentEntity == constant.PRI_SEGMENT:
@@ -223,7 +244,10 @@ class CompareEMTFiles():
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                attrib.set_value(line_value)
+                                if isBase == True:
+                                    attrib.set_value(line_value)
+                                else:
+                                    attrib.set_cvalue(line_value)
                                 pri_segment.add_attribute(attrib)
     
                         elif currentEntity == constant.FREQ_SEQUENCE:
@@ -237,7 +261,10 @@ class CompareEMTFiles():
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                attrib.set_value(line_value)
+                                if isBase == True:
+                                    attrib.set_value(line_value)
+                                else:
+                                    attrib.set_cvalue(line_value)
                                 freq_sequence.add_attribute(attrib)
     
                         elif currentEntity == constant.FREQ_SEGMENT:
@@ -251,12 +278,23 @@ class CompareEMTFiles():
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                attrib.set_value(line_value)
+                                if isBase == True:
+                                    attrib.set_value(line_value)
+                                else:
+                                    attrib.set_cvalue(line_value)
                                 freq_segment.add_attribute(attrib)
                                 
             else:
-                emitter_collection.append(emitter)
+                if isBase == False:
+                    baseEmitter = self.findElnot(emitter.get_elnot(), emitter_collection) 
+                    if baseEmitter:
+                        baseEmitter.set_cfile(self.cfDisplay)
     
+                        baseEmitter.sync_attributes(emitter)
+                        baseEmitter.sync_modes(emitter)
+                    else:
+                        emitter_collection.append(emitter)
+
     
     def parseBaseFile(self):
         print("baseFileName: {}".format(self.baseFileName))
@@ -264,7 +302,7 @@ class CompareEMTFiles():
             
         
     def parseComparisonFile(self):
-        self.parseFile(self.comparisonFileName, self.comparison_emitters, False)
+        self.parseFile(self.comparisonFileName, self.base_emitters, False)
         
               
     def findElnot(self, elnotValue, inArray):
