@@ -73,6 +73,7 @@ class CompareEMTFiles():
                     if passNumber > 0:
                         if modePass > 0:
                             emitter.add_mode(emitter_mode)
+                            modePass = 0
                             
                         if isBase == False:
                             baseEmitter = self.findBaseElnot(emitter.get_elnot()) 
@@ -101,7 +102,6 @@ class CompareEMTFiles():
                         else:
                             self.base_emitters.append(emitter)
 
-                        modePass = 0
                         
                     emitter = Emitter()
                     if isBase == True:
@@ -239,21 +239,18 @@ class CompareEMTFiles():
                                 generator.add_attribute(attrib)
                                 
                         elif currentEntity == constant.PRI_SEQUENCE:
-                            
-                            if line_key.strip() == constant.NUMBER_OF_SEGMENTS:
-                                pri_sequence.set_number_of_segments(line_value)
-                                if isBase == True:
-                                    pri_sequence.set_bfile(True)
-                                else:
-                                    pri_sequence.set_cfile(True)
+                            if isBase == True:
+                                pri_sequence.set_bfile(True)
                             else:
-                                attrib = Attribute()
-                                attrib.set_name(line_key)
-                                if isBase == True:
-                                    attrib.set_value(line_value)
-                                else:
-                                    attrib.set_cvalue(line_value)
-                                pri_sequence.add_attribute(attrib)
+                                pri_sequence.set_cfile(True)
+                            
+                            attrib = Attribute()
+                            attrib.set_name(line_key)
+                            if isBase == True:
+                                attrib.set_value(line_value)
+                            else:
+                                attrib.set_cvalue(line_value)
+                            pri_sequence.add_attribute(attrib)
     
                         elif currentEntity == constant.PRI_SEGMENT:
                             
@@ -273,21 +270,18 @@ class CompareEMTFiles():
                                 pri_segment.add_attribute(attrib)
     
                         elif currentEntity == constant.FREQ_SEQUENCE:
-                            
-                            if line_key.strip() == constant.NUMBER_OF_SEGMENTS:
-                                freq_sequence.set_number_of_segments(line_value)
-                                if isBase == True:
-                                    freq_sequence.set_bfile(True)
-                                else:
-                                    freq_sequence.set_cfile(True)
+                            if isBase == True:
+                                freq_sequence.set_bfile(True)
                             else:
-                                attrib = Attribute()
-                                attrib.set_name(line_key)
-                                if isBase == True:
-                                    attrib.set_value(line_value)
-                                else:
-                                    attrib.set_cvalue(line_value)
-                                freq_sequence.add_attribute(attrib)
+                                freq_sequence.set_cfile(True)
+                            
+                            attrib = Attribute()
+                            attrib.set_name(line_key)
+                            if isBase == True:
+                                attrib.set_value(line_value)
+                            else:
+                                attrib.set_cvalue(line_value)
+                            freq_sequence.add_attribute(attrib)
     
                         elif currentEntity == constant.FREQ_SEGMENT:
                             
@@ -341,7 +335,6 @@ class CompareEMTFiles():
           
     def findBaseElnot(self, elnotValue):
         for emitter in self.base_emitters:
-            print("found elnot: {}".format(emitter.get_elnot()))
             if emitter.get_elnot() == elnotValue:
                 return emitter
             
@@ -832,6 +825,7 @@ class CompareEMTFiles():
         wsFREQSequencesBkgColorMarks = []
         
         
+        
         for baseEmitter in self.base_emitters:
             bElnot = baseEmitter.get_elnot()
             
@@ -841,11 +835,6 @@ class CompareEMTFiles():
             self.setColorMarkBoundary(wsPRISequencesBkgColorMarks, wsPRISequencesRow)
             self.setColorMarkBoundary(wsFREQSequencesBkgColorMarks, wsFREQSequencesRow)
             
-            print("emitter has differences: {}".format(baseEmitter.get_hasDifferences()))
-            print("emitter bFile: {}".format(baseEmitter.get_bfile()))
-            print("emitter cFile: {}".format(baseEmitter.get_cfile()))
-            
-                  
             if baseEmitter.get_hasDifferences() == True:
                 if baseEmitter.get_cfile() == False:
                     self.writeMissingComparisonEmitter(wsEmitters, wsEmittersRow, bElnot)
@@ -931,33 +920,33 @@ class CompareEMTFiles():
                                                     self.writeFullSequenceAttribute(wsPRISequences, wsPRISequencesRow, bPRISeqAttribute.get_name(), bPRISeqAttribute.get_value(), bPRISeqAttribute.get_name(), bPRISeqAttribute.get_cvalue())
                                                 wsPRISequencesRow += 1
                                                     
-                                        for bPRISegment in basePRISequence.get_segments():
-                                            if bPRISegment.get_hasDifferences() == True:
-                                                if bPRISegment.get_cfile() == False:
-                                                    self.writeMissingComparisonSegment(wsPRISequences, wsPRISequencesRow, bPRISegment.get_segment_number())
-                                                    wsPRISequencesRow += 1
-                                                elif bPRISegment.get_bfile() == False:
-                                                    self.writeMissingBaseSegment(wsPRISequences, wsPRISequencesRow, bPRISegment.get_segment_number())
-                                                    wsPRISequencesRow += 1
-                                                else:
-                                                    self.writePRISegment(wsPRISequences, wsPRISequencesRow, bPRISegment.get_segment_number())
-                                                    wsPRISequencesRow += 1
-                                                    
-                                                    for bSegmentAttribute in bPRISegment.get_attributes():
-                                                        if bSegmentAttribute.get_cfile() == False:
-                                                            self.writeMissingComparisonSegmentAttribute(wsPRISequences, wsPRISequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value())                                                            
-                                                        elif bSegmentAttribute.get_bfile() == False:
-                                                            self.writeMissingBaseSegmentAttribute(wsPRISequences, wsPRISequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())                                                            
-                                                        else:
-                                                            self.writeFullSegmentAttribute(wsPRISequences, wsPRISequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())
+                                            for bPRISegment in basePRISequence.get_segments():
+                                                if bPRISegment.get_hasDifferences() == True:
+                                                    if bPRISegment.get_cfile() == False:
+                                                        self.writeMissingComparisonSegment(wsPRISequences, wsPRISequencesRow, bPRISegment.get_segment_number())
                                                         wsPRISequencesRow += 1
+                                                    elif bPRISegment.get_bfile() == False:
+                                                        self.writeMissingBaseSegment(wsPRISequences, wsPRISequencesRow, bPRISegment.get_segment_number())
+                                                        wsPRISequencesRow += 1
+                                                    else:
+                                                        self.writePRISegment(wsPRISequences, wsPRISequencesRow, bPRISegment.get_segment_number())
+                                                        wsPRISequencesRow += 1
+                                                        
+                                                        for bSegmentAttribute in bPRISegment.get_attributes():
+                                                            if bSegmentAttribute.get_cfile() == False:
+                                                                self.writeMissingComparisonSegmentAttribute(wsPRISequences, wsPRISequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value())                                                            
+                                                            elif bSegmentAttribute.get_bfile() == False:
+                                                                self.writeMissingBaseSegmentAttribute(wsPRISequences, wsPRISequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())                                                            
+                                                            else:
+                                                                self.writeFullSegmentAttribute(wsPRISequences, wsPRISequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())
+                                                            wsPRISequencesRow += 1
                                                             
                                 for baseSequence in baseGenerator.get_freq_sequences():
                                     if baseSequence.get_hasDifferences() == True:
                                         if baseSequence.get_cfile() == False:
                                             self.writeMissingComparisonFREQSequence(wsGenerators, wsGeneratorsRow, baseSequence.get_ordinal_pos())
                                             wsGeneratorsRow += 1
-                                        elif basePRISequence.get_bfile() == False:
+                                        elif baseSequence.get_bfile() == False:
                                             self.writeMissingBaseFREQSequence(wsGenerators, wsGeneratorsRow, baseSequence.get_ordinal_pos())
                                             wsGeneratorsRow += 1
                                         else:
@@ -974,26 +963,26 @@ class CompareEMTFiles():
                                                     self.writeFullSequenceAttribute(wsFREQSequences, wsFREQSequencesRow, bSeqAttribute.get_name(), bSeqAttribute.get_value(), bSeqAttribute.get_name(), bSeqAttribute.get_cvalue())
                                                 wsFREQSequencesRow += 1
                                                     
-                                        for bSegment in baseSequence.get_segments():
-                                            if bSegment.get_hasDifferences() == True:
-                                                if bSegment.get_cfile() == False:
-                                                    self.writeMissingComparisonSegment(wsFREQSequences, wsFREQSequencesRow, bSegment.get_segment_number())
-                                                    wsFREQSequencesRow += 1
-                                                elif bPRISegment.get_bfile() == False:
-                                                    self.writeMissingBaseSegment(wsFREQSequences, wsFREQSequencesRow, bSegment.get_segment_number())
-                                                    wsFREQSequencesRow += 1
-                                                else:
-                                                    self.writePRISegment(wsFREQSequences, wsFREQSequencesRow, bSegment.get_segment_number())
-                                                    wsFREQSequencesRow += 1
-                                                    
-                                                    for bSegmentAttribute in bSegment.get_attributes():
-                                                        if bSegmentAttribute.get_cfile() == False:
-                                                            self.writeMissingComparisonSegmentAttribute(wsFREQSequences, wsFREQSequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value())                                                            
-                                                        elif bSegmentAttribute.get_bfile() == False:
-                                                            self.writeMissingBaseSegmentAttribute(wsFREQSequences, wsFREQSequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())                                                            
-                                                        else:
-                                                            self.writeFullSegmentAttribute(wsFREQSequences, wsFREQSequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())
+                                            for bSegment in baseSequence.get_segments():
+                                                if bSegment.get_hasDifferences() == True:
+                                                    if bSegment.get_cfile() == False:
+                                                        self.writeMissingComparisonSegment(wsFREQSequences, wsFREQSequencesRow, bSegment.get_segment_number())
                                                         wsFREQSequencesRow += 1
+                                                    elif bSegment.get_bfile() == False:
+                                                        self.writeMissingBaseSegment(wsFREQSequences, wsFREQSequencesRow, bSegment.get_segment_number())
+                                                        wsFREQSequencesRow += 1
+                                                    else:
+                                                        self.writePRISegment(wsFREQSequences, wsFREQSequencesRow, bSegment.get_segment_number())
+                                                        wsFREQSequencesRow += 1
+                                                        
+                                                        for bSegmentAttribute in bSegment.get_attributes():
+                                                            if bSegmentAttribute.get_cfile() == False:
+                                                                self.writeMissingComparisonSegmentAttribute(wsFREQSequences, wsFREQSequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value())                                                            
+                                                            elif bSegmentAttribute.get_bfile() == False:
+                                                                self.writeMissingBaseSegmentAttribute(wsFREQSequences, wsFREQSequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())                                                            
+                                                            else:
+                                                                self.writeFullSegmentAttribute(wsFREQSequences, wsFREQSequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())
+                                                            wsFREQSequencesRow += 1
                                                             
 
             

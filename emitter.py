@@ -102,9 +102,11 @@ class Emitter():
                bAttribute.set_cfile(True)
                bAttribute.set_cvalue(cAttribute.get_cvalue())
                if bAttribute.get_value() != bAttribute.get_cvalue():
+                   self.set_hasDifferences(True)
                    bAttribute.set_hasDifferences(True)
                    localDifferences = True
             else:
+                localDifferences = True
                 self.set_hasDifferences(True)
                 self.add_attribute(cAttribute)
 
@@ -125,12 +127,13 @@ class Emitter():
                 baseMode.set_cfile(True)
                 localAttrDifferences = baseMode.sync_attributes(cMode)
                 localGeneratorDifferences = baseMode.sync_generators(cMode)
+                if localAttrDifferences == True or localGeneratorDifferences == True:
+                    localDifferences = True
             else:
+                localDifferences = True
                 cMode.set_hasDifferences(True)
                 self.set_hasDifferences(True)
                 self.add_mode(cMode)
-
-        if localAttrDifferences == True or localGeneratorDifferences == True:
-            localDifferences = True
             
         return localDifferences
+    

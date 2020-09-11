@@ -124,9 +124,11 @@ class Generator():
                bAttribute.set_cfile(True)
                bAttribute.set_cvalue(cAttribute.get_cvalue())
                if bAttribute.get_value() != bAttribute.get_cvalue():
+                   self.set_hasDifferences(True)
                    bAttribute.set_hasDifferences(True)
                    localDifferences = True
             else:
+                localDifferences = True
                 self.set_hasDifferences(True)
                 self.add_attribute(cAttribute)
 
@@ -149,17 +151,16 @@ class Generator():
                 bSequence.set_cfile(True)
                 localSegmentDifferences = bSequence.sync_segments(cSequence)
                 localAttrDifferences = bSequence.sync_attributes(cSequence)
-                if bSequence.get_number_of_segments() != cSequence.get_number_of_segments():
+                if localAttrDifferences == True or localSegmentDifferences == True:
+                    self.set_hasDifferences(True)
                     bSequence.set_hasDifferences(True)
                     localDifferences = True
             else:
+                localDifferences = True
                 cSequence.set_hasDifferences(True)
                 self.set_hasDifferences(True)
                 self.add_pri_sequence(cSequence)
                 
-        if localAttrDifferences == True or localSegmentDifferences == True:
-            localDifferences = True
-            
         return localDifferences
     
 
@@ -168,7 +169,7 @@ class Generator():
         localAttrDifferences = False
         localSegmentDifferences = False
         localDifferences = False
-        
+
         self.claimBaseFREQSequences()
         
         for cSequence in comparisonObj.get_freq_sequences():
@@ -179,17 +180,16 @@ class Generator():
                 bSequence.set_cfile(True)
                 localSegmentDifferences = bSequence.sync_segments(cSequence)
                 localAttrDifferences = bSequence.sync_attributes(cSequence)
-                if bSequence.get_number_of_segments() != cSequence.get_number_of_segments():
+                if localAttrDifferences == True or localSegmentDifferences == True:
+                    self.set_hasDifferences(True)
                     bSequence.set_hasDifferences(True)
                     localDifferences = True
             else:
+                localDifferences = True
                 cSequence.set_hasDifferences(True)
                 self.set_hasDifferences(True)
                 self.add_pri_sequence(cSequence)
                 
-        if localAttrDifferences == True or localSegmentDifferences == True:
-            localDifferences = True
-            
         return localDifferences
                     
         

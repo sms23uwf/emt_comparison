@@ -80,9 +80,11 @@ class Segment():
                bAttribute.set_cfile(True)
                bAttribute.set_cvalue(cAttribute.get_cvalue())
                if bAttribute.get_value() != bAttribute.get_cvalue():
+                   self.set_hasDifferences(True)
                    bAttribute.set_hasDifferences(True)
                    localDifferences = True
             else:
+                localDifferences = True
                 self.set_hasDifferences(True)
                 self.add_attribute(cAttribute)
 

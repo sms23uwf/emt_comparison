@@ -105,6 +105,7 @@ class EmitterMode():
                    bAttribute.set_hasDifferences(True)
                    localDifferences = True
             else:
+                localDifferences = True
                 self.set_hasDifferences(True)
                 self.add_attribute(cAttribute)
 
@@ -129,14 +130,16 @@ class EmitterMode():
                 localPRISeqDifferences = baseGenerator.sync_priSequences(cGenerator)
                 localFREQSeqDifferences = baseGenerator.sync_freqSequences(cGenerator)
                 localAttrDifferences = baseGenerator.sync_attributes(cGenerator)
-                
+                if localAttrDifferences == True or localPRISeqDifferences == True or localFREQSeqDifferences == True:
+                    self.set_hasDifferences(True)
+                    baseGenerator.set_hasDifferences(True)
+                    localDifferences = True
             else:
+                localDifferences = True
                 cGenerator.set_hasDifferences(True)
                 self.set_hasDifferences(True)
                 self.add_generator(cGenerator)
-                
-        if localAttrDifferences == True or localPRISeqDifferences == True or localFREQSeqDifferences == True:
-            localDifferences = True
+        
             
         return localDifferences
     
