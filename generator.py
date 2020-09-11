@@ -11,8 +11,8 @@ class Generator():
         self._attributes = []
         self._pri_sequences = []
         self._freq_sequences = []
-        self._bfile = ''
-        self._cfile = ''
+        self._bfile = False
+        self._cfile = False
         self._hasDifferences = False
 
         
@@ -72,6 +72,21 @@ class Generator():
         return self._hasDifferences
 
     
+    def claimBaseAttributes(self):
+        for attribute in self.get_attributes():
+            attribute.set_bfile(True)
+
+
+    def claimBasePRISequences(self):
+        for sequence in self.get_pri_sequences():
+            sequence.set_bfile(True)
+
+
+    def claimBaseFREQSequences(self):
+        for sequence in self.get_freq_sequences():
+            sequence.set_bfile(True)
+
+
     def findAttribute(self, attributeName):
         for attribute in self.get_attributes():
             if attribute.get_name() == attributeName:
@@ -99,11 +114,14 @@ class Generator():
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
+        self.claimBaseAttributes()
+        
         for cAttribute in comparisonObj.get_attributes():
+            cAttribute.set_cfile(True)
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:
-               bAttribute.set_cfile(comparisonObj.get_cfile())
+               bAttribute.set_cfile(True)
                bAttribute.set_cvalue(cAttribute.get_cvalue())
                if bAttribute.get_value() != bAttribute.get_cvalue():
                    bAttribute.set_hasDifferences(True)
@@ -121,11 +139,14 @@ class Generator():
         localSegmentDifferences = False
         localDifferences = False
         
+        self.claimBasePRISequences()
+        
         for cSequence in comparisonObj.get_pri_sequences():
+            cSequence.set_cfile(True)
             bSequence = self.findPRISequenceByOrdinalPos(cSequence.get_ordinal_pos())
             
             if bSequence:
-                bSequence.set_cfile(comparisonObj.get_cfile())
+                bSequence.set_cfile(True)
                 localSegmentDifferences = bSequence.sync_segments(cSequence)
                 localAttrDifferences = bSequence.sync_attributes(cSequence)
                 if bSequence.get_number_of_segments() != cSequence.get_number_of_segments():
@@ -148,11 +169,14 @@ class Generator():
         localSegmentDifferences = False
         localDifferences = False
         
+        self.claimBaseFREQSequences()
+        
         for cSequence in comparisonObj.get_freq_sequences():
+            cSequence.set_cfile(True)
             bSequence = self.findFREQSequenceByOrdinalPos(cSequence.get_ordinal_pos())
             
             if bSequence:
-                bSequence.set_cfile(comparisonObj.get_cfile())
+                bSequence.set_cfile(True)
                 localSegmentDifferences = bSequence.sync_segments(cSequence)
                 localAttrDifferences = bSequence.sync_attributes(cSequence)
                 if bSequence.get_number_of_segments() != cSequence.get_number_of_segments():

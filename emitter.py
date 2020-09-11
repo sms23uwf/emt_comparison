@@ -10,8 +10,8 @@ class Emitter():
         self._elnot = ''
         self._attributes = []
         self._modes = []
-        self._bfile = ''
-        self._cfile = ''
+        self._bfile = False
+        self._cfile = False
         self._hasDifferences = False
         
         
@@ -71,6 +71,16 @@ class Emitter():
         return []
     
     
+    def claimBaseAttributes(self):
+        for attribute in self.get_attributes():
+            attribute.set_bfile(True)
+            
+
+    def claimBaseModes(self):
+        for emitterMode in self.get_modes():
+            emitterMode.set_bfile(True)
+
+            
     def findEmitterMode(self, emitterModeName):
             for emitterMode in self.get_modes():
                 if emitterMode.get_name() == emitterModeName:
@@ -82,11 +92,14 @@ class Emitter():
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
+        self.claimBaseAttributes()
+        
         for cAttribute in comparisonObj.get_attributes():
+            cAttribute.set_cfile(True)
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:
-               bAttribute.set_cfile(comparisonObj.get_cfile())
+               bAttribute.set_cfile(True)
                bAttribute.set_cvalue(cAttribute.get_cvalue())
                if bAttribute.get_value() != bAttribute.get_cvalue():
                    bAttribute.set_hasDifferences(True)
@@ -103,10 +116,13 @@ class Emitter():
         localGeneratorDifferences = False
         localDifferences = False
         
+        self.claimBaseModes()
+        
         for cMode in comparisonObj.get_modes():
+            cMode.set_cfile(True)
             baseMode = self.findEmitterMode(cMode.get_name())
             if baseMode:
-                baseMode.set_cfile(comparisonObj.get_cfile())
+                baseMode.set_cfile(True)
                 localAttrDifferences = baseMode.sync_attributes(cMode)
                 localGeneratorDifferences = baseMode.sync_generators(cMode)
             else:

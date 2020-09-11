@@ -10,8 +10,8 @@ class EmitterMode():
         self._mode_name = ''
         self._attributes = []
         self._generators = []
-        self._bfile = ''
-        self._cfile = ''
+        self._bfile = False
+        self._cfile = False
         self._hasDifferences = False
 
         
@@ -62,7 +62,17 @@ class EmitterMode():
     def get_hasDifferences(self):
         return self._hasDifferences
 
+
+    def claimBaseAttributes(self):
+        for attribute in self.get_attributes():
+            attribute.set_bfile(True)
+
     
+    def claimBaseGenerators(self):
+        for generator in self.get_generators():
+            generator.set_bfile(True)
+
+
     def findAttribute(self, attributeName):
         for attribute in self.get_attributes():
             if attribute.get_name() == attributeName:
@@ -82,11 +92,14 @@ class EmitterMode():
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
+        self.claimBaseAttributes()
+        
         for cAttribute in comparisonObj.get_attributes():
+            cAttribute.set_cfile(True)
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:
-               bAttribute.set_cfile(comparisonObj.get_cfile())
+               bAttribute.set_cfile(True)
                bAttribute.set_cvalue(cAttribute.get_cvalue())
                if bAttribute.get_value() != bAttribute.get_cvalue():
                    bAttribute.set_hasDifferences(True)
@@ -105,11 +118,14 @@ class EmitterMode():
         localFREQSeqDifferences = False
         localDifferences = False
         
+        self.claimBaseGenerators()
+        
         for cGenerator in comparisonObj.get_generators():
+            cGenerator.set_cfile(True)
             baseGenerator = self.findGenerator(cGenerator.get_generator_number())
                     
             if baseGenerator:
-                baseGenerator.set_cfile(comparisonObj.get_cfile())
+                baseGenerator.set_cfile(True)
                 localPRISeqDifferences = baseGenerator.sync_priSequences(cGenerator)
                 localFREQSeqDifferences = baseGenerator.sync_freqSequences(cGenerator)
                 localAttrDifferences = baseGenerator.sync_attributes(cGenerator)

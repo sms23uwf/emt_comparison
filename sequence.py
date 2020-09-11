@@ -11,8 +11,8 @@ class Sequence():
         self._number_of_segments = ''
         self._attributes = []
         self._segments = []
-        self._bfile = ''
-        self._cfile = ''
+        self._bfile = False
+        self._cfile = False
         self._hasDifferences = False
         
         
@@ -72,6 +72,16 @@ class Sequence():
         return self._hasDifferences
     
     
+    def claimBaseAttributes(self):
+        for attribute in self.get_attributes():
+            attribute.set_bfile(True)
+
+
+    def claimBaseSegments(self):
+        for segment in self.get_segments():
+            segment.set_bfile(True)
+
+    
     def findAttribute(self, attributeName):
         for attribute in self.get_attributes():
             if attribute.get_name() == attributeName:
@@ -91,11 +101,14 @@ class Sequence():
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
+        self.claimBaseAttributes()
+        
         for cAttribute in comparisonObj.get_attributes():
+            cAttribute.set_cfile(True)
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:
-               bAttribute.set_cfile(comparisonObj.get_cfile())
+               bAttribute.set_cfile(True)
                bAttribute.set_cvalue(cAttribute.get_cvalue())
                if bAttribute.get_value() != bAttribute.get_cvalue():
                    bAttribute.set_hasDifferences(True)
@@ -110,11 +123,14 @@ class Sequence():
     def sync_segments(self, comparisonObj):
         localDifferences = False
         
+        self.claimBaseSegments()
+        
         for cSegment in comparisonObj.get_segments():
+            cSegment.set_cfile(True)
             bSegment = self.findSegmentBySegmentNumber(cSegment.get_segment_number())
             
             if bSegment:
-                bSegment.set_cfile(comparisonObj.get_cfile())
+                bSegment.set_cfile(True)
                 localDifferences = bSegment.sync_attributes(cSegment)
             else:
                 cSegment.set_hasDifferences(True)

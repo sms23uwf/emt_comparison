@@ -66,12 +66,6 @@ class CompareEMTFiles():
         
         emitter_collection = self.base_emitters
         
-        print("isBase: {}".format(isBase))
-        print("isBase == True: {}".format(isBase == True))
-        print("isBase == False: {}".format(isBase == False))
-        print("bfDisplay: {}".format(self.bfDisplay))
-        print("cfDisplay: {}".format(self.cfDisplay))
-
         with open(fName) as f1:
             for cnt, line in enumerate(f1):
                 if line.strip() == constant.EMITTER:
@@ -81,21 +75,17 @@ class CompareEMTFiles():
                             emitter.add_mode(emitter_mode)
                             
                         if isBase == False:
-                            print("checkpoint 1 with elnot: {}".format(emitter.get_elnot()))
                             baseEmitter = self.findBaseElnot(emitter.get_elnot()) 
                             if baseEmitter:
-                                print("checkpoint 2")
                                 localAttrDifferences = False
                                 localModeDifferences = False
                                 localDifferences = False
                                 
-                                # baseEmitter.set_bfile(self.baseFileName)
-                                # print("baseEmitter.get_bfile(): {}".format(baseEmitter.get_bfile()))
+                                baseEmitter.set_bfile(True)
+                                baseEmitter.set_cfile(True)
+                                emitter.set_bfile(True)
+                                emitter.set_cfile(True)
                                 
-                                # baseEmitter.set_cfile(self.cfDisplay)
-                                # emitter.set_bfile(self.baseFileName)
-                                # emitter.set_cfile(self.cfDisplay)
-    
                                 localAttrDifferences = baseEmitter.sync_attributes(emitter)
                                 localModeDifferences = baseEmitter.sync_modes(emitter)
                                 
@@ -105,6 +95,7 @@ class CompareEMTFiles():
                                 baseEmitter.set_hasDifferences(localDifferences)
                             else:
                                 emitter.set_hasDifferences(True)
+                                emitter.set_cfile(True)
                                 self.base_emitters.append(emitter)
 
                         else:
@@ -114,9 +105,9 @@ class CompareEMTFiles():
                         
                     emitter = Emitter()
                     if isBase == True:
-                        emitter.set_bfile(self.bfDisplay)
+                        emitter.set_bfile(True)
                     else:
-                        emitter.set_cfile(self.cfDisplay)
+                        emitter.set_cfile(True)
                         
                     passNumber += 1
                     
@@ -201,9 +192,9 @@ class CompareEMTFiles():
                             if line_key.strip() == constant.EMITTER_ELNOT:
                                 emitter.set_elnot(line_value)
                                 if isBase == True:
-                                    emitter.set_bfile(self.baseFileName)
+                                    emitter.set_bfile(True)
                                 else:
-                                    emitter.set_cfile(self.cfDisplay)
+                                    emitter.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
@@ -218,9 +209,9 @@ class CompareEMTFiles():
                             if line_key.strip() == constant.MODE_NAME:
                                 emitter_mode.set_mode_name(line_value)
                                 if isBase == True:
-                                    emitter_mode.set_bfile(self.baseFileName)
+                                    emitter_mode.set_bfile(True)
                                 else:
-                                    emitter_mode.set_cfile(self.cfDisplay)
+                                    emitter_mode.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
@@ -235,9 +226,9 @@ class CompareEMTFiles():
                             if line_key.strip() == constant.GENERATOR_NUMBER:
                                 generator.set_generator_number(line_value)
                                 if isBase == True:
-                                    generator.set_bfile(self.baseFileName)
+                                    generator.set_bfile(True)
                                 else:
-                                    generator.set_cfile(self.cfDisplay)
+                                    generator.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
@@ -252,9 +243,9 @@ class CompareEMTFiles():
                             if line_key.strip() == constant.NUMBER_OF_SEGMENTS:
                                 pri_sequence.set_number_of_segments(line_value)
                                 if isBase == True:
-                                    pri_sequence.set_bfile(self.baseFileName)
+                                    pri_sequence.set_bfile(True)
                                 else:
-                                    pri_sequence.set_cfile(self.cfDisplay)
+                                    pri_sequence.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
@@ -269,9 +260,9 @@ class CompareEMTFiles():
                             if line_key.strip() == constant.PRI_SEGMENT_NUMBER:
                                 pri_segment.set_segment_number(line_value)
                                 if isBase == True:
-                                    pri_segment.set_bfile(self.baseFileName)
+                                    pri_segment.set_bfile(True)
                                 else:
-                                    pri_segment.set_cfile(self.cfDisplay)
+                                    pri_segment.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
@@ -286,9 +277,9 @@ class CompareEMTFiles():
                             if line_key.strip() == constant.NUMBER_OF_SEGMENTS:
                                 freq_sequence.set_number_of_segments(line_value)
                                 if isBase == True:
-                                    freq_sequence.set_bfile(self.baseFileName)
+                                    freq_sequence.set_bfile(True)
                                 else:
-                                    freq_sequence.set_cfile(self.cfDisplay)
+                                    freq_sequence.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
@@ -303,9 +294,9 @@ class CompareEMTFiles():
                             if line_key.strip() == constant.FREQ_SEGMENT_NUMBER:
                                 freq_segment.set_segment_number(line_value)
                                 if isBase == True:
-                                    freq_segment.set_bfile(self.baseFileName)
+                                    freq_segment.set_bfile(True)
                                 else:
-                                    freq_segment.set_cfile(self.cfDisplay)
+                                    freq_segment.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
@@ -323,10 +314,10 @@ class CompareEMTFiles():
                         localModeDifferences = False
                         localDifferences = False
                         
-                        baseEmitter.set_bfile(self.baseFileName)
-                        baseEmitter.set_cfile(self.cfDisplay)
-                        emitter.set_bfile(self.baseFileName)
-                        emitter.set_cfile(self.cfDisplay)
+                        baseEmitter.set_bfile(True)
+                        baseEmitter.set_cfile(True)
+                        emitter.set_bfile(True)
+                        emitter.set_cfile(True)
 
                         localAttrDifferences = baseEmitter.sync_attributes(emitter)
                         localModeDifferences = baseEmitter.sync_modes(emitter)
@@ -341,7 +332,6 @@ class CompareEMTFiles():
                         self.base_emitters.append(emitter)
 
     def parseBaseFile(self):
-        print("baseFileName: {}".format(self.baseFileName))
         self.parseFile(self.baseFileName, True)
             
         
@@ -857,10 +847,10 @@ class CompareEMTFiles():
             
                   
             if baseEmitter.get_hasDifferences() == True:
-                if baseEmitter.get_cfile() == '':
+                if baseEmitter.get_cfile() == False:
                     self.writeMissingComparisonEmitter(wsEmitters, wsEmittersRow, bElnot)
                     wsEmittersRow += 1
-                elif baseEmitter.get_bfile() == '':
+                elif baseEmitter.get_bfile() == False:
                     self.writeMissingBaseEmitter(wsEmitters, wsEmittersRow, bElnot)
                     wsEmittersRow += 1
                 else:
@@ -869,9 +859,9 @@ class CompareEMTFiles():
 
                     for baseAttribute in baseEmitter.get_attributes():
                         if baseAttribute.get_hasDifferences() == True:
-                            if baseAttribute.get_cfile() == '':
+                            if baseAttribute.get_cfile() == False:
                                 self.writeMissingComparisonEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_value())
-                            elif baseAttribute.get_bfile() == '':
+                            elif baseAttribute.get_bfile() == False:
                                 self.writeMissingBaseEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_cvalue())
                             else:
                                 self.writeFullEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_value(), baseAttribute.get_name(), baseAttribute.get_cvalue())
@@ -879,10 +869,10 @@ class CompareEMTFiles():
                         
                 for baseEmitterMode in baseEmitter.get_modes():
                     if baseEmitterMode.get_hasDifferences() == True:
-                        if baseEmitterMode.get_cfile() == '':
+                        if baseEmitterMode.get_cfile() == False:
                             self.writeMissingComparisonMode(wsEmitters, wsEmittersRow, baseEmitterMode.get_name())
                             wsEmittersRow += 1
-                        elif baseEmitterMode.get_bfile() == '':
+                        elif baseEmitterMode.get_bfile() == False:
                             self.writeMissingBaseMode(wsEmitters, wsEmittersRow, baseEmitterMode.get_name())
                             wsEmittersRow += 1
                         else:
@@ -890,9 +880,9 @@ class CompareEMTFiles():
                             wsModesRow += 1
                         
                             for baseModeAttribute in baseEmitterMode.get_attributes():
-                                if baseModeAttribute.get_cfile() == '':
+                                if baseModeAttribute.get_cfile() == False:
                                     self.writeMissingComparisonModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_value())
-                                elif baseModeAttribute.get_bfile() == '':
+                                elif baseModeAttribute.get_bfile() == False:
                                     self.writeMissingBaseModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_cvalue())
                                 else:
                                     self.writeFullModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_value(), baseModeAttribute.get_name(), baseModeAttribute.get_cvalue())
@@ -900,10 +890,10 @@ class CompareEMTFiles():
                             
                         for baseGenerator in baseEmitterMode.get_generators():
                             if baseGenerator.get_hasDifferences() == True:
-                                if baseGenerator.get_cfile() == '':
+                                if baseGenerator.get_cfile() == False:
                                     self.writeMissingComparisonGenerator(wsModes, wsModesRow, baseGenerator.get_generator_number())
                                     wsModesRow += 1
-                                elif baseGenerator.get_bfile() == '':
+                                elif baseGenerator.get_bfile() == False:
                                     self.writeMissingBaseGenerator(wsModes, wsModesRow, baseGenerator.get_generator_number())
                                     wsModesRow += 1
                                 else:
@@ -911,9 +901,9 @@ class CompareEMTFiles():
                                     wsGeneratorsRow += 1                                    
                                 
                                     for baseGeneratorAttribute in baseGenerator.get_attributes():
-                                        if baseGeneratorAttribute.get_cfile() == '':
+                                        if baseGeneratorAttribute.get_cfile() == False:
                                             self.writeMissingComparisonGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value())
-                                        elif baseGeneratorAttribute.get_bfile() == '':
+                                        elif baseGeneratorAttribute.get_bfile() == False:
                                             self.writeMissingBaseGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_cvalue())
                                         else:
                                             self.writeFullGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value(), baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_cvalue())
@@ -921,10 +911,10 @@ class CompareEMTFiles():
                                         
                                 for basePRISequence in baseGenerator.get_pri_sequences():
                                     if basePRISequence.get_hasDifferences() == True:
-                                        if basePRISequence.get_cfile() == '':
+                                        if basePRISequence.get_cfile() == False:
                                             self.writeMissingComparisonPRISequence(wsGenerators, wsGeneratorsRow, basePRISequence.get_ordinal_pos())
                                             wsGeneratorsRow += 1
-                                        elif basePRISequence.get_bfile() == '':
+                                        elif basePRISequence.get_bfile() == False:
                                             self.writeMissingBasePRISequence(wsGenerators, wsGeneratorsRow, basePRISequence.get_ordinal_pos())
                                             wsGeneratorsRow += 1
                                         else:
@@ -933,9 +923,9 @@ class CompareEMTFiles():
                                             
                                         
                                             for bPRISeqAttribute in basePRISequence.get_attributes():
-                                                if bPRISeqAttribute.get_cfile() == '':
+                                                if bPRISeqAttribute.get_cfile() == False:
                                                     self.writeMissingComparisonSequenceAttribute(wsPRISequences, wsPRISequencesRow, bPRISeqAttribute.get_name(), bPRISeqAttribute.get_value())
-                                                elif bPRISeqAttribute.get_bfile() == '':
+                                                elif bPRISeqAttribute.get_bfile() == False:
                                                     self.writeMissingBaseSequenceAttribute(wsPRISequences, wsPRISequencesRow, bPRISeqAttribute.get_name(), bPRISeqAttribute.get_cvalue())
                                                 else:
                                                     self.writeFullSequenceAttribute(wsPRISequences, wsPRISequencesRow, bPRISeqAttribute.get_name(), bPRISeqAttribute.get_value(), bPRISeqAttribute.get_name(), bPRISeqAttribute.get_cvalue())
@@ -943,10 +933,10 @@ class CompareEMTFiles():
                                                     
                                         for bPRISegment in basePRISequence.get_segments():
                                             if bPRISegment.get_hasDifferences() == True:
-                                                if bPRISegment.get_cfile() == '':
+                                                if bPRISegment.get_cfile() == False:
                                                     self.writeMissingComparisonSegment(wsPRISequences, wsPRISequencesRow, bPRISegment.get_segment_number())
                                                     wsPRISequencesRow += 1
-                                                elif bPRISegment.get_bfile() == '':
+                                                elif bPRISegment.get_bfile() == False:
                                                     self.writeMissingBaseSegment(wsPRISequences, wsPRISequencesRow, bPRISegment.get_segment_number())
                                                     wsPRISequencesRow += 1
                                                 else:
@@ -954,9 +944,9 @@ class CompareEMTFiles():
                                                     wsPRISequencesRow += 1
                                                     
                                                     for bSegmentAttribute in bPRISegment.get_attributes():
-                                                        if bSegmentAttribute.get_cfile() == '':
+                                                        if bSegmentAttribute.get_cfile() == False:
                                                             self.writeMissingComparisonSegmentAttribute(wsPRISequences, wsPRISequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value())                                                            
-                                                        elif bSegmentAttribute.get_bfile() == '':
+                                                        elif bSegmentAttribute.get_bfile() == False:
                                                             self.writeMissingBaseSegmentAttribute(wsPRISequences, wsPRISequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())                                                            
                                                         else:
                                                             self.writeFullSegmentAttribute(wsPRISequences, wsPRISequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())
@@ -964,10 +954,10 @@ class CompareEMTFiles():
                                                             
                                 for baseSequence in baseGenerator.get_freq_sequences():
                                     if baseSequence.get_hasDifferences() == True:
-                                        if baseSequence.get_cfile() == '':
+                                        if baseSequence.get_cfile() == False:
                                             self.writeMissingComparisonFREQSequence(wsGenerators, wsGeneratorsRow, baseSequence.get_ordinal_pos())
                                             wsGeneratorsRow += 1
-                                        elif basePRISequence.get_bfile() == '':
+                                        elif basePRISequence.get_bfile() == False:
                                             self.writeMissingBaseFREQSequence(wsGenerators, wsGeneratorsRow, baseSequence.get_ordinal_pos())
                                             wsGeneratorsRow += 1
                                         else:
@@ -976,9 +966,9 @@ class CompareEMTFiles():
                                             
                                         
                                             for bSeqAttribute in baseSequence.get_attributes():
-                                                if bSeqAttribute.get_cfile() == '':
+                                                if bSeqAttribute.get_cfile() == False:
                                                     self.writeMissingComparisonSequenceAttribute(wsFREQSequences, wsFREQSequencesRow, bPRISeqAttribute.get_name(), bPRISeqAttribute.get_value())
-                                                elif bSeqAttribute.get_bfile() == '':
+                                                elif bSeqAttribute.get_bfile() == False:
                                                     self.writeMissingBaseSequenceAttribute(wsFREQSequences, wsFREQSequencesRow, bPRISeqAttribute.get_name(), bPRISeqAttribute.get_cvalue())
                                                 else:
                                                     self.writeFullSequenceAttribute(wsFREQSequences, wsFREQSequencesRow, bSeqAttribute.get_name(), bSeqAttribute.get_value(), bSeqAttribute.get_name(), bSeqAttribute.get_cvalue())
@@ -986,10 +976,10 @@ class CompareEMTFiles():
                                                     
                                         for bSegment in baseSequence.get_segments():
                                             if bSegment.get_hasDifferences() == True:
-                                                if bSegment.get_cfile() == '':
+                                                if bSegment.get_cfile() == False:
                                                     self.writeMissingComparisonSegment(wsFREQSequences, wsFREQSequencesRow, bSegment.get_segment_number())
                                                     wsFREQSequencesRow += 1
-                                                elif bPRISegment.get_bfile() == '':
+                                                elif bPRISegment.get_bfile() == False:
                                                     self.writeMissingBaseSegment(wsFREQSequences, wsFREQSequencesRow, bSegment.get_segment_number())
                                                     wsFREQSequencesRow += 1
                                                 else:
@@ -997,9 +987,9 @@ class CompareEMTFiles():
                                                     wsFREQSequencesRow += 1
                                                     
                                                     for bSegmentAttribute in bSegment.get_attributes():
-                                                        if bSegmentAttribute.get_cfile() == '':
+                                                        if bSegmentAttribute.get_cfile() == False:
                                                             self.writeMissingComparisonSegmentAttribute(wsFREQSequences, wsFREQSequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value())                                                            
-                                                        elif bSegmentAttribute.get_bfile() == '':
+                                                        elif bSegmentAttribute.get_bfile() == False:
                                                             self.writeMissingBaseSegmentAttribute(wsFREQSequences, wsFREQSequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())                                                            
                                                         else:
                                                             self.writeFullSegmentAttribute(wsFREQSequences, wsFREQSequencesRow, bSegmentAttribute.get_name(), bSegmentAttribute.get_value(), bSegmentAttribute.get_name(), bSegmentAttribute.get_cvalue())

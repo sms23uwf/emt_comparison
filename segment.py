@@ -53,6 +53,11 @@ class Segment():
     def get_hasDifferences(self):
         return self._hasDifferences
     
+
+    def claimBaseAttributes(self):
+        for attribute in self.get_attributes():
+            attribute.set_bfile(True)
+    
     
     def findAttribute(self, attributeName):
         for attribute in self.get_attributes():
@@ -65,11 +70,14 @@ class Segment():
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
+        self.claimBaseAttributes()
+        
         for cAttribute in comparisonObj.get_attributes():
+            cAttribute.set_cfile(True)
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:
-               bAttribute.set_cfile(comparisonObj.get_cfile())
+               bAttribute.set_cfile(True)
                bAttribute.set_cvalue(cAttribute.get_cvalue())
                if bAttribute.get_value() != bAttribute.get_cvalue():
                    bAttribute.set_hasDifferences(True)

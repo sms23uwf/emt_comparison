@@ -10,8 +10,8 @@ class Attribute():
         self._name = ''
         self._value = ''
         self._cvalue = ''
-        self._bfile = ''
-        self._cfile = ''
+        self._bfile = False
+        self._cfile = False
         self._hasDifferences = False
         
         
