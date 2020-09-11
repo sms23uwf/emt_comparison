@@ -99,7 +99,7 @@ class Generator():
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
-        for cAttribute in enumerate(comparisonObj.get_attributes()):
+        for cAttribute in comparisonObj.get_attributes():
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:
@@ -121,12 +121,12 @@ class Generator():
         localSegmentDifferences = False
         localDifferences = False
         
-        for cSequence in enumerate(comparisonObj.get_pri_sequences()):
+        for cSequence in comparisonObj.get_pri_sequences():
             bSequence = self.findPRISequenceByOrdinalPos(cSequence.get_ordinal_pos())
             
             if bSequence:
-                bSequence.set_cfile(self.cfDisplay)
-                localSegmentDifferences = bSequence.sync_segments(comparisonObj)
+                bSequence.set_cfile(comparisonObj.get_cfile())
+                localSegmentDifferences = bSequence.sync_segments(cSequence)
                 localAttrDifferences = bSequence.sync_attributes(cSequence)
                 if bSequence.get_number_of_segments() != cSequence.get_number_of_segments():
                     bSequence.set_hasDifferences(True)
@@ -148,12 +148,12 @@ class Generator():
         localSegmentDifferences = False
         localDifferences = False
         
-        for cSequence in enumerate(comparisonObj.get_freq_sequences()):
+        for cSequence in comparisonObj.get_freq_sequences():
             bSequence = self.findFREQSequenceByOrdinalPos(cSequence.get_ordinal_pos())
             
             if bSequence:
-                bSequence.set_cfile(self.cfDisplay)
-                localSegmentDifferences = bSequence.sync_segments(comparisonObj)
+                bSequence.set_cfile(comparisonObj.get_cfile())
+                localSegmentDifferences = bSequence.sync_segments(cSequence)
                 localAttrDifferences = bSequence.sync_attributes(cSequence)
                 if bSequence.get_number_of_segments() != cSequence.get_number_of_segments():
                     bSequence.set_hasDifferences(True)

@@ -17,10 +17,8 @@ from emitter import Emitter
 from attribute import Attribute
 from emitter_mode import EmitterMode
 from generator import Generator
-from pri_sequence import Pri_Sequence
-from pri_segment import Pri_Segment
-from freq_sequence import Freq_Sequence
-from freq_segment import Freq_Segment
+from sequence import Sequence
+from segment import Segment
 from color_mark_row_boundary import ColorMarkRowBoundary
 
 import xlwings as xw
@@ -49,14 +47,14 @@ class CompareEMTFiles():
         return line_kv
     
         
-    def parseFile(self, fName, emitter_collection, isBase):
+    def parseFile(self, fName, isBase):
         emitter = Emitter()
         emitter_mode = EmitterMode()
         generator = Generator()
-        pri_sequence = Pri_Sequence()
-        freq_sequence = Freq_Sequence()
-        pri_segment = Pri_Segment()
-        freq_segment = Freq_Segment()
+        pri_sequence = Sequence()
+        freq_sequence = Sequence()
+        pri_segment = Segment()
+        freq_segment = Segment()
             
         passNumber = 0
         modePass = 0
@@ -65,6 +63,8 @@ class CompareEMTFiles():
         freqSeqPass = 0
         priSegmentPass = 0
         freqSegmentPass = 0
+        
+        emitter_collection = self.base_emitters
         
         print("isBase: {}".format(isBase))
         print("isBase == True: {}".format(isBase == True))
@@ -82,19 +82,19 @@ class CompareEMTFiles():
                             
                         if isBase == False:
                             print("checkpoint 1 with elnot: {}".format(emitter.get_elnot()))
-                            baseEmitter = self.findBaseElnot(emitter.get_elnot(), emitter_collection) 
+                            baseEmitter = self.findBaseElnot(emitter.get_elnot()) 
                             if baseEmitter:
                                 print("checkpoint 2")
                                 localAttrDifferences = False
                                 localModeDifferences = False
                                 localDifferences = False
                                 
-                                baseEmitter.set_bfile(self.baseFileName)
-                                print("baseEmitter.get_bfile(): {}".format(baseEmitter.get_bfile()))
+                                # baseEmitter.set_bfile(self.baseFileName)
+                                # print("baseEmitter.get_bfile(): {}".format(baseEmitter.get_bfile()))
                                 
-                                baseEmitter.set_cfile(self.cfDisplay)
-                                emitter.set_bfile(self.baseFileName)
-                                emitter.set_cfile(self.cfDisplay)
+                                # baseEmitter.set_cfile(self.cfDisplay)
+                                # emitter.set_bfile(self.baseFileName)
+                                # emitter.set_cfile(self.cfDisplay)
     
                                 localAttrDifferences = baseEmitter.sync_attributes(emitter)
                                 localModeDifferences = baseEmitter.sync_modes(emitter)
@@ -103,10 +103,12 @@ class CompareEMTFiles():
                                     localDifferences = True
                                     
                                 baseEmitter.set_hasDifferences(localDifferences)
-                                
                             else:
                                 emitter.set_hasDifferences(True)
-                                emitter_collection.append(emitter)
+                                self.base_emitters.append(emitter)
+
+                        else:
+                            self.base_emitters.append(emitter)
 
                         modePass = 0
                         
@@ -155,7 +157,7 @@ class CompareEMTFiles():
                         generator.add_pri_sequence(pri_sequence)
                         priSegmentPass = 0
                         
-                    pri_sequence = Pri_Sequence()
+                    pri_sequence = Sequence()
                     pri_sequence.set_ordinal_pos(priSeqPass)
                     priSeqPass += 1
                     
@@ -164,7 +166,7 @@ class CompareEMTFiles():
                     if priSegmentPass > 0:
                         pri_sequence.add_segment(pri_segment)
                         
-                    pri_segment = Pri_Segment()
+                    pri_segment = Segment()
                     priSegmentPass += 1
     
                 elif line.strip() == constant.FREQ_SEQUENCE:
@@ -176,7 +178,7 @@ class CompareEMTFiles():
                         generator.add_freq_sequence(freq_sequence)
                         freqSegmentPass = 0
                         
-                    freq_sequence = Freq_Sequence()
+                    freq_sequence = Sequence()
                     freq_sequence.set_ordinal_pos(freqSeqPass)
                     freqSeqPass += 1
                     
@@ -185,7 +187,7 @@ class CompareEMTFiles():
                     if freqSegmentPass > 0:
                         freq_sequence.add_segment(freq_segment)
                         
-                    freq_segment = Freq_Segment()
+                    freq_segment = Segment()
                     freqSegmentPass += 1
                     
                 else:
@@ -315,7 +317,7 @@ class CompareEMTFiles():
                                 
             else:
                 if isBase == False:
-                    baseEmitter = self.findElnot(emitter.get_elnot(), emitter_collection) 
+                    baseEmitter = self.findBaseElnot(emitter.get_elnot()) 
                     if baseEmitter:
                         localAttrDifferences = False
                         localModeDifferences = False
@@ -336,19 +338,19 @@ class CompareEMTFiles():
                         
                     else:
                         emitter.set_hasDifferences(True)
-                        emitter_collection.append(emitter)
+                        self.base_emitters.append(emitter)
 
     def parseBaseFile(self):
         print("baseFileName: {}".format(self.baseFileName))
-        self.parseFile(self.baseFileName, self.base_emitters, True)
+        self.parseFile(self.baseFileName, True)
             
         
     def parseComparisonFile(self):
-        self.parseFile(self.comparisonFileName, self.base_emitters, False)
+        self.parseFile(self.comparisonFileName, False)
         
           
-    def findBaseElnot(self, elnotValue, emitter_collection):
-        for emitter in emitter_collection:
+    def findBaseElnot(self, elnotValue):
+        for emitter in self.base_emitters:
             print("found elnot: {}".format(emitter.get_elnot()))
             if emitter.get_elnot() == elnotValue:
                 return emitter
@@ -713,21 +715,21 @@ class CompareEMTFiles():
         modeWritten = True
         
     
-    def writeGenerator(self, wsGenerators, wsGeneratorsRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator, generatorWritten=False):
+    def writeGenerator(self, wsGenerators, wsGeneratorsRow, bElnot, modeName, generatorNumber, generatorWritten=False):
         self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
         self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
         self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_VAL, comparisonEmitter.get_elnot())
+        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_VAL, bElnot)
 
         self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterMode.get_name())
+        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_VAL, modeName)
         self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterMode.get_name())
+        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_VAL, modeName)
 
         self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_VAL, baseGenerator.get_generator_number())
+        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_VAL, generatorNumber)
         self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_VAL, comparisonGenerator.get_generator_number())
+        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_VAL, generatorNumber)
         generatorWritten = True
         
         
@@ -793,7 +795,7 @@ class CompareEMTFiles():
         freqSegmentWritten = True
         
             
-    def displayDifferences(self, wb, base_emitter_collection):
+    def displayDifferences(self, wb):
          
         wsCount = wb.sheets.count
         
@@ -840,7 +842,7 @@ class CompareEMTFiles():
         wsFREQSequencesBkgColorMarks = []
         
         
-        for baseEmitter in base_emitter_collection:
+        for baseEmitter in self.base_emitters:
             bElnot = baseEmitter.get_elnot()
             
             self.setColorMarkBoundary(wsEmittersBkgColorMarks, wsEmittersRow)
@@ -905,7 +907,7 @@ class CompareEMTFiles():
                                     self.writeMissingBaseGenerator(wsModes, wsModesRow, baseGenerator.get_generator_number())
                                     wsModesRow += 1
                                 else:
-                                    self.writeGenerator(wsGenerators, wsGeneratorsRow, bElnot, comparisonEmitter, baseEmitterMode, comparisonEmitterMode, baseGenerator, comparisonGenerator)
+                                    self.writeGenerator(wsGenerators, wsGeneratorsRow, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number())
                                     wsGeneratorsRow += 1                                    
                                 
                                     for baseGeneratorAttribute in baseGenerator.get_attributes():
@@ -1036,7 +1038,7 @@ class CompareEMTFiles():
         
         wb = xw.Book()
      
-        self.displayDifferences(wb, self.base_emitters)
+        self.displayDifferences(wb)
     
        
         wb.save(r'EMT_Differences')

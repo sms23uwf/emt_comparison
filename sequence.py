@@ -91,7 +91,7 @@ class Sequence():
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
-        for cAttribute in enumerate(comparisonObj.get_attributes()):
+        for cAttribute in comparisonObj.get_attributes():
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:
@@ -110,7 +110,7 @@ class Sequence():
     def sync_segments(self, comparisonObj):
         localDifferences = False
         
-        for cSegment in enumerate(comparisonObj.get_segments()):
+        for cSegment in comparisonObj.get_segments():
             bSegment = self.findSegmentBySegmentNumber(cSegment.get_segment_number())
             
             if bSegment:

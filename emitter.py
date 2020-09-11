@@ -82,7 +82,7 @@ class Emitter():
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
-        for cAttribute in enumerate(comparisonObj.get_attributes()):
+        for cAttribute in comparisonObj.get_attributes():
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:
@@ -103,7 +103,7 @@ class Emitter():
         localGeneratorDifferences = False
         localDifferences = False
         
-        for cMode in enumerate(comparisonObj.get_modes()):
+        for cMode in comparisonObj.get_modes():
             baseMode = self.findEmitterMode(cMode.get_name())
             if baseMode:
                 baseMode.set_cfile(comparisonObj.get_cfile())

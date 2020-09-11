@@ -65,7 +65,7 @@ class Segment():
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
-        for cAttribute in enumerate(comparisonObj.get_attributes()):
+        for cAttribute in comparisonObj.get_attributes():
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:

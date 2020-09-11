@@ -82,7 +82,7 @@ class EmitterMode():
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
-        for cAttribute in enumerate(comparisonObj.get_attributes()):
+        for cAttribute in comparisonObj.get_attributes():
             bAttribute = self.findAttribute(cAttribute.get_name())
             
             if bAttribute:
@@ -105,13 +105,13 @@ class EmitterMode():
         localFREQSeqDifferences = False
         localDifferences = False
         
-        for cGenerator in enumerate(comparisonObj.get_generators()):
+        for cGenerator in comparisonObj.get_generators():
             baseGenerator = self.findGenerator(cGenerator.get_generator_number())
                     
             if baseGenerator:
                 baseGenerator.set_cfile(comparisonObj.get_cfile())
                 localPRISeqDifferences = baseGenerator.sync_priSequences(cGenerator)
-                localFREQSeqDifferences = baseGenerator.syn_freqSequences(cGenerator)
+                localFREQSeqDifferences = baseGenerator.sync_freqSequences(cGenerator)
                 localAttrDifferences = baseGenerator.sync_attributes(cGenerator)
                 
             else:
