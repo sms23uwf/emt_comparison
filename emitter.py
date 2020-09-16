@@ -5,6 +5,10 @@ Created on Mon Aug  3 17:39:36 2020
 @author: Steve
 """
 
+import print_utility
+import constant
+
+
 class Emitter():
     def __init__(self):
         self._elnot = ''
@@ -136,4 +140,11 @@ class Emitter():
                 self.add_mode(cMode)
             
         return localDifferences
+    
+    
+    def print_attribute_differences(self, ws, wsRow):
+        for baseAttribute in self.get_attributes():
+            if baseAttribute.get_hasDifferences() == True:
+                baseAttribute.print_attribute(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, constant.COMP_XL_COL_EMITTER_ATTRIB_VAL)
+                wsRow += 1
     

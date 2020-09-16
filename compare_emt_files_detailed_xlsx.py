@@ -24,6 +24,8 @@ from color_mark_row_boundary import ColorMarkRowBoundary
 import xlwings as xw
 from xlwings import constants
 from xlwings.utils import rgb_to_int
+import print_utility
+
 
 class CompareEMTFiles():
     def __init__(self, bFilePath, cFilePath):
@@ -104,11 +106,8 @@ class CompareEMTFiles():
 
                         
                     emitter = Emitter()
-                    if isBase == True:
-                        emitter.set_bfile(True)
-                    else:
-                        emitter.set_cfile(True)
-                        
+                    emitter.set_bfile(True) if isBase == True else emitter.set_cfile(True)
+
                     passNumber += 1
                     
                 elif line.strip() == constant.EMITTER_MODE:
@@ -191,113 +190,69 @@ class CompareEMTFiles():
      
                             if line_key.strip() == constant.EMITTER_ELNOT:
                                 emitter.set_elnot(line_value)
-                                if isBase == True:
-                                    emitter.set_bfile(True)
-                                else:
-                                    emitter.set_cfile(True)
+                                emitter.set_bfile(True) if isBase == True else emitter.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                if isBase == True:
-                                    attrib.set_value(line_value)
-                                else:
-                                    attrib.set_cvalue(line_value)
+                                attrib.set_value(line_value) if isBase == True else attrib.set_cvalue(line_value)
                                 emitter.add_attribute(attrib)
                         
                         elif currentEntity == constant.EMITTER_MODE:
                        
                             if line_key.strip() == constant.MODE_NAME:
                                 emitter_mode.set_mode_name(line_value)
-                                if isBase == True:
-                                    emitter_mode.set_bfile(True)
-                                else:
-                                    emitter_mode.set_cfile(True)
+                                emitter_mode.set_bfile(True) if isBase == True else emitter_mode.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                if isBase == True:
-                                    attrib.set_value(line_value)
-                                else:
-                                    attrib.set_cvalue(line_value)
+                                attrib.set_value(line_value) if isBase == True else attrib.set_cvalue(line_value)
                                 emitter_mode.add_attribute(attrib)
                                 
                         elif currentEntity == constant.GENERATOR:
     
                             if line_key.strip() == constant.GENERATOR_NUMBER:
                                 generator.set_generator_number(line_value)
-                                if isBase == True:
-                                    generator.set_bfile(True)
-                                else:
-                                    generator.set_cfile(True)
+                                generator.set_bfile(True) if isBase == True else generator.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                if isBase == True:
-                                    attrib.set_value(line_value)
-                                else:
-                                    attrib.set_cvalue(line_value)
+                                attrib.set_value(line_value) if isBase == True else attrib.set_cvalue(line_value)
                                 generator.add_attribute(attrib)
                                 
                         elif currentEntity == constant.PRI_SEQUENCE:
-                            if isBase == True:
-                                pri_sequence.set_bfile(True)
-                            else:
-                                pri_sequence.set_cfile(True)
-                            
+                            pri_sequence.set_bfile(True) if isBase == True else pri_sequence.set_cfile(True)
                             attrib = Attribute()
                             attrib.set_name(line_key)
-                            if isBase == True:
-                                attrib.set_value(line_value)
-                            else:
-                                attrib.set_cvalue(line_value)
+                            attrib.set_value(line_value) if isBase == True else attrib.set_cvalue(line_value)
                             pri_sequence.add_attribute(attrib)
     
                         elif currentEntity == constant.PRI_SEGMENT:
                             
                             if line_key.strip() == constant.PRI_SEGMENT_NUMBER:
                                 pri_segment.set_segment_number(line_value)
-                                if isBase == True:
-                                    pri_segment.set_bfile(True)
-                                else:
-                                    pri_segment.set_cfile(True)
+                                pri_segment.set_bfile(True) if isBase == True else pri_segment.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                if isBase == True:
-                                    attrib.set_value(line_value)
-                                else:
-                                    attrib.set_cvalue(line_value)
+                                attrib.set_value(line_value) if isBase == True else attrib.set_cvalue(line_value)
                                 pri_segment.add_attribute(attrib)
     
                         elif currentEntity == constant.FREQ_SEQUENCE:
-                            if isBase == True:
-                                freq_sequence.set_bfile(True)
-                            else:
-                                freq_sequence.set_cfile(True)
-                            
+                            freq_sequence.set_bfile(True) if isBase == True else freq_sequence.set_cfile(True)
                             attrib = Attribute()
                             attrib.set_name(line_key)
-                            if isBase == True:
-                                attrib.set_value(line_value)
-                            else:
-                                attrib.set_cvalue(line_value)
+                            attrib.set_value(line_value) if isBase == True else attrib.set_cvalue(line_value)
                             freq_sequence.add_attribute(attrib)
     
                         elif currentEntity == constant.FREQ_SEGMENT:
                             
                             if line_key.strip() == constant.FREQ_SEGMENT_NUMBER:
                                 freq_segment.set_segment_number(line_value)
-                                if isBase == True:
-                                    freq_segment.set_bfile(True)
-                                else:
-                                    freq_segment.set_cfile(True)
+                                freq_segment.set_bfile(True) if isBase == True else freq_segment.set_cfile(True)
                             else:
                                 attrib = Attribute()
                                 attrib.set_name(line_key)
-                                if isBase == True:
-                                    attrib.set_value(line_value)
-                                else:
-                                    attrib.set_cvalue(line_value)
+                                attrib.set_value(line_value) if isBase == True else attrib.set_cvalue(line_value)
                                 freq_segment.add_attribute(attrib)
                                 
             else:
@@ -403,39 +358,39 @@ class CompareEMTFiles():
         return []
     
             
-    def writeCell(self, ws, wsRow, cellValue):
-        ws.range(wsRow, 1).value = cellValue
-        ws.range(wsRow, 1).api.VerticalAlignment = constants.VAlign.xlVAlignTop
-        #ws.range(wsRow, 1).WrapText = True
+    # def writeCell(self, ws, wsRow, cellValue):
+    #     ws.range(wsRow, 1).value = cellValue
+    #     ws.range(wsRow, 1).api.VerticalAlignment = constants.VAlign.xlVAlignTop
+    #     #ws.range(wsRow, 1).WrapText = True
 
         
-    def writeSpecificCell(self, ws, wsRow, wsCol, cellValue):
-        ws.range(wsRow, wsCol).value = cellValue
-        ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignCenter
-        ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignCenter
-        ws.range(wsRow, wsCol).WrapText = True
+    # def writeSpecificCell(self, ws, wsRow, wsCol, cellValue):
+    #     ws.range(wsRow, wsCol).value = cellValue
+    #     ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignCenter
+    #     ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignCenter
+    #     ws.range(wsRow, wsCol).WrapText = True
 
-    def writeValueCell(self, ws, wsRow, wsCol, cellValue):
-        ws.range(wsRow, wsCol).value = cellValue
-        try:
-            ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignLeft
-            ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignTop
-            ws.range(wsRow, wsCol).WrapText = True
-        except Exception:
-            print("exception was thrown")
+    # def writeValueCell(self, ws, wsRow, wsCol, cellValue):
+    #     ws.range(wsRow, wsCol).value = cellValue
+    #     try:
+    #         ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignLeft
+    #         ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignTop
+    #         ws.range(wsRow, wsCol).WrapText = True
+    #     except Exception:
+    #         print("exception was thrown")
             
 
-    def writeLabelCell(self, ws, wsRow, wsCol, cellValue):
-        ws.range(wsRow, wsCol).value = cellValue
-        try:
-            ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignRight
-            ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignTop
-            ws.range(wsRow, wsCol).WrapText = True
-            if cellValue == constant.XL_MISSING_TEXT:
-                ws.range(wsRow, wsCol).api.Font.Color = rgb_to_int((255,0,0))
+    # def writeLabelCell(self, ws, wsRow, wsCol, cellValue):
+    #     ws.range(wsRow, wsCol).value = cellValue
+    #     try:
+    #         ws.range(wsRow, wsCol).api.HorizontalAlignment = constants.HAlign.xlHAlignRight
+    #         ws.range(wsRow, wsCol).api.VerticalAlignment = constants.VAlign.xlVAlignTop
+    #         ws.range(wsRow, wsCol).WrapText = True
+    #         if cellValue == constant.XL_MISSING_TEXT:
+    #             ws.range(wsRow, wsCol).api.Font.Color = rgb_to_int((255,0,0))
 
-        except Exception:
-            print("exception was thrown")
+    #     except Exception:
+    #         print("exception was thrown")
 
     
     
@@ -464,10 +419,10 @@ class CompareEMTFiles():
         cfTitle = "Comparison File: {}".format(self.cfDisplay)
         
         ws.range((1,1), (1,12)).merge(across=True)
-        self.writeSpecificCell(ws, 1, 1, bfTitle)
+        print_utility.writeSpecificCell(ws, 1, 1, bfTitle)
         
         ws.range((1,13), (1,25)).merge(across=True)
-        self.writeSpecificCell(ws, 1, 13, cfTitle)
+        print_utility.writeSpecificCell(ws, 1, 13, cfTitle)
 
 
 
@@ -485,296 +440,296 @@ class CompareEMTFiles():
             
             
     def writeMissingComparisonEmitter(self, ws, wsRow, bElnot):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_LBL, constant.XL_MISSING_TEXT)
         
     
     def writeMissingComparisonEmitterAttribute(self, ws, wsRow, bAttributeName, bAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, bAttributeName)
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, bAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, bAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, bAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, constant.XL_MISSING_TEXT)
 
         
     def writeFullEmitterAttribute(self, ws, wsRow, bAttributeName, bAttributeValue, cAttributeName, cAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, bAttributeName)
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, bAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, cAttributeName)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_EMITTER_ATTRIB_VAL, cAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, bAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, bAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, cAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_EMITTER_ATTRIB_VAL, cAttributeValue)
         
         
     def writeMissingComparisonMode(self, ws, wsRow, bEmitterModeName):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_MODE_VAL, bEmitterModeName)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_MODE_VAL, bEmitterModeName)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_LBL, constant.XL_MISSING_TEXT)
         
          
     def writeFullEmitterMode(self, ws, wsRow, bEmitterModeName, cEmitterModeName):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_MODE_VAL, bEmitterModeName)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_VAL, cEmitterModeName)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_MODE_VAL, bEmitterModeName)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_MODE_VAL, cEmitterModeName)
 
         
     def writeMissingComparisonModeAttribute(self, ws, wsRow, bModeAttributeName, bModeAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, bModeAttributeName)
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_VAL, bModeAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, bModeAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_VAL, bModeAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
 
         
     def writeFullModeAttribute(self, ws, wsRow, bModeAttributeName, bModeAttributeValue, cModeAttributeName, cModeAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, bModeAttributeName)
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_VAL, bModeAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_ATTRIB_LBL, cModeAttributeName)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_ATTRIB_VAL, cModeAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, bModeAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_VAL, bModeAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_ATTRIB_LBL, cModeAttributeName)
+        print_utility.writeValuelCell(ws, wsRow, constant.COMP_XL_COL_MODE_ATTRIB_VAL, cModeAttributeValue)
         
 
     def writeMissingComparisonGenerator(self, ws, wsRow, bGeneratorNumber):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_VAL, bGeneratorNumber)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_VAL, bGeneratorNumber)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_LBL, constant.XL_MISSING_TEXT)
 
 
     def writeMissingComparisonGeneratorAttribute(self, ws, wsRow, bAttributeName, bAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, bAttributeName)
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, bAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, bAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, bAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, constant.XL_MISSING_TEXT)
 
         
     def writeFullGeneratorAttribute(self, ws, wsRow, bAttributeName, bAttributeValue, cAttributeName, cAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, bAttributeName)
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, bAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, cAttributeName)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_VAL, cAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, bAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, bAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, cAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_VAL, cAttributeValue)
 
         
     def writeFullPRISequenceCounts(self, ws, wsRow, bgPRISequenceCount, cpPRISequenceCount):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCES[]:")
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, bgPRISequenceCount)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCES[]:")
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, cpPRISequenceCount)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCES[]:")
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, bgPRISequenceCount)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCES[]:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, cpPRISequenceCount)
         
 
     def writeFullFREQSequenceCounts(self,  ws, wsRow, bgFREQSequenceCount, cpFREQSequenceCount):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCES[]:")
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, bgFREQSequenceCount)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCES[]:")
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, cpFREQSequenceCount)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCES[]:")
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, bgFREQSequenceCount)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCES[]:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, cpFREQSequenceCount)
 
       
     def writeMissingComparisonPRISequence(self, ws, wsRow, sequencePos):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, sequencePos)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, sequencePos)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT)
                                         
 
     def writeMissingComparisonSequenceAttribute(self, ws, wsRow, bAttributeName, bAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, bAttributeName)
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, bAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, bAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, bAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
         
 
     def writeFullSequenceAttribute(self, ws, wsRow, bAttributeName, bAttributeValue, cAttributeName, cAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, bAttributeName)
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, bAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, cAttributeName)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_VAL, cAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, bAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, bAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, cAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_VAL, cAttributeValue)
                                                    
     
     def writeMissingComparisonSegment(self, ws, wsRow, bSegmentNumber):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, bSegmentNumber)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, bSegmentNumber)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, constant.XL_MISSING_TEXT)
         
         
     def writeMissingComparisonSegmentAttribute(self, ws, wsRow, bAttributeName, bAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, bAttributeName)
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, bAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, bAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, bAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.XL_MISSING_TEXT)
         
                  
     def writeFullSegmentAttribute(self, ws, wsRow, bAttributeName, bAttributeValue, cAttributeName, cAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, bAttributeName)
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, bAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, cAttributeName)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_VAL, cAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, bAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, bAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, cAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_VAL, cAttributeValue)
         
 
     def writeMissingComparisonFREQSequence(self, ws, wsRow, sequencePos):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
-        self.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, sequencePos)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, sequencePos)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT)
         
 
     def writeMissingBaseEmitter(self, ws, wsRow, cElnot):
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_LBL, constant.XL_MISSING_TEXT)
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_VAL, cElnot)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_VAL, cElnot)
         
 
     def writeMissingBaseEmitterAttribute(self, ws, wsRow, cAttributeName, cAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, cAttributeName)
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_EMITTER_ATTRIB_VAL, cAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, cAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_EMITTER_ATTRIB_VAL, cAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, constant.XL_MISSING_TEXT)
         
 
     def writeMissingBaseMode(self, ws, wsRow, cModeName):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_MODE_VAL, cModeName)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_MODE_VAL, cModeName)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_LBL, constant.XL_MISSING_TEXT)
         
             
     def writeMissingBaseModeAttribute(self, ws, wsRow, cAttributeName, cAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_ATTRIB_LBL, cAttributeName)
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_MODE_ATTRIB_VAL, cAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_ATTRIB_LBL, cAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_MODE_ATTRIB_VAL, cAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
         
                    
     def writeMissingBaseGenerator(self, ws, wsRow, cGeneratorNumber):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_VAL, cGeneratorNumber)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_VAL, cGeneratorNumber)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_LBL, constant.XL_MISSING_TEXT)
 
     def writeMissingBaseGeneratorAttribute(self, ws, wsRow, cAttributeName, cAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, cAttributeName)
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_VAL, cAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, cAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_ATTRIB_VAL, cAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, constant.XL_MISSING_TEXT)
 
 
     def writeMissingBasePRISequence(self, ws, wsRow, sequencePos):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, sequencePos)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, sequencePos)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT)
         
 
     def writeMissingBaseSequenceAttribute(self, ws, wsRow, cAttributeName, cAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, cAttributeName)
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_VAL, cAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, cAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_VAL, cAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.XL_MISSING_TEXT)
         
 
     def writeMissingBasePRISegment(self, ws, wsRow, cPRISegmentNumber):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, cPRISegmentNumber)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, cPRISegmentNumber)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, constant.XL_MISSING_TEXT)
                                                 
         
     def writeMissingBaseSegmentAttribute(self, ws, wsRow, cAttributeName, cAttributeValue):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, cAttributeName)
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_VAL, cAttributeValue)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, cAttributeName)
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_VAL, cAttributeValue)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.XL_MISSING_TEXT)
         
         
     def writeMissingBaseFREQSequence(self, ws, wsRow, sequencePos):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, sequencePos)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, sequencePos)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT)
 
 
     def writeMissingBaseFREQSegment(self, ws, wsRow, cFREQSegmentNumber):
-        self.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
-        self.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, cFREQSegmentNumber)
-        self.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, constant.XL_MISSING_TEXT)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, cFREQSegmentNumber)
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, constant.XL_MISSING_TEXT)
         
         
     def writeEmitter(self, wsEmitters, wsEmittersRow, bElnot, cElnot, emitterWritten=False):
-        self.writeLabelCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-        self.writeLabelCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_ELNOT_VAL, cElnot)
+        print_utility.writeLabelCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_ELNOT_VAL, cElnot)
         emitterWritten = True
         
 
     def writeMode(self, wsModes, wsModesRow, bElnot, cElnot, baseEmitterModeName, comparisonEmitterModeName, modeWritten=False):
-        self.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-        self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsModes, wsModesRow, constant.COMP_XL_COL_ELNOT_VAL, cElnot)
+        print_utility.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(wsModes, wsModesRow, constant.COMP_XL_COL_ELNOT_VAL, cElnot)
 
-        self.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-        self.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterModeName)
-        self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-        self.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterModeName)
+        print_utility.writeLabelCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(wsModes, wsModesRow, constant.BASE_XL_COL_MODE_VAL, baseEmitterModeName)
+        print_utility.writeLabelCell(wsModes, wsModesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(wsModes, wsModesRow, constant.COMP_XL_COL_MODE_VAL, comparisonEmitterModeName)
         modeWritten = True
         
     
     def writeGenerator(self, wsGenerators, wsGeneratorsRow, bElnot, modeName, generatorNumber, generatorWritten=False):
-        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_VAL, bElnot)
 
-        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_VAL, modeName)
-        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_VAL, modeName)
+        print_utility.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_MODE_VAL, modeName)
+        print_utility.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_MODE_VAL, modeName)
 
-        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_VAL, generatorNumber)
-        self.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        self.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_VAL, generatorNumber)
+        print_utility.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        print_utility.writeValueCell(wsGenerators, wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_VAL, generatorNumber)
+        print_utility.writeLabelCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        print_utility.writeValueCell(wsGenerators, wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_VAL, generatorNumber)
         generatorWritten = True
         
         
     def writePRISequence(self, wsPRISequences, wsPRISequencesRow, bElnot, modeName, generatorNumber, ordinalPos, priSequenceWritten=False):
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_ELNOT_VAL, bElnot)
 
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_MODE_VAL, modeName)
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_MODE_VAL, modeName)
+        print_utility.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_MODE_VAL, modeName)
+        print_utility.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_MODE_VAL, modeName)
 
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_GENERATOR_VAL, generatorNumber)
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_GENERATOR_VAL, generatorNumber)
+        print_utility.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        print_utility.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_GENERATOR_VAL, generatorNumber)
+        print_utility.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        print_utility.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_GENERATOR_VAL, generatorNumber)
         
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
-        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, ordinalPos)
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
-        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, ordinalPos)
+        print_utility.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
+        print_utility.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, ordinalPos)
+        print_utility.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "PRI_SEQUENCE:")
+        print_utility.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, ordinalPos)
         priSequenceWritten = True
         
     
     def writePRISegment(self, wsPRISequences, wsPRISequencesRow, segmentNumber, priSegmentWritten=False):
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
-        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, segmentNumber)
-        self.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
-        self.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, segmentNumber)
+        print_utility.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
+        print_utility.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, segmentNumber)
+        print_utility.writeLabelCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "PRI_SEGMENT:")
+        print_utility.writeValueCell(wsPRISequences, wsPRISequencesRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, segmentNumber)
         priSegmentWritten = True
         
     
     def writeFREQSequence(self, wsFREQSequences, wsFREQSequencesRow, bElnot, modeName, generatorNumber, ordinalPos, freqSequenceWritten=False):
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_ELNOT_VAL, bElnot)
 
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_MODE_VAL, modeName)
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_MODE_VAL, modeName)
+        print_utility.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_MODE_VAL, modeName)
+        print_utility.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_MODE_VAL, modeName)
 
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_GENERATOR_VAL, generatorNumber)
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_GENERATOR_VAL, generatorNumber)
+        print_utility.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        print_utility.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_GENERATOR_VAL, generatorNumber)
+        print_utility.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
+        print_utility.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_GENERATOR_VAL, generatorNumber)
         
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
-        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, ordinalPos)
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
-        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, ordinalPos)
+        print_utility.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
+        print_utility.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, ordinalPos)
+        print_utility.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, "FREQ_SEQUENCE:")
+        print_utility.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, ordinalPos)
         freqSequenceWritten = True
         
 
     def writeFREQSegment(self, wsFREQSequences, wsFREQSequencesRow, segmentNumber, freqSegmentWritten=False):
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
-        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, segmentNumber)
-        self.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
-        self.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, segmentNumber)
+        print_utility.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
+        print_utility.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, segmentNumber)
+        print_utility.writeLabelCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, "FREQ_SEGMENT:")
+        print_utility.writeValueCell(wsFREQSequences, wsFREQSequencesRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, segmentNumber)
         freqSegmentWritten = True
         
             
@@ -846,15 +801,18 @@ class CompareEMTFiles():
                     self.writeEmitter(wsEmitters, wsEmittersRow, bElnot, bElnot)
                     wsEmittersRow += 1
 
-                    for baseAttribute in baseEmitter.get_attributes():
-                        if baseAttribute.get_hasDifferences() == True:
-                            if baseAttribute.get_cfile() == False:
-                                self.writeMissingComparisonEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_value())
-                            elif baseAttribute.get_bfile() == False:
-                                self.writeMissingBaseEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_cvalue())
-                            else:
-                                self.writeFullEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_value(), baseAttribute.get_name(), baseAttribute.get_cvalue())
-                            wsEmittersRow += 1
+                    baseEmitter.print_attribute_differences(wsEmitters, wsEmittersRow)
+                    wsEmittersRow += 1
+                    
+                    # for baseAttribute in baseEmitter.get_attributes():
+                    #     if baseAttribute.get_hasDifferences() == True:
+                    #         if baseAttribute.get_cfile() == False:
+                    #             self.writeMissingComparisonEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_value())
+                    #         elif baseAttribute.get_bfile() == False:
+                    #             self.writeMissingBaseEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_cvalue())
+                    #         else:
+                    #             self.writeFullEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_value(), baseAttribute.get_name(), baseAttribute.get_cvalue())
+                    #         wsEmittersRow += 1
                         
                 for baseEmitterMode in baseEmitter.get_modes():
                     if baseEmitterMode.get_hasDifferences() == True:
@@ -868,14 +826,17 @@ class CompareEMTFiles():
                             self.writeMode(wsModes, wsModesRow, bElnot, bElnot, baseEmitterMode.get_name(), baseEmitterMode.get_name())
                             wsModesRow += 1
                         
-                            for baseModeAttribute in baseEmitterMode.get_attributes():
-                                if baseModeAttribute.get_cfile() == False:
-                                    self.writeMissingComparisonModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_value())
-                                elif baseModeAttribute.get_bfile() == False:
-                                    self.writeMissingBaseModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_cvalue())
-                                else:
-                                    self.writeFullModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_value(), baseModeAttribute.get_name(), baseModeAttribute.get_cvalue())
-                                wsModesRow += 1
+                            baseEmitterMode.print_attribute_differences(wsModes, wsModesRow)
+                            wsModesRow += 1
+                            
+                            # for baseModeAttribute in baseEmitterMode.get_attributes():
+                            #     if baseModeAttribute.get_cfile() == False:
+                            #         self.writeMissingComparisonModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_value())
+                            #     elif baseModeAttribute.get_bfile() == False:
+                            #         self.writeMissingBaseModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_cvalue())
+                            #     else:
+                            #         self.writeFullModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_value(), baseModeAttribute.get_name(), baseModeAttribute.get_cvalue())
+                            #     wsModesRow += 1
                             
                         for baseGenerator in baseEmitterMode.get_generators():
                             if baseGenerator.get_hasDifferences() == True:
@@ -889,14 +850,17 @@ class CompareEMTFiles():
                                     self.writeGenerator(wsGenerators, wsGeneratorsRow, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number())
                                     wsGeneratorsRow += 1                                    
                                 
-                                    for baseGeneratorAttribute in baseGenerator.get_attributes():
-                                        if baseGeneratorAttribute.get_cfile() == False:
-                                            self.writeMissingComparisonGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value())
-                                        elif baseGeneratorAttribute.get_bfile() == False:
-                                            self.writeMissingBaseGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_cvalue())
-                                        else:
-                                            self.writeFullGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value(), baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_cvalue())
-                                        wsGeneratorsRow += 1
+                                    baseGenerator.print_attribute_differences(wsGenerators, wsGeneratorsRow)
+                                    wsGeneratorsRow += 1
+                                    
+                                    # for baseGeneratorAttribute in baseGenerator.get_attributes():
+                                    #     if baseGeneratorAttribute.get_cfile() == False:
+                                    #         self.writeMissingComparisonGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value())
+                                    #     elif baseGeneratorAttribute.get_bfile() == False:
+                                    #         self.writeMissingBaseGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_cvalue())
+                                    #     else:
+                                    #         self.writeFullGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value(), baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_cvalue())
+                                    #     wsGeneratorsRow += 1
                                         
                                 for basePRISequence in baseGenerator.get_pri_sequences():
                                     if basePRISequence.get_hasDifferences() == True:

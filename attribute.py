@@ -4,6 +4,8 @@ Created on Mon Aug  3 17:43:06 2020
 
 @author: Steve
 """
+import print_utility
+import constant
 
 class Attribute():
     def __init__(self):
@@ -61,4 +63,11 @@ class Attribute():
         
     def get_hasDifferences(self):
         return self._hasDifferences
+    
+    
+    def print_attribute(self, ws, wsRow, baseLabelCol, baseValueCol, comparisonLabelCol, comparisonValueCol):
+        print_utility.writeLabelCell(ws, wsRow, baseLabelCol, constant.XL_MISSING_TEXT if self.get_bfile() == False else self.get_name())
+        print_utility.writeValueCell(ws, wsRow, baseValueCol, '' if self.get_bfile() == False else self.get_value())
+        print_utility.writeLabelCell(ws, wsRow, comparisonLabelCol, constant.XL_MISSING_TEXT if self.get_cfile() == False else self.get_name())
+        print_utility.writeValueCell(ws, wsRow, comparisonValueCol, '' if self.get_cfile() == False else self.get_cvalue())        
     

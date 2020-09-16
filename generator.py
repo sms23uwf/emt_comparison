@@ -5,6 +5,10 @@ Created on Tue Aug  4 12:49:09 2020
 @author: Steve
 """
 
+import print_utility
+import constant
+
+
 class Generator():
     def __init__(self):
         self._generator_number = ''
@@ -192,4 +196,10 @@ class Generator():
                 
         return localDifferences
                     
+
+    def print_attribute_differences(self, ws, wsRow):
+        for baseAttribute in self.get_attributes():
+            if baseAttribute.get_hasDifferences() == True:
+                baseAttribute.print_attribute(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, constant.COMP_XL_COL_GENERATOR_ATTRIB_VAL)
+                wsRow += 1
         
