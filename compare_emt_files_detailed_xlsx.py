@@ -632,11 +632,11 @@ class CompareEMTFiles():
         print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, constant.XL_MISSING_TEXT)
         
         
-    def writeEmitter(self, wsEmitters, wsEmittersRow, bElnot, cElnot, emitterWritten=False):
-        print_utility.writeLabelCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-        print_utility.writeValueCell(wsEmitters, wsEmittersRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-        print_utility.writeLabelCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-        print_utility.writeValueCell(wsEmitters, wsEmittersRow, constant.COMP_XL_COL_ELNOT_VAL, cElnot)
+    def writeEmitter(self, ws, wsRow, bElnot, cElnot, emitterWritten=False):
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_VAL, cElnot)
         emitterWritten = True
         
 
@@ -766,7 +766,7 @@ class CompareEMTFiles():
         self.writeTitleCells(wsPRISequences)
         self.writeTitleCells(wsFREQSequences)
        
-        wsEmittersRow = 2
+        #wsEmittersRow = 2
         wsModesRow = 2
         wsGeneratorsRow = 2
         wsPRISequencesRow = 2
@@ -784,59 +784,32 @@ class CompareEMTFiles():
         for baseEmitter in self.base_emitters:
             bElnot = baseEmitter.get_elnot()
             
-            self.setColorMarkBoundary(wsEmittersBkgColorMarks, wsEmittersRow)
+            #self.setColorMarkBoundary(wsEmittersBkgColorMarks, wsEmittersRow)
             self.setColorMarkBoundary(wsModesBkgColorMarks, wsModesRow)
             self.setColorMarkBoundary(wsGeneratorsBkgColorMarks, wsGeneratorsRow)
             self.setColorMarkBoundary(wsPRISequencesBkgColorMarks, wsPRISequencesRow)
             self.setColorMarkBoundary(wsFREQSequencesBkgColorMarks, wsFREQSequencesRow)
             
             if baseEmitter.get_hasDifferences() == True:
-                if baseEmitter.get_cfile() == False:
-                    self.writeMissingComparisonEmitter(wsEmitters, wsEmittersRow, bElnot)
-                    wsEmittersRow += 1
-                elif baseEmitter.get_bfile() == False:
-                    self.writeMissingBaseEmitter(wsEmitters, wsEmittersRow, bElnot)
-                    wsEmittersRow += 1
-                else:
-                    self.writeEmitter(wsEmitters, wsEmittersRow, bElnot, bElnot)
-                    wsEmittersRow += 1
+                baseEmitter.print_emitter(wsEmitters, constant.BASE_XL_COL_ELNOT_LBL, constant.BASE_XL_COL_ELNOT_VAL, constant.COMP_XL_COL_ELNOT_LBL, constant.COMP_XL_COL_ELNOT_VAL)
 
-                    baseEmitter.print_attribute_differences(wsEmitters, wsEmittersRow)
-                    wsEmittersRow += 1
+                    # baseEmitter.print_attribute_differences(wsEmitters, wsEmittersRow)
+                    # wsEmittersRow += 1
                     
-                    # for baseAttribute in baseEmitter.get_attributes():
-                    #     if baseAttribute.get_hasDifferences() == True:
-                    #         if baseAttribute.get_cfile() == False:
-                    #             self.writeMissingComparisonEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_value())
-                    #         elif baseAttribute.get_bfile() == False:
-                    #             self.writeMissingBaseEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_cvalue())
-                    #         else:
-                    #             self.writeFullEmitterAttribute(wsEmitters, wsEmittersRow, baseAttribute.get_name(), baseAttribute.get_value(), baseAttribute.get_name(), baseAttribute.get_cvalue())
-                    #         wsEmittersRow += 1
-                        
                 for baseEmitterMode in baseEmitter.get_modes():
                     if baseEmitterMode.get_hasDifferences() == True:
                         if baseEmitterMode.get_cfile() == False:
-                            self.writeMissingComparisonMode(wsEmitters, wsEmittersRow, baseEmitterMode.get_name())
-                            wsEmittersRow += 1
+                            self.writeMissingComparisonMode(wsEmitters, print_utility.wsEmittersRow, baseEmitterMode.get_name())
+                            print_utility.wsEmittersRow += 1
                         elif baseEmitterMode.get_bfile() == False:
-                            self.writeMissingBaseMode(wsEmitters, wsEmittersRow, baseEmitterMode.get_name())
-                            wsEmittersRow += 1
+                            self.writeMissingBaseMode(wsEmitters, print_utility.wsEmittersRow, baseEmitterMode.get_name())
+                            print_utility.wsEmittersRow += 1
                         else:
                             self.writeMode(wsModes, wsModesRow, bElnot, bElnot, baseEmitterMode.get_name(), baseEmitterMode.get_name())
                             wsModesRow += 1
                         
                             baseEmitterMode.print_attribute_differences(wsModes, wsModesRow)
                             wsModesRow += 1
-                            
-                            # for baseModeAttribute in baseEmitterMode.get_attributes():
-                            #     if baseModeAttribute.get_cfile() == False:
-                            #         self.writeMissingComparisonModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_value())
-                            #     elif baseModeAttribute.get_bfile() == False:
-                            #         self.writeMissingBaseModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_cvalue())
-                            #     else:
-                            #         self.writeFullModeAttribute(wsModes, wsModesRow, baseModeAttribute.get_name(), baseModeAttribute.get_value(), baseModeAttribute.get_name(), baseModeAttribute.get_cvalue())
-                            #     wsModesRow += 1
                             
                         for baseGenerator in baseEmitterMode.get_generators():
                             if baseGenerator.get_hasDifferences() == True:
@@ -853,15 +826,6 @@ class CompareEMTFiles():
                                     baseGenerator.print_attribute_differences(wsGenerators, wsGeneratorsRow)
                                     wsGeneratorsRow += 1
                                     
-                                    # for baseGeneratorAttribute in baseGenerator.get_attributes():
-                                    #     if baseGeneratorAttribute.get_cfile() == False:
-                                    #         self.writeMissingComparisonGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value())
-                                    #     elif baseGeneratorAttribute.get_bfile() == False:
-                                    #         self.writeMissingBaseGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_cvalue())
-                                    #     else:
-                                    #         self.writeFullGeneratorAttribute(wsGenerators, wsGeneratorsRow, baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_value(), baseGeneratorAttribute.get_name(), baseGeneratorAttribute.get_cvalue())
-                                    #     wsGeneratorsRow += 1
-                                        
                                 for basePRISequence in baseGenerator.get_pri_sequences():
                                     if basePRISequence.get_hasDifferences() == True:
                                         if basePRISequence.get_cfile() == False:

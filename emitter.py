@@ -10,6 +10,7 @@ import constant
 
 
 class Emitter():
+    
     def __init__(self):
         self._elnot = ''
         self._attributes = []
@@ -141,10 +142,21 @@ class Emitter():
             
         return localDifferences
     
+    def print_emitter(self, ws, baseLabelCol, baseValueCol, comparisonLabelCol, comparisonValueCol):
+        print_utility.writeLabelCell(ws, print_utility.wsEmittersRow, baseLabelCol, constant.XL_MISSING_TEXT if self.get_bfile() == False else "ELNOT:")
+        print_utility.writeValueCell(ws, print_utility.wsEmittersRow, baseValueCol, '' if self.get_bfile() == False else self.get_elnot())
+        print_utility.writeLabelCell(ws, print_utility.wsEmittersRow, comparisonLabelCol, constant.XL_MISSING_TEXT if self.get_cfile() == False else "ELNOT:")
+        print_utility.writeValueCell(ws, print_utility.wsEmittersRow, comparisonValueCol, '' if self.get_cfile() == False else self.get_elnot())
+        print_utility.wsEmittersRow += 1
+        
+        if self.get_bfile() == True and self.get_bfile() == True:
+            self.print_attribute_differences(ws)
+
+        
     
-    def print_attribute_differences(self, ws, wsRow):
+    def print_attribute_differences(self, ws):
         for baseAttribute in self.get_attributes():
             if baseAttribute.get_hasDifferences() == True:
-                baseAttribute.print_attribute(ws, wsRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, constant.COMP_XL_COL_EMITTER_ATTRIB_VAL)
-                wsRow += 1
+                baseAttribute.print_attribute(ws, print_utility.wsEmittersRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, constant.COMP_XL_COL_EMITTER_ATTRIB_VAL)
+                print_utility.wsEmittersRow += 1
     
