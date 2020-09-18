@@ -5,6 +5,9 @@ Created on Thu Aug  6 17:26:03 2020
 @author: Steve
 """
 
+import print_utility
+import constant
+
 class Segment():
     def __init__(self):
         self._segment_number = ''
@@ -90,3 +93,39 @@ class Segment():
 
         return localDifferences
     
+    
+    def print_pri_segment(self, ws):
+        self.print_segment(ws, print_utility.wsPRISequencesRow, "PRI_SEGMENT:")
+        print_utility.wsPRISequencesRow += 1
+
+        if self.get_bfile() == True and self.get_bfile() == True:
+            self.print_attribute_differences_pri(ws)
+
+        
+    def print_freq_segment(self, ws):
+        self.print_segment(ws, print_utility.wsFREQSequencesRow, "FREQ_SEGMENT:")
+        print_utility.wsFREQSequencesRow += 1
+
+        if self.get_bfile() == True and self.get_bfile() == True:
+            self.print_attribute_differences_pri(ws)
+
+
+    def print_segment(self, ws, wsRow, label):
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_LBL, constant.XL_MISSING_TEXT if self.get_bfile() == False else label)
+        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEGMENT_VAL, '' if self.get_bfile() == False else self.get_segment_number())
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_LBL, constant.XL_MISSING_TEXT if self.get_cfile() == False else label)
+        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEGMENT_VAL, '' if self.get_cfile() == False else self.get_segment_number())
+
+        
+    def print_attribute_differences_pri(self, ws):
+        for baseAttribute in self.get_attributes():
+            if baseAttribute.get_hasDifferences() == True:
+                baseAttribute.print_attribute(ws, print_utility.wsPRISequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_VAL)
+                print_utility.wsPRISequencesRow += 1
+
+
+    def print_attribute_differences_freq(self, ws):
+        for baseAttribute in self.get_attributes():
+            if baseAttribute.get_hasDifferences() == True:
+                baseAttribute.print_attribute(ws, print_utility.wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_VAL)
+                print_utility.wsFREQSequencesRow += 1

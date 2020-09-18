@@ -150,7 +150,7 @@ class Sequence():
 
 
     def print_pri_sequence(self, ws, elnot, modeName, generatorNumber):
-        self.print_sequence(ws, print_utility.wsPRISequencesRow, elnot, modeName, generatorNumber)
+        self.print_sequence(ws, print_utility.wsPRISequencesRow, elnot, modeName, generatorNumber, "PRI_SEQUENCE:")
         print_utility.wsPRISequencesRow += 1
         
         if self.get_bfile() == True and self.get_bfile() == True:
@@ -158,14 +158,14 @@ class Sequence():
         
         
     def print_freq_sequence(self, ws, elnot, modeName, generatorNumber):
-        self.print_sequence(ws, print_utility.wsFREQSequencesRow, elnot, modeName, generatorNumber)
+        self.print_sequence(ws, print_utility.wsFREQSequencesRow, elnot, modeName, generatorNumber, "FREQ_SEQUENCE:")
         print_utility.wsFREQSequencesRow += 1
 
         if self.get_bfile() == True and self.get_bfile() == True:
             self.print_attribute_differences_freq(ws)
         
 
-    def print_sequence(self, ws, wsRow, elnot, modeName, generatorNumber):
+    def print_sequence(self, ws, wsRow, elnot, modeName, generatorNumber, label):
         print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
         print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_VAL, elnot)
         print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
@@ -181,21 +181,21 @@ class Sequence():
         print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
         print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_VAL, generatorNumber)
         
-        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT if self.get_bfile() == False else "PRI_SEQUENCE:")
+        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT if self.get_bfile() == False else label)
         print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, '' if self.get_bfile() == False else self.get_ordinal_pos())
-        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT if self.get_cfile() == False else "PRI_SEQUENCE:")
+        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT if self.get_cfile() == False else label)
         print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, '' if self.get_cfile() == False else self.get_ordinal_pos())
 
-        
+
     def print_attribute_differences_pri(self, ws):
         for baseAttribute in self.get_attributes():
             if baseAttribute.get_hasDifferences() == True:
-                baseAttribute.print_attribute(ws, print_utility.wsPRISequencesRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, constant.COMP_XL_COL_GENERATOR_ATTRIB_VAL)
+                baseAttribute.print_attribute(ws, print_utility.wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_VAL)
                 print_utility.wsPRISequencesRow += 1
 
 
     def print_attribute_differences_freq(self, ws):
         for baseAttribute in self.get_attributes():
             if baseAttribute.get_hasDifferences() == True:
-                baseAttribute.print_attribute(ws, print_utility.wsFREQSequencesRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, constant.COMP_XL_COL_GENERATOR_ATTRIB_VAL)
+                baseAttribute.print_attribute(ws, print_utility.wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_VAL)
                 print_utility.wsFREQSequencesRow += 1
