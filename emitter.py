@@ -142,6 +142,7 @@ class Emitter():
             
         return localDifferences
     
+    
     def print_emitter(self, ws, baseLabelCol, baseValueCol, comparisonLabelCol, comparisonValueCol):
         print_utility.writeLabelCell(ws, print_utility.wsEmittersRow, baseLabelCol, constant.XL_MISSING_TEXT if self.get_bfile() == False else "ELNOT:")
         print_utility.writeValueCell(ws, print_utility.wsEmittersRow, baseValueCol, '' if self.get_bfile() == False else self.get_elnot())

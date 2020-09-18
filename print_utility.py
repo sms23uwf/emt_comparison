@@ -16,6 +16,11 @@ from xlwings import constants
 from xlwings.utils import rgb_to_int
 
 wsEmittersRow = 2
+wsModesRow = 2
+wsGeneratorsRow = 2
+wsPRISequencesRow = 2
+wsFREQSequencesRow = 2
+
 
 def writeCell(ws, wsRow, cellValue):
     ws.range(wsRow, 1).value = cellValue

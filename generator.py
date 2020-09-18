@@ -195,11 +195,34 @@ class Generator():
                 self.add_pri_sequence(cSequence)
                 
         return localDifferences
-                    
+               
 
-    def print_attribute_differences(self, ws, wsRow):
+    def print_generator(self, ws, elnot, modeName):
+        print_utility.writeLabelCell(ws, print_utility.wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(ws, print_utility.wsGeneratorsRow, constant.BASE_XL_COL_ELNOT_VAL, elnot)
+        print_utility.writeLabelCell(ws, print_utility.wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(ws, print_utility.wsGeneratorsRow, constant.COMP_XL_COL_ELNOT_VAL, elnot)
+
+        print_utility.writeLabelCell(ws, print_utility.wsGeneratorsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(ws, print_utility.wsGeneratorsRow, constant.BASE_XL_COL_MODE_VAL, modeName)
+        print_utility.writeLabelCell(ws, print_utility.wsGeneratorsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
+        print_utility.writeValueCell(ws, print_utility.wsGeneratorsRow, constant.COMP_XL_COL_MODE_VAL, modeName)
+
+        print_utility.writeLabelCell(ws, print_utility.wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_LBL, constant.XL_MISSING_TEXT if self.get_bfile() == False else "GENERATOR:")
+        print_utility.writeValueCell(ws, print_utility.wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_VAL, '' if self.get_bfile() == False else self.get_generator_number())
+        print_utility.writeLabelCell(ws, print_utility.wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_LBL, constant.XL_MISSING_TEXT if self.get_cfile() == False else "GENERATOR:")
+        print_utility.writeValueCell(ws, print_utility.wsGeneratorsRow, constant.COMP_XL_COL_GENERATOR_VAL, '' if self.get_cfile() == False else self.get_generator_number())
+        
+        print_utility.wsGeneratorsRow += 1
+
+        if self.get_bfile() == True and self.get_bfile() == True:
+            self.print_attribute_differences(ws)
+        
+        
+        
+    def print_attribute_differences(self, ws):
         for baseAttribute in self.get_attributes():
             if baseAttribute.get_hasDifferences() == True:
-                baseAttribute.print_attribute(ws, wsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, constant.COMP_XL_COL_GENERATOR_ATTRIB_VAL)
-                wsRow += 1
+                baseAttribute.print_attribute(ws, print_utility.wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, constant.COMP_XL_COL_GENERATOR_ATTRIB_VAL)
+                print_utility.wsGeneratorsRow += 1
         

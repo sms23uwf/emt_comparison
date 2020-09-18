@@ -147,10 +147,26 @@ class EmitterMode():
             
         return localDifferences
 
-    
-    def print_attribute_differences(self, ws, wsRow):
+    def print_mode(self, ws, bElnot, cElnot):
+        print_utility.writeLabelCell(ws, print_utility.wsModesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(ws, print_utility.wsModesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
+        print_utility.writeLabelCell(ws, print_utility.wsModesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
+        print_utility.writeValueCell(ws, print_utility.wsModesRow, constant.COMP_XL_COL_ELNOT_VAL, cElnot)
+
+        print_utility.writeLabelCell(ws, print_utility.wsModesRow, constant.BASE_XL_COL_MODE_LBL, constant.XL_MISSING_TEXT if self.get_bfile() == False else "MODE:")
+        print_utility.writeValueCell(ws, print_utility.wsModesRow, constant.BASE_XL_COL_MODE_VAL, '' if self.get_bfile() == False else self.get_name())
+        print_utility.writeLabelCell(ws, print_utility.wsModesRow, constant.COMP_XL_COL_MODE_LBL, constant.XL_MISSING_TEXT if self.get_cfile() == False else "MODE:")
+        print_utility.writeValueCell(ws, print_utility.wsModesRow, constant.COMP_XL_COL_MODE_VAL, '' if self.get_cfile() == False else self.get_name())
+
+        print_utility.wsModesRow += 1
+
+        if self.get_bfile() == True and self.get_bfile() == True:
+            self.print_attribute_differences(ws)
+
+
+    def print_attribute_differences(self, ws):
         for baseAttribute in self.get_attributes():
             if baseAttribute.get_hasDifferences() == True:
-                baseAttribute.print_attribute(ws, wsRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, constant.BASE_XL_COL_MODE_ATTRIB_VAL, constant.COMP_XL_COL_MODE_ATTRIB_LBL, constant.COMP_XL_COL_MODE_ATTRIB_VAL)
-                wsRow += 1
+                baseAttribute.print_attribute(ws, print_utility.wsModesRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, constant.BASE_XL_COL_MODE_ATTRIB_VAL, constant.COMP_XL_COL_MODE_ATTRIB_LBL, constant.COMP_XL_COL_MODE_ATTRIB_VAL)
+                print_utility.wsModesRow += 1
         
