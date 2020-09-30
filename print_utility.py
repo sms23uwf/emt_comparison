@@ -4,7 +4,7 @@
     print_utility.py
    ----------------------
    
-   This module contains functions for printint to a cell using xlwings.
+   This module contains functions for printing to a cell using xlwings.
 
 """
 

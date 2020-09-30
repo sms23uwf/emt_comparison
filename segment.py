@@ -7,6 +7,9 @@ Created on Thu Aug  6 17:26:03 2020
 
 import print_utility
 import constant
+import list_utility
+from itertools import filterfalse
+
 
 class Segment():
     def __init__(self):
@@ -27,6 +30,12 @@ class Segment():
     
     def add_attribute(self, _attribute):
         self._attributes.append(_attribute)
+        
+        
+    def set_attributes(self, attributes):
+        self._attributes = []
+        for attribute in attributes:
+            self.add_attribute(attribute)
         
         
     def get_attributes(self):
@@ -69,6 +78,25 @@ class Segment():
             
         return []
 
+
+    def attributes_to_dict(self):
+        attribute_holder = []
+        for attribute in self.get_attributes():
+            attribute_holder.append(attribute)
+            
+        self._attributes = []
+        
+        for attribute in attribute_holder:
+            self.add_attribute(attribute.__dict__)
+
+
+    def clean_attributes(self):
+        self.set_attributes(list(filterfalse(list_utility.filtertrue, self.get_attributes())))
+        
+        # for attribute in self.get_attributes():
+        #     if attribute.get_hasDifferences() == False:
+        #         self.get_attributes().remove(attribute)
+        
 
     def sync_attributes(self, comparisonObj):
         localDifferences = False
@@ -129,3 +157,11 @@ class Segment():
             if baseAttribute.get_hasDifferences() == True:
                 baseAttribute.print_attribute(ws, print_utility.wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.BASE_XL_COL_PF_SEGMENT_ATTRIB_VAL, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_LBL, constant.COMP_XL_COL_PF_SEGMENT_ATTRIB_VAL)
                 print_utility.wsFREQSequencesRow += 1
+
+
+    def to_dict(self):
+        return {
+            'segment_number': self._segment_number,
+            'attributes': self._attributes
+        }
+    

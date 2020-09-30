@@ -7,6 +7,9 @@ Created on Thu Aug  6 17:20:09 2020
 
 import print_utility
 import constant
+import list_utility
+from itertools import filterfalse
+
 
 class Sequence():
     def __init__(self):
@@ -39,6 +42,12 @@ class Sequence():
         self._attributes.append(_attribute)
         
     
+    def set_attributes(self, attributes):
+        self._attributes = []
+        for attribute in attributes:
+            self.add_attribute(attribute)
+
+    
     def get_attributes(self):
         return self._attributes
 
@@ -46,6 +55,12 @@ class Sequence():
     def add_segment(self, _segment):
         self._segments.append(_segment)
         
+        
+    def set_segments(self, segments):
+        self._segments = []
+        for segment in segments:
+            self.add_segment(segment)
+
 
     def get_segments(self):
         return self._segments   
@@ -101,6 +116,37 @@ class Sequence():
         return []
 
 
+    def attributes_to_dict(self):
+        attribute_holder = []
+        for attribute in self.get_attributes():
+            attribute_holder.append(attribute)
+            
+        self._attributes = []
+        
+        for attribute in attribute_holder:
+            self.add_attribute(attribute.__dict__)
+
+    
+    def segments_to_dict(self):
+        holder = []
+        for obj in self.get_segments():
+            holder.append(obj)
+            
+        self._segments = []
+        
+        for obj in holder:
+            obj.attributes_to_dict()
+            self.add_segment(obj.__dict__)
+        
+
+    def clean_attributes(self):
+        self.set_attributes(list(filterfalse(list_utility.filtertrue, self.get_attributes())))
+        
+        # for attribute in self.get_attributes():
+        #     if attribute.get_hasDifferences() == False:
+        #         self.get_attributes().remove(attribute)
+
+
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
@@ -123,6 +169,16 @@ class Sequence():
                 self.add_attribute(cAttribute)
 
         return localDifferences
+
+
+    def clean_segments(self):
+        self.set_segments(list(filterfalse(list_utility.filtertrue, self.get_segments())))
+        
+        # for segment in self.get_segments():
+        #     if segment.get_hasDifferences() == False:
+        #         self.get_segments().remove(segment)
+        #     else:
+        #         segment.clean_attributes()
 
 
     def sync_segments(self, comparisonObj):
@@ -199,3 +255,12 @@ class Sequence():
             if baseAttribute.get_hasDifferences() == True:
                 baseAttribute.print_attribute(ws, print_utility.wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_VAL)
                 print_utility.wsFREQSequencesRow += 1
+
+
+    def to_dict(self):
+        return {
+            'ordinal_pos': self._ordinal_pos,
+            'number_of_segments': self._number_of_segments,
+            'attributes': self._attributes,
+            'segments': self._segments
+        }

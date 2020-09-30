@@ -7,6 +7,10 @@ Created on Mon Aug  3 17:39:36 2020
 
 import print_utility
 import constant
+import list_utility
+from emitter_iterator import EmitterIterator
+
+from itertools import filterfalse
 
 
 class Emitter():
@@ -31,6 +35,12 @@ class Emitter():
     def add_attribute(self, _attribute):
         self._attributes.append(_attribute)
 
+
+    def set_attributes(self, attributes):
+        self._attributes = []
+        for attribute in attributes:
+            self.add_attribute(attribute)
+
         
     def get_attributes(self):
         return self._attributes
@@ -40,6 +50,12 @@ class Emitter():
         self._modes.append(_mode)
 
         
+    def set_modes(self, modes):
+        self._modes = []
+        for mode in modes:
+            self.add_mode(mode)
+
+
     def get_modes(self):
         return self._modes        
 
@@ -94,6 +110,14 @@ class Emitter():
             return []
 
     
+    def clean_attributes(self):
+        self.set_attributes(list(filterfalse(list_utility.filtertrue, self.get_attributes())))
+        
+        # for attribute in self.get_attributes():
+        #     if attribute.get_hasDifferences() == False:
+        #         self.get_attributes().remove(attribute)
+
+
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
@@ -117,6 +141,43 @@ class Emitter():
 
         return localDifferences
     
+    
+    def clean_modes(self):
+        
+        self.set_modes(list(filterfalse(list_utility.filtertrue, self.get_modes())))
+        
+        
+        # for mode in self.get_modes():
+        #     if mode.get_hasDifferences() == False:
+        #         self.get_modes().remove(mode)
+        #     else:
+        #         mode.clean_attributes()
+        #         mode.clean_generators()
+        
+      
+    def attributes_to_dict(self):
+        attribute_holder = []
+        for attribute in self.get_attributes():
+            attribute_holder.append(attribute)
+            
+        self._attributes = []
+        
+        for attribute in attribute_holder:
+            self.add_attribute(attribute.__dict__)
+            
+            
+    def modes_to_dict(self):
+        mode_holder = []
+        for mode in self.get_modes():
+            mode_holder.append(mode)
+            
+        self._modes = []
+        
+        for mode in mode_holder:
+            mode.attributes_to_dict()
+            mode.generators_to_dict()
+            self.add_mode(mode.__dict__)
+            
             
     def sync_modes(self, comparisonObj):
         localAttrDifferences = False
@@ -161,3 +222,14 @@ class Emitter():
                 baseAttribute.print_attribute(ws, print_utility.wsEmittersRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, constant.COMP_XL_COL_EMITTER_ATTRIB_VAL)
                 print_utility.wsEmittersRow += 1
     
+    
+    def to_dict(self):
+        return {
+        'elnot': self._elnot,
+        'attributes': self._attributes,
+        'modes': self._modes
+       }
+    
+    
+    def __iter__(self):
+        return EmitterIterator(self)

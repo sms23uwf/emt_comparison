@@ -7,6 +7,8 @@ Created on Tue Aug  4 12:49:09 2020
 
 import print_utility
 import constant
+import list_utility
+from itertools import filterfalse
 
 
 class Generator():
@@ -32,6 +34,12 @@ class Generator():
         self._attributes.append(_attribute)
 
         
+    def set_attributes(self, attributes):
+        self._attributes = []
+        for attribute in attributes:
+            self.add_attribute(attribute)
+
+
     def get_attributes(self):
         return self._attributes
 
@@ -40,12 +48,24 @@ class Generator():
         self._pri_sequences.append(_pri_sequence)
 
         
+    def set_pri_sequences(self, pri_sequences):
+        self._pri_sequences = []
+        for seq in pri_sequences:
+            self.add_pri_sequence(seq)
+
+
     def get_pri_sequences(self):
         return self._pri_sequences
 
     
     def add_freq_sequence(self, _freq_sequence):
         self._freq_sequences.append(_freq_sequence)
+
+
+    def set_freq_sequences(self, freq_sequences):
+        self._freq_sequences = []
+        for seq in freq_sequences:
+            self.add_freq_sequence(seq)
 
         
     def get_freq_sequences(self):
@@ -115,6 +135,25 @@ class Generator():
         return []
 
     
+    def attributes_to_dict(self):
+        attribute_holder = []
+        for attribute in self.get_attributes():
+            attribute_holder.append(attribute)
+            
+        self._attributes = []
+        
+        for attribute in attribute_holder:
+            self.add_attribute(attribute.__dict__)
+
+
+    def clean_attributes(self):
+        self.set_attributes(list(filterfalse(list_utility.filtertrue, self.get_attributes())))
+        
+        # for attribute in self.get_attributes():
+        #     if attribute.get_hasDifferences() == False:
+        #         self.get_attributes().remove(attribute)
+
+
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
@@ -139,6 +178,51 @@ class Generator():
         return localDifferences
 
 
+    def sequences_to_dict(self):
+        pHolder = []
+        for obj in self.get_pri_sequences():
+            pHolder.append(obj)
+            
+        self._pri_sequences = []
+        
+        for obj in pHolder:
+            obj.attributes_to_dict()
+            obj.segments_to_dict()
+            self.add_pri_sequence(obj.__dict__)
+
+        fHolder = []
+        for obj in self.get_freq_sequences():
+            fHolder.append(obj)
+            
+        self._freq_sequences = []
+        
+        for obj in fHolder:
+            obj.attributes_to_dict()
+            obj.segments_to_dict()
+            self.add_freq_sequence(obj.__dict__)
+
+
+    def clean_sequences(self):
+        self.set_pri_sequences(list(filterfalse(list_utility.filtertrue, self.get_pri_sequences())))
+        self.set_freq_sequences(list(filterfalse(list_utility.filtertrue, self.get_freq_sequences())))
+
+        # for pri_sequence in self.get_pri_sequences():
+        #     if pri_sequence.get_hasDifferences() == False:
+        #         self.get_pri_sequences().remove(pri_sequence)
+        #     else:
+        #         pri_sequence.clean_attributes()
+        #         pri_sequence.clean_segments()
+                
+                        
+        # for freq_sequence in self.get_freq_sequences():
+        #     if freq_sequence.get_hasDifferences() == False:
+        #         self.get_freq_sequences().remove(freq_sequence)
+        #     else:
+        #         freq_sequence.clean_attributes()
+        #         freq_sequence.clean_segments()
+                
+                                
+        
     def sync_priSequences(self, comparisonObj):
         
         localAttrDifferences = False
@@ -226,3 +310,11 @@ class Generator():
                 baseAttribute.print_attribute(ws, print_utility.wsGeneratorsRow, constant.BASE_XL_COL_GENERATOR_ATTRIB_LBL, constant.BASE_XL_COL_GENERATOR_ATTRIB_VAL, constant.COMP_XL_COL_GENERATOR_ATTRIB_LBL, constant.COMP_XL_COL_GENERATOR_ATTRIB_VAL)
                 print_utility.wsGeneratorsRow += 1
         
+        
+    def to_dict(self):
+        return {
+            'generator_number': self._generator_number,
+            'attributes': self._attributes,
+            'pri_sequences': self._pri_sequences,
+            'freq_sequences': self._freq_sequences
+        }

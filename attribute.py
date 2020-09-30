@@ -69,5 +69,12 @@ class Attribute():
         print_utility.writeLabelCell(ws, wsRow, baseLabelCol, constant.XL_MISSING_TEXT if self.get_bfile() == False else self.get_name())
         print_utility.writeValueCell(ws, wsRow, baseValueCol, '' if self.get_bfile() == False else self.get_value())
         print_utility.writeLabelCell(ws, wsRow, comparisonLabelCol, constant.XL_MISSING_TEXT if self.get_cfile() == False else self.get_name())
-        print_utility.writeValueCell(ws, wsRow, comparisonValueCol, '' if self.get_cfile() == False else self.get_cvalue())        
+        print_utility.writeValueCell(ws, wsRow, comparisonValueCol, '' if self.get_cfile() == False else self.get_cvalue())     
+        
+    def to_dict(self):
+        return {
+            'name': self._name,
+            'value': self._value,
+            'cvalue': self._cvalue
+        }
     

@@ -25,6 +25,10 @@ import xlwings as xw
 from xlwings import constants
 from xlwings.utils import rgb_to_int
 import print_utility
+import list_utility
+from itertools import filterfalse
+
+import pandas as pd
 
 
 class CompareEMTFiles():
@@ -35,12 +39,9 @@ class CompareEMTFiles():
         self.bfDisplay = self.baseFileName
         self.cfDisplay = self.comparisonFileName
 
-
-    writeFile = 'diff.txt'
       
     base_emitters = []
-    comparison_emitters = []
-    all_emitters = []
+    output_emitters = []
     
     currentEntity = constant.EMITTER
     
@@ -340,6 +341,14 @@ class CompareEMTFiles():
             wsBkgColorMarks.append(wsColorMarks)
             
             
+    def cleanTheList(self):
+        self.base_emitters = list(filterfalse(list_utility.filtertrue, self.base_emitters))
+        
+        for emitter in self.base_emitters:
+            emitter.clean_attributes()
+            emitter.clean_modes()
+                
+        
     def displayDifferences(self, wb):
          
         wsCount = wb.sheets.count
@@ -390,10 +399,9 @@ class CompareEMTFiles():
             self.setColorMarkBoundary(wsPRISequencesBkgColorMarks, print_utility.wsPRISequencesRow)
             self.setColorMarkBoundary(wsFREQSequencesBkgColorMarks, print_utility.wsFREQSequencesRow)
             
+            
             if baseEmitter.get_hasDifferences() == True:
                 baseEmitter.print_emitter(wsEmitters, constant.BASE_XL_COL_ELNOT_LBL, constant.BASE_XL_COL_ELNOT_VAL, constant.COMP_XL_COL_ELNOT_LBL, constant.COMP_XL_COL_ELNOT_VAL)
-
-                
                     
                 for baseEmitterMode in baseEmitter.get_modes():
                     if baseEmitterMode.get_hasDifferences() == True:
@@ -411,8 +419,6 @@ class CompareEMTFiles():
                                             if bPRISegment.get_hasDifferences() == True:
                                                 bPRISegment.print_pri_segment(wsPRISequences)
                                                 
-                                                    
-                                                            
                                 for baseSequence in baseGenerator.get_freq_sequences():
                                     if baseSequence.get_hasDifferences() == True:
                                         baseSequence.print_freq_sequence(wsFREQSequences, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number())
@@ -438,6 +444,21 @@ class CompareEMTFiles():
             wsFREQSequences.autofit('c')
             wsFREQSequences.autofit('r')
     
+    
+    def listToDict(self):
+        emitter_holder = []
+        mode_holder = []
+        
+        for emitter in self.base_emitters:
+            emitter_holder.append(emitter)
+                
+        for dictCandidateEmitter in emitter_holder:
+            dictCandidateEmitter.modes_to_dict()
+            dictCandidateEmitter.attributes_to_dict()
+            
+            self.output_emitters.append(dictCandidateEmitter.__dict__)
+            
+        
     def compareTheFiles(self):
     
         print("starting file comparison.")
@@ -450,16 +471,30 @@ class CompareEMTFiles():
         print("parsing Comparison File ...")
         self.parseComparisonFile()
     
-        xwApp = xw.App(visible=False)
+        #print("cleaning the list, leaving only records with a difference ...")
+        #self.cleanTheList()
         
-        wb = xw.Book()
+        print("converting objects to dictionaries for dataframe...")
+        self.listToDict()
+        
+        df = pd.DataFrame.from_records(self.output_emitters)
+        writer = pd.ExcelWriter('EMT_Differences.xlsx')
+        
+        columns = ['ELNOT','MODE','GENERATOR','SEQUENCE','SEGMENT']
+        #xwApp = xw.App(visible=False)
+        
+        #wb = xw.Book()
      
-        self.displayDifferences(wb)
+        print("outputting excel display of differences ...")
+        df.to_excel(writer)
+        writer.save()
+        
+        #self.displayDifferences(wb)
     
        
-        wb.save(r'EMT_Differences')
-        wb.close()
-        xwApp.quit()
+        #wb.save(r'EMT_Differences')
+        #wb.close()
+        #xwApp.quit()
     
         print("finished!")
                
