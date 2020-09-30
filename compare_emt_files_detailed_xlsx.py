@@ -458,7 +458,72 @@ class CompareEMTFiles():
             
             self.output_emitters.append(dictCandidateEmitter.__dict__)
             
+    
+    def writeDFEmitters(self, bfTitle, cfTitle):
+        #dfEmitters = pd.DataFrame()
         
+        dfEmittersData = []
+        dfEmittersSubCols = ['ELNOT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'ELNOT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE']
+        dfEmittersCols = pd.MultiIndex.from_tuples(zip([bfTitle, cfTitle], dfEmittersSubCols))
+        
+        d = []
+        for emitter in self.base_emitters:
+            
+            if emitter.get_hasDifferences() == True:
+                e = []
+                e.append(constant.XL_MISSING_TEXT if emitter.get_bfile() == False else emitter.get_elnot())
+                e.append('')
+                e.append('')
+                e.append(constant.XL_MISSING_TEXT if emitter.get_cfile() == False else emitter.get_elnot())
+                e.append('')
+                e.append('')
+                d.append(e)
+
+                for attribute in emitter.get_attributes():
+                    if attribute.get_hasDifferences() == True:
+                        r = []
+                        r.append('')
+                        r.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
+                        r.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
+                        r.append('')
+                        r.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
+                        r.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
+                        
+                        d.append(r)
+        
+        print(d)
+        dfEmittersData = d
+        dfEmitters = pd.DataFrame(d, columns = ['ELNOT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'ELNOT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE'])
+        #dfEmitters.data = dfEmittersData
+        #dfEmitters.columns = dfEmittersSubCols
+        
+        return dfEmitters
+    
+    
+    def dictsToPandasDFs(self):
+        
+        #df = pd.DataFrame.from_records(self.output_emitters)
+        bfTitle = "Base File: {}".format(self.bfDisplay)
+        cfTitle = "Comparison File: {}".format(self.cfDisplay)
+        
+
+        dfsWB = []
+        dfEmitters = self.writeDFEmitters(bfTitle, cfTitle)
+        
+        dfModes = pd.DataFrame()
+        dfGenerators = pd.DataFrame()
+        dfPRISequences = pd.DataFrame()
+        dfFREQSequences = pd.DataFrame()
+        
+        dfsWB.append(dfEmitters)
+        dfsWB.append(dfModes)
+        dfsWB.append(dfGenerators)
+        dfsWB.append(dfPRISequences)
+        dfsWB.append(dfFREQSequences)
+        
+        return dfsWB
+    
+    
     def compareTheFiles(self):
     
         print("starting file comparison.")
@@ -474,19 +539,27 @@ class CompareEMTFiles():
         #print("cleaning the list, leaving only records with a difference ...")
         #self.cleanTheList()
         
-        print("converting objects to dictionaries for dataframe...")
-        self.listToDict()
+        #print("converting objects to dictionaries for dataframe...")
+        #self.listToDict()
         
-        df = pd.DataFrame.from_records(self.output_emitters)
-        writer = pd.ExcelWriter('EMT_Differences.xlsx')
+        dfsWB = self.dictsToPandasDFs()
+        writer = pd.ExcelWriter('EMT_Differences.xlsx', engine='xlsxwriter')
         
-        columns = ['ELNOT','MODE','GENERATOR','SEQUENCE','SEGMENT']
+        dfEmitters = dfsWB[0]
+        dfModes = dfsWB[1]
+        dfGenerators = dfsWB[2]
+        dfPRISequences = dfsWB[3]
+        dfFREQSequences = dfsWB[4]
+        
+        
+        #columns = ['ELNOT','MODE','GENERATOR','SEQUENCE','SEGMENT']
         #xwApp = xw.App(visible=False)
         
         #wb = xw.Book()
      
         print("outputting excel display of differences ...")
-        df.to_excel(writer)
+        dfEmitters.to_excel(writer, sheet_name='Emitters')
+        dfModes.to_excel(writer, sheet_name='Modes')
         writer.save()
         
         #self.displayDifferences(wb)
