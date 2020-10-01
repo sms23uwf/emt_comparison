@@ -6,6 +6,7 @@ Created on Tue Aug  4 12:30:13 2020
 """
 
 VALUE_SEPARATOR = "="
+PLACEHOLDER = ''
 
 EMITTER = "$EMITTER"
 EMITTER_ELNOT = "$ELINT"

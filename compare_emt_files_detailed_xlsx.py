@@ -359,125 +359,111 @@ class CompareEMTFiles():
                                 
                                 for sequence in generator.get_freq_sequences():
                                     if sequence.get_hasDifferences() == True:
-                                        s = []
-                                        s.append(bElnot)
-                                        s.append(bMode)
-                                        s.append(bGenerator)
-                                        s.append(constant.XL_MISSING_TEXT if sequence.get_bfile() == False else sequence.get_ordinal_pos())
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                                        
-                                        s.append(bElnot)
-                                        s.append(bMode)
-                                        s.append(bGenerator)
-                                        s.append(constant.XL_MISSING_TEXT if sequence.get_cfile() == False else sequence.get_ordinal_pos())
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                
+                                        s = [bElnot,
+                                             bMode,
+                                             bGenerator,
+                                             constant.XL_MISSING_TEXT if sequence.get_bfile() == False else sequence.get_ordinal_pos(),
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             cElnot,
+                                             cMode,
+                                             cGenerator,
+                                             constant.XL_MISSING_TEXT if sequence.get_cfile() == False else sequence.get_ordinal_pos(),
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER]
                                         d.append(s)
         
                                         for attribute in sequence.get_attributes():
                                             if attribute.get_hasDifferences() == True:
-                                                a = []
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                                                a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
-                                                a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                                                a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
-                                                a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                                                
+                                                a = [constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name(),
+                                                     constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value(),
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name(),
+                                                     constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue(),
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER]
                                                 d.append(a)
 
                                         for segment in sequence.get_segments():
                                             if segment.get_hasDifferences() == True:
-                                                sg = []
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append(constant.XL_MISSING_TEXT if segment.get_bfile() == False else segment.get_segment_number())
-                                                sg.append('')
-                                                sg.append('')
-                                                
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append(constant.XL_MISSING_TEXT if segment.get_cfile() == False else segment.get_segment_number())
-                                                sg.append('')
-                                                sg.append('')
-                        
+                                                sg = [constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.XL_MISSING_TEXT if segment.get_bfile() == False else segment.get_segment_number(),
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.XL_MISSING_TEXT if segment.get_cfile() == False else segment.get_segment_number(),
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER]
                                                 d.append(sg)
 
 
-                                                for attribute in segment.get_attributes():
-                                                    if attribute.get_hasDifferences() == True:
-                                                        sga = []
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
-                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
-                        
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
-                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
-                                                        
+                                                for s_attribute in segment.get_attributes():
+                                                    if s_attribute.get_hasDifferences() == True:
+                                                        sga = [constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.XL_MISSING_TEXT if s_attribute.get_bfile() == False else s_attribute.get_name(),
+                                                               constant.XL_MISSING_TEXT if s_attribute.get_bfile() == False else s_attribute.get_value(),
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.XL_MISSING_TEXT if s_attribute.get_cfile() == False else s_attribute.get_name(),
+                                                               constant.XL_MISSING_TEXT if s_attribute.get_cfile() == False else s_attribute.get_cvalue()]
                                                         d.append(sga)
 
-                                        divider = []
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
+                                        divider = [constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER]
                                         d.append(divider)
                                             
         
@@ -510,132 +496,118 @@ class CompareEMTFiles():
                                 
                                 for sequence in generator.get_pri_sequences():
                                     if sequence.get_hasDifferences() == True:
-                                        s = []
-                                        s.append(bElnot)
-                                        s.append(bMode)
-                                        s.append(bGenerator)
-                                        s.append(constant.XL_MISSING_TEXT if sequence.get_bfile() == False else sequence.get_ordinal_pos())
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                                        
-                                        s.append(bElnot)
-                                        s.append(bMode)
-                                        s.append(bGenerator)
-                                        s.append(constant.XL_MISSING_TEXT if sequence.get_cfile() == False else sequence.get_ordinal_pos())
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                                        s.append('')
-                
+                                        s = [bElnot,
+                                             bMode,
+                                             bGenerator,
+                                             constant.XL_MISSING_TEXT if sequence.get_bfile() == False else sequence.get_ordinal_pos(),
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             cElnot,
+                                             cMode,
+                                             cGenerator,
+                                             constant.XL_MISSING_TEXT if sequence.get_cfile() == False else sequence.get_ordinal_pos(),
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER,
+                                             constant.PLACEHOLDER]
                                         d.append(s)
         
                                         for attribute in sequence.get_attributes():
                                             if attribute.get_hasDifferences() == True:
-                                                a = []
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                                                a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
-                                                a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                                                a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
-                                                a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
-                                                a.append('')
-                                                a.append('')
-                                                a.append('')
-                                                
+                                                a = [constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name(),
+                                                     constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value(),
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name(),
+                                                     constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue(),
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER]
                                                 d.append(a)
 
                                         for segment in sequence.get_segments():
                                             if segment.get_hasDifferences() == True:
-                                                sg = []
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append(constant.XL_MISSING_TEXT if segment.get_bfile() == False else segment.get_segment_number())
-                                                sg.append('')
-                                                sg.append('')
-                                                
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append('')
-                                                sg.append(constant.XL_MISSING_TEXT if segment.get_cfile() == False else segment.get_segment_number())
-                                                sg.append('')
-                                                sg.append('')
-                        
+                                                sg = [constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.XL_MISSING_TEXT if segment.get_bfile() == False else segment.get_segment_number(),
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER,
+                                                     constant.XL_MISSING_TEXT if segment.get_cfile() == False else segment.get_segment_number(),
+                                                     constant.PLACEHOLDER,
+                                                     constant.PLACEHOLDER]
                                                 d.append(sg)
 
 
-                                                for attribute in segment.get_attributes():
-                                                    if attribute.get_hasDifferences() == True:
-                                                        sga = []
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
-                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
-                        
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append('')
-                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
-                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
-                                                        
+                                                for s_attribute in segment.get_attributes():
+                                                    if s_attribute.get_hasDifferences() == True:
+                                                        sga = [constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.XL_MISSING_TEXT if s_attribute.get_bfile() == False else s_attribute.get_name(),
+                                                               constant.XL_MISSING_TEXT if s_attribute.get_bfile() == False else s_attribute.get_value(),
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.PLACEHOLDER,
+                                                               constant.XL_MISSING_TEXT if s_attribute.get_cfile() == False else s_attribute.get_name(),
+                                                               constant.XL_MISSING_TEXT if s_attribute.get_cfile() == False else s_attribute.get_cvalue()]
                                                         d.append(sga)
 
-
-                                        divider = []
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
-                                        divider.append('')
+                                        divider = [constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER,
+                                                   constant.PLACEHOLDER]
                                         d.append(divider)
                                             
-       
+        
         dfSequences = pd.DataFrame(d, columns = dfCols)
         
         return dfSequences
+
             
     def writeDFGenerators(self, bfTitle, cfTitle):
         
