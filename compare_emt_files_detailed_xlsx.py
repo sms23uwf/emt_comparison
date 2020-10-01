@@ -314,20 +314,6 @@ class CompareEMTFiles():
             self.cfDisplay = self.comparisonFileName
             
         
-    
-    def writeTitleCells(self, ws):
-        
-        bfTitle = "Base File: {}".format(self.bfDisplay)
-        cfTitle = "Comparison File: {}".format(self.cfDisplay)
-        
-        ws.range((1,1), (1,12)).merge(across=True)
-        print_utility.writeSpecificCell(ws, 1, 1, bfTitle)
-        
-        ws.range((1,13), (1,25)).merge(across=True)
-        print_utility.writeSpecificCell(ws, 1, 13, cfTitle)
-
-
-
     def setColorMarkBoundary(self, wsBkgColorMarks, wsRows):
         if wsRows > 2:
             wsBkgColorMarks[-1].set_bottomboundary(wsRows)
@@ -348,116 +334,308 @@ class CompareEMTFiles():
             emitter.clean_attributes()
             emitter.clean_modes()
                 
-        
-    def displayDifferences(self, wb):
-         
-        wsCount = wb.sheets.count
-        
-        if wsCount > 0:
-            wb.sheets[0].name = "Emitters"
-        else:
-            wb.sheets.add('Emitters')
             
-        if wsCount > 1:
-            wb.sheets[1].name = "Modes"
-        else:
-            wb.sheets.add('Modes', after='Emitters')
-            
-        if wsCount > 2:
-            wb.sheets[2].name = "Generators"
-        else:
-            wb.sheets.add('Generators', after='Modes')
+    def writeDFFREQSequences(self, bfTitle, cfTitle):
         
-        wsEmitters = wb.sheets[0]
-        wsModes = wb.sheets[1]
-        wsGenerators = wb.sheets[2]
+        dfSubCols = ['ELNOT', 'MODE', 'GENERATOR', 'FREQ_SEQUENCE', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'SEGMENT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'ELNOT', 'MODE', 'GENERATOR', 'FREQ_SEQUENCE', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'SEGMENT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE']
+        dfCols = pd.MultiIndex.from_tuples(zip([bfTitle, '','','','','','','','', cfTitle,'','','','','','','',''], dfSubCols))
         
-        wsPRISequences = wb.sheets.add('PRISequences', after='Generators')
-        wsFREQSequences = wb.sheets.add('FREQSequences', after='PRISequences')
-        
-        
-        self.writeTitleCells(wsEmitters)
-        self.writeTitleCells(wsModes)
-        self.writeTitleCells(wsGenerators)
-        self.writeTitleCells(wsPRISequences)
-        self.writeTitleCells(wsFREQSequences)
-       
-        wsEmittersBkgColorMarks = []
-        wsModesBkgColorMarks = []
-        wsGeneratorsBkgColorMarks = []
-        wsPRISequencesBkgColorMarks = []
-        wsFREQSequencesBkgColorMarks = []
-        
-        
-        
-        for baseEmitter in self.base_emitters:
-            bElnot = baseEmitter.get_elnot()
-            
-            self.setColorMarkBoundary(wsEmittersBkgColorMarks, print_utility.wsEmittersRow)
-            self.setColorMarkBoundary(wsModesBkgColorMarks, print_utility.wsModesRow)
-            self.setColorMarkBoundary(wsGeneratorsBkgColorMarks, print_utility.wsGeneratorsRow)
-            self.setColorMarkBoundary(wsPRISequencesBkgColorMarks, print_utility.wsPRISequencesRow)
-            self.setColorMarkBoundary(wsFREQSequencesBkgColorMarks, print_utility.wsFREQSequencesRow)
-            
-            
-            if baseEmitter.get_hasDifferences() == True:
-                baseEmitter.print_emitter(wsEmitters, constant.BASE_XL_COL_ELNOT_LBL, constant.BASE_XL_COL_ELNOT_VAL, constant.COMP_XL_COL_ELNOT_LBL, constant.COMP_XL_COL_ELNOT_VAL)
-                    
-                for baseEmitterMode in baseEmitter.get_modes():
-                    if baseEmitterMode.get_hasDifferences() == True:
-                        baseEmitterMode.print_mode(wsModes, bElnot, bElnot)
-
-                        for baseGenerator in baseEmitterMode.get_generators():
-                            if baseGenerator.get_hasDifferences() == True:
-                                baseGenerator.print_generator(wsGenerators, bElnot, baseEmitterMode.get_name())
-                                
-                                for basePRISequence in baseGenerator.get_pri_sequences():
-                                    if basePRISequence.get_hasDifferences() == True:
-                                        basePRISequence.print_pri_sequence(wsPRISequences, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number())
-                                                    
-                                        for bPRISegment in basePRISequence.get_segments():
-                                            if bPRISegment.get_hasDifferences() == True:
-                                                bPRISegment.print_pri_segment(wsPRISequences)
-                                                
-                                for baseSequence in baseGenerator.get_freq_sequences():
-                                    if baseSequence.get_hasDifferences() == True:
-                                        baseSequence.print_freq_sequence(wsFREQSequences, bElnot, baseEmitterMode.get_name(), baseGenerator.get_generator_number())
-                                        
-                                        for bSegment in baseSequence.get_segments():
-                                            if bSegment.get_hasDifferences() == True:
-                                                bSegment.print_freq_segment(wsFREQSequences)
-                                                            
-
-            
-            wsEmitters.autofit('c')
-            wsEmitters.autofit('r')
-
-            wsModes.autofit('c')
-            wsModes.autofit('r')
-
-            wsGenerators.autofit('c')
-            wsGenerators.autofit('r')
-
-            wsPRISequences.autofit('c')
-            wsPRISequences.autofit('r')
-
-            wsFREQSequences.autofit('c')
-            wsFREQSequences.autofit('r')
-    
-    
-    def listToDict(self):
-        emitter_holder = []
-        mode_holder = []
-        
+        d = []
         for emitter in self.base_emitters:
-            emitter_holder.append(emitter)
+            if emitter.get_hasDifferences() == True:
+                bElnot = constant.XL_MISSING_TEXT if emitter.get_bfile() == False else emitter.get_elnot()
+                cElnot = constant.XL_MISSING_TEXT if emitter.get_cfile() == False else emitter.get_elnot()
                 
-        for dictCandidateEmitter in emitter_holder:
-            dictCandidateEmitter.modes_to_dict()
-            dictCandidateEmitter.attributes_to_dict()
-            
-            self.output_emitters.append(dictCandidateEmitter.__dict__)
-            
+                for mode in emitter.get_modes():
+                    if mode.get_hasDifferences() == True:
+                        bMode = constant.XL_MISSING_TEXT if mode.get_bfile() == False else mode.get_name()
+                        cMode = constant.XL_MISSING_TEXT if mode.get_cfile() == False else mode.get_name()
+
+                        
+                        for generator in mode.get_generators():
+                            if generator.get_hasDifferences() == True:
+                                bGenerator = constant.XL_MISSING_TEXT if generator.get_bfile() == False else generator.get_generator_number()
+                                cGenerator = constant.XL_MISSING_TEXT if generator.get_cfile() == False else generator.get_generator_number()
+                                
+                                for sequence in generator.get_freq_sequences():
+                                    if sequence.get_hasDifferences() == True:
+                                        s = []
+                                        s.append(bElnot)
+                                        s.append(bMode)
+                                        s.append(bGenerator)
+                                        s.append(constant.XL_MISSING_TEXT if sequence.get_bfile() == False else sequence.get_ordinal_pos())
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                                        
+                                        s.append(bElnot)
+                                        s.append(bMode)
+                                        s.append(bGenerator)
+                                        s.append(constant.XL_MISSING_TEXT if sequence.get_cfile() == False else sequence.get_ordinal_pos())
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                
+                                        d.append(s)
+        
+                                        for attribute in sequence.get_attributes():
+                                            if attribute.get_hasDifferences() == True:
+                                                a = []
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                                                a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
+                                                a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                                                a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
+                                                a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                                                
+                                                d.append(a)
+
+                                        for segment in sequence.get_segments():
+                                            if segment.get_hasDifferences() == True:
+                                                sg = []
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append(constant.XL_MISSING_TEXT if segment.get_bfile() == False else segment.get_segment_number())
+                                                sg.append('')
+                                                sg.append('')
+                                                
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append(constant.XL_MISSING_TEXT if segment.get_cfile() == False else segment.get_segment_number())
+                                                sg.append('')
+                                                sg.append('')
+                        
+                                                d.append(sg)
+
+
+                                                for attribute in segment.get_attributes():
+                                                    if attribute.get_hasDifferences() == True:
+                                                        sga = []
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
+                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
+                        
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
+                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
+                                                        
+                                                        d.append(sga)
+
+                                        divider = []
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        d.append(divider)
+                                            
+        
+        dfSequences = pd.DataFrame(d, columns = dfCols)
+        
+        return dfSequences
+           
+    
+    def writeDFPRISequences(self, bfTitle, cfTitle):
+        
+        dfSubCols = ['ELNOT', 'MODE', 'GENERATOR', 'PRI_SEQUENCE', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'SEGMENT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'ELNOT', 'MODE', 'GENERATOR', 'PRI_SEQUENCE', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'SEGMENT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE']
+        dfCols = pd.MultiIndex.from_tuples(zip([bfTitle, '','','','','','','','', cfTitle,'','','','','','','',''], dfSubCols))
+        
+        d = []
+        for emitter in self.base_emitters:
+            if emitter.get_hasDifferences() == True:
+                bElnot = constant.XL_MISSING_TEXT if emitter.get_bfile() == False else emitter.get_elnot()
+                cElnot = constant.XL_MISSING_TEXT if emitter.get_cfile() == False else emitter.get_elnot()
+                
+                for mode in emitter.get_modes():
+                    if mode.get_hasDifferences() == True:
+                        bMode = constant.XL_MISSING_TEXT if mode.get_bfile() == False else mode.get_name()
+                        cMode = constant.XL_MISSING_TEXT if mode.get_cfile() == False else mode.get_name()
+
+                        
+                        for generator in mode.get_generators():
+                            if generator.get_hasDifferences() == True:
+                                bGenerator = constant.XL_MISSING_TEXT if generator.get_bfile() == False else generator.get_generator_number()
+                                cGenerator = constant.XL_MISSING_TEXT if generator.get_cfile() == False else generator.get_generator_number()
+                                
+                                for sequence in generator.get_pri_sequences():
+                                    if sequence.get_hasDifferences() == True:
+                                        s = []
+                                        s.append(bElnot)
+                                        s.append(bMode)
+                                        s.append(bGenerator)
+                                        s.append(constant.XL_MISSING_TEXT if sequence.get_bfile() == False else sequence.get_ordinal_pos())
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                                        
+                                        s.append(bElnot)
+                                        s.append(bMode)
+                                        s.append(bGenerator)
+                                        s.append(constant.XL_MISSING_TEXT if sequence.get_cfile() == False else sequence.get_ordinal_pos())
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                                        s.append('')
+                
+                                        d.append(s)
+        
+                                        for attribute in sequence.get_attributes():
+                                            if attribute.get_hasDifferences() == True:
+                                                a = []
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                                                a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
+                                                a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                                                a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
+                                                a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
+                                                a.append('')
+                                                a.append('')
+                                                a.append('')
+                                                
+                                                d.append(a)
+
+                                        for segment in sequence.get_segments():
+                                            if segment.get_hasDifferences() == True:
+                                                sg = []
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append(constant.XL_MISSING_TEXT if segment.get_bfile() == False else segment.get_segment_number())
+                                                sg.append('')
+                                                sg.append('')
+                                                
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append('')
+                                                sg.append(constant.XL_MISSING_TEXT if segment.get_cfile() == False else segment.get_segment_number())
+                                                sg.append('')
+                                                sg.append('')
+                        
+                                                d.append(sg)
+
+
+                                                for attribute in segment.get_attributes():
+                                                    if attribute.get_hasDifferences() == True:
+                                                        sga = []
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
+                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
+                        
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append('')
+                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
+                                                        sga.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
+                                                        
+                                                        d.append(sga)
+
+
+                                        divider = []
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        divider.append('')
+                                        d.append(divider)
+                                            
+       
+        dfSequences = pd.DataFrame(d, columns = dfCols)
+        
+        return dfSequences
             
     def writeDFGenerators(self, bfTitle, cfTitle):
         
@@ -525,7 +703,7 @@ class CompareEMTFiles():
                                         ps.append('')
                                         ps.append('')
                                         ps.append('')
-                                        ps.append(constant.XL_MISSING_TEXT if generator.get_bfile() == False else sequence.get_ordinal_pos())
+                                        ps.append(constant.XL_MISSING_TEXT if sequence.get_bfile() == False else sequence.get_ordinal_pos())
                                         ps.append('')
                                         
                                         ps.append('')
@@ -533,7 +711,7 @@ class CompareEMTFiles():
                                         ps.append('')
                                         ps.append('')
                                         ps.append('')
-                                        ps.append(constant.XL_MISSING_TEXT if generator.get_cfile() == False else sequence.get_ordinal_pos())
+                                        ps.append(constant.XL_MISSING_TEXT if sequence.get_cfile() == False else sequence.get_ordinal_pos())
                                         ps.append('')
                 
                                         d.append(ps)
@@ -546,7 +724,7 @@ class CompareEMTFiles():
                                         fs.append('')
                                         fs.append('')
                                         fs.append('')
-                                        fs.append(constant.XL_MISSING_TEXT if generator.get_bfile() == False else sequence.get_ordinal_pos())
+                                        fs.append(constant.XL_MISSING_TEXT if sequence.get_bfile() == False else sequence.get_ordinal_pos())
                                         fs.append('')
                                         
                                         fs.append('')
@@ -554,7 +732,7 @@ class CompareEMTFiles():
                                         fs.append('')
                                         fs.append('')
                                         fs.append('')
-                                        fs.append(constant.XL_MISSING_TEXT if generator.get_cfile() == False else sequence.get_ordinal_pos())
+                                        fs.append(constant.XL_MISSING_TEXT if sequence.get_cfile() == False else sequence.get_ordinal_pos())
                                         fs.append('')
                 
                                         d.append(fs)
@@ -738,9 +916,8 @@ class CompareEMTFiles():
         dfEmitters = self.writeDFEmitters(bfTitle, cfTitle)
         dfModes = self.writeDFModes(bfTitle, cfTitle)
         dfGenerators = self.writeDFGenerators(bfTitle, cfTitle)
-        
-        dfPRISequences = pd.DataFrame()
-        dfFREQSequences = pd.DataFrame()
+        dfPRISequences = self.writeDFPRISequences(bfTitle, cfTitle)
+        dfFREQSequences = self.writeDFFREQSequences(bfTitle, cfTitle)
         
         dfsWB.append(dfEmitters)
         dfsWB.append(dfModes)
@@ -766,8 +943,6 @@ class CompareEMTFiles():
         #print("cleaning the list, leaving only records with a difference ...")
         #self.cleanTheList()
         
-        #print("converting objects to dictionaries for dataframe...")
-        #self.listToDict()
         
         dfsWB = self.dictsToPandasDFs()
         writer = pd.ExcelWriter('EMT_Differences.xlsx', engine='xlsxwriter')
@@ -778,24 +953,15 @@ class CompareEMTFiles():
         dfPRISequences = dfsWB[3]
         dfFREQSequences = dfsWB[4]
         
-        
-        #columns = ['ELNOT','MODE','GENERATOR','SEQUENCE','SEGMENT']
-        #xwApp = xw.App(visible=False)
-        
-        #wb = xw.Book()
      
         print("outputting excel display of differences ...")
         dfEmitters.to_excel(writer, sheet_name='Emitters')
         dfModes.to_excel(writer, sheet_name='Modes')
         dfGenerators.to_excel(writer, sheet_name='Generators')
-        writer.save()
+        dfPRISequences.to_excel(writer, sheet_name='PRI Sequences')
+        dfFREQSequences.to_excel(writer, sheet_name='FREQ Sequences')
         
-        #self.displayDifferences(wb)
-    
-       
-        #wb.save(r'EMT_Differences')
-        #wb.close()
-        #xwApp.quit()
+        writer.save()
     
         print("finished!")
                
