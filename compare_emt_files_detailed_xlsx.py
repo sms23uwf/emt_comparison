@@ -458,13 +458,215 @@ class CompareEMTFiles():
             
             self.output_emitters.append(dictCandidateEmitter.__dict__)
             
+            
+    def writeDFGenerators(self, bfTitle, cfTitle):
+        
+        dfSubCols = ['ELNOT', 'MODE', 'GENERATOR', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'PRI_SEQUENCE', 'FREQ_SEQUENCE', 'ELNOT', 'MODE', 'GENERATOR', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'PRI_SEQUENCE', 'FREQ_SEQUENCE']
+        dfCols = pd.MultiIndex.from_tuples(zip([bfTitle, '','','','','','', cfTitle,'','','','','',''], dfSubCols))
+        
+        d = []
+        for emitter in self.base_emitters:
+            if emitter.get_hasDifferences() == True:
+                bElnot = constant.XL_MISSING_TEXT if emitter.get_bfile() == False else emitter.get_elnot()
+                cElnot = constant.XL_MISSING_TEXT if emitter.get_cfile() == False else emitter.get_elnot()
+                
+                for mode in emitter.get_modes():
+                    if mode.get_hasDifferences() == True:
+                        bMode = constant.XL_MISSING_TEXT if mode.get_bfile() == False else mode.get_name()
+                        cMode = constant.XL_MISSING_TEXT if mode.get_cfile() == False else mode.get_name()
+
+                        
+                        for generator in mode.get_generators():
+                            if generator.get_hasDifferences() == True:
+                                g = []
+                                g.append(bElnot)
+                                g.append(bMode)
+                                g.append(constant.XL_MISSING_TEXT if generator.get_bfile() == False else generator.get_generator_number())
+                                g.append('')
+                                g.append('')
+                                g.append('')
+                                g.append('')
+                                
+                                g.append(cElnot)
+                                g.append(cMode)
+                                g.append(constant.XL_MISSING_TEXT if generator.get_cfile() == False else generator.get_generator_number())
+                                g.append('')
+                                g.append('')
+                                g.append('')
+                                g.append('')
+                                d.append(g)
+        
+                                for attribute in generator.get_attributes():
+                                    if attribute.get_hasDifferences() == True:
+                                        a = []
+                                        a.append('')
+                                        a.append('')
+                                        a.append('')
+                                        a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
+                                        a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
+                                        a.append('')
+                                        a.append('')
+        
+                                        a.append('')
+                                        a.append('')
+                                        a.append('')
+                                        a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
+                                        a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
+                                        a.append('')
+                                        a.append('')
+                                        
+                                        d.append(a)
+
+                                for sequence in generator.get_pri_sequences():
+                                    if sequence.get_bfile() == False or sequence.get_cfile() == False:
+                                        ps = []
+                                        ps.append('')
+                                        ps.append('')
+                                        ps.append('')
+                                        ps.append('')
+                                        ps.append('')
+                                        ps.append(constant.XL_MISSING_TEXT if generator.get_bfile() == False else sequence.get_ordinal_pos())
+                                        ps.append('')
+                                        
+                                        ps.append('')
+                                        ps.append('')
+                                        ps.append('')
+                                        ps.append('')
+                                        ps.append('')
+                                        ps.append(constant.XL_MISSING_TEXT if generator.get_cfile() == False else sequence.get_ordinal_pos())
+                                        ps.append('')
+                
+                                        d.append(ps)
+
+                                for sequence in generator.get_freq_sequences():
+                                    if sequence.get_bfile() == False or sequence.get_cfile() == False:
+                                        fs = []
+                                        fs.append('')
+                                        fs.append('')
+                                        fs.append('')
+                                        fs.append('')
+                                        fs.append('')
+                                        fs.append(constant.XL_MISSING_TEXT if generator.get_bfile() == False else sequence.get_ordinal_pos())
+                                        fs.append('')
+                                        
+                                        fs.append('')
+                                        fs.append('')
+                                        fs.append('')
+                                        fs.append('')
+                                        fs.append('')
+                                        fs.append(constant.XL_MISSING_TEXT if generator.get_cfile() == False else sequence.get_ordinal_pos())
+                                        fs.append('')
+                
+                                        d.append(fs)
+
+                        divider = []
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        d.append(divider)
+                        
+        
+        dfModes = pd.DataFrame(d, columns = dfCols)
+        
+        return dfModes
+            
+            
+    def writeDFModes(self, bfTitle, cfTitle):
+        
+        dfSubCols = ['ELNOT', 'MODE', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'GENERATOR', 'ELNOT', 'MODE', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'GENERATOR']
+        dfCols = pd.MultiIndex.from_tuples(zip([bfTitle, '','','','', cfTitle,'','','',''], dfSubCols))
+        
+        d = []
+        for emitter in self.base_emitters:
+            if emitter.get_hasDifferences() == True:
+                bElnot = constant.XL_MISSING_TEXT if emitter.get_bfile() == False else emitter.get_elnot()
+                cElnot = constant.XL_MISSING_TEXT if emitter.get_cfile() == False else emitter.get_elnot()
+                
+                for mode in emitter.get_modes():
+                    if mode.get_hasDifferences() == True:
+                        m = []
+                        m.append(bElnot)
+                        m.append(constant.XL_MISSING_TEXT if mode.get_bfile() == False else mode.get_name())
+                        m.append('')
+                        m.append('')
+                        m.append('')
+                        
+                        m.append(cElnot)
+                        m.append(constant.XL_MISSING_TEXT if mode.get_cfile() == False else mode.get_name())
+                        m.append('')
+                        m.append('')
+                        m.append('')
+                        d.append(m)
+
+                        for attribute in mode.get_attributes():
+                            if attribute.get_hasDifferences() == True:
+                                a = []
+                                a.append('')
+                                a.append('')
+                                a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
+                                a.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
+                                a.append('')
+
+                                a.append('')
+                                a.append('')
+                                a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
+                                a.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
+                                a.append('')
+                                
+                                d.append(a)
+
+                        for generator in mode.get_generators():
+                            if generator.get_bfile() == False or generator.get_cfile() == False:
+                                g = []
+                                g.append('')
+                                g.append('')
+                                g.append('')
+                                g.append('')
+                                g.append(constant.XL_MISSING_TEXT if generator.get_bfile() == False else generator.get_generator_number())
+                                
+                                g.append('')
+                                g.append('')
+                                g.append('')
+                                g.append('')
+                                g.append(constant.XL_MISSING_TEXT if generator.get_cfile() == False else generator.get_generator_number())
+        
+                                d.append(g)
+
+                        divider = []
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        divider.append('')
+                        d.append(divider)
+                        
+        
+        dfModes = pd.DataFrame(d, columns = dfCols)
+        
+        return dfModes
+            
     
     def writeDFEmitters(self, bfTitle, cfTitle):
-        #dfEmitters = pd.DataFrame()
         
-        dfEmittersData = []
-        dfEmittersSubCols = ['ELNOT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'ELNOT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE']
-        dfEmittersCols = pd.MultiIndex.from_tuples(zip([bfTitle, cfTitle], dfEmittersSubCols))
+        dfEmittersSubCols = ['ELNOT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'MODE', 'ELNOT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'MODE']
+        dfEmittersCols = pd.MultiIndex.from_tuples(zip([bfTitle, '','','', cfTitle,'','',''], dfEmittersSubCols))
         
         d = []
         for emitter in self.base_emitters:
@@ -474,7 +676,9 @@ class CompareEMTFiles():
                 e.append(constant.XL_MISSING_TEXT if emitter.get_bfile() == False else emitter.get_elnot())
                 e.append('')
                 e.append('')
+                e.append('')
                 e.append(constant.XL_MISSING_TEXT if emitter.get_cfile() == False else emitter.get_elnot())
+                e.append('')
                 e.append('')
                 e.append('')
                 d.append(e)
@@ -486,16 +690,39 @@ class CompareEMTFiles():
                         r.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_name())
                         r.append(constant.XL_MISSING_TEXT if attribute.get_bfile() == False else attribute.get_value())
                         r.append('')
+                        r.append('')
                         r.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_name())
                         r.append(constant.XL_MISSING_TEXT if attribute.get_cfile() == False else attribute.get_cvalue())
+                        r.append('')
                         
                         d.append(r)
-        
-        print(d)
-        dfEmittersData = d
-        dfEmitters = pd.DataFrame(d, columns = ['ELNOT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE', 'ELNOT', 'ATTRIBUTE NAME', 'ATTRIBUTE VALUE'])
-        #dfEmitters.data = dfEmittersData
-        #dfEmitters.columns = dfEmittersSubCols
+
+                for mode in emitter.get_modes():
+                    if mode.get_bfile() == False or mode.get_cfile() == False:
+                        m = []
+                        m.append('')
+                        m.append('')
+                        m.append('')
+                        m.append(constant.XL_MISSING_TEXT if mode.get_bfile() == False else mode.get_name())
+                        m.append('')
+                        m.append('')
+                        m.append('')
+                        m.append(constant.XL_MISSING_TEXT if mode.get_cfile() == False else mode.get_name())
+
+                        d.append(m)
+                        
+                divider = []
+                divider.append('')
+                divider.append('')
+                divider.append('')
+                divider.append('')
+                divider.append('')
+                divider.append('')
+                divider.append('')
+                divider.append('')
+                d.append(divider)
+                        
+        dfEmitters = pd.DataFrame(d, columns = dfEmittersCols)
         
         return dfEmitters
     
@@ -509,9 +736,9 @@ class CompareEMTFiles():
 
         dfsWB = []
         dfEmitters = self.writeDFEmitters(bfTitle, cfTitle)
+        dfModes = self.writeDFModes(bfTitle, cfTitle)
+        dfGenerators = self.writeDFGenerators(bfTitle, cfTitle)
         
-        dfModes = pd.DataFrame()
-        dfGenerators = pd.DataFrame()
         dfPRISequences = pd.DataFrame()
         dfFREQSequences = pd.DataFrame()
         
@@ -560,6 +787,7 @@ class CompareEMTFiles():
         print("outputting excel display of differences ...")
         dfEmitters.to_excel(writer, sheet_name='Emitters')
         dfModes.to_excel(writer, sheet_name='Modes')
+        dfGenerators.to_excel(writer, sheet_name='Generators')
         writer.save()
         
         #self.displayDifferences(wb)
