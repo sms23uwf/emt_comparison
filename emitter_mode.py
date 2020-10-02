@@ -5,10 +5,7 @@ Created on Tue Aug  4 12:39:17 2020
 @author: Steve
 """
 
-import print_utility
 import constant
-import list_utility
-from itertools import filterfalse
 
 
 class EmitterMode():
@@ -107,25 +104,6 @@ class EmitterMode():
             return []
 
 
-    def clean_attributes(self):
-        self.set_attributes(list(filterfalse(list_utility.filtertrue, self.get_attributes())))
-        
-        # for attribute in self.get_attributes():
-        #     if attribute.get_hasDifferences() == False:
-        #         self.get_attributes().remove(attribute)
-
-
-    def attributes_to_dict(self):
-        attribute_holder = []
-        for attribute in self.get_attributes():
-            attribute_holder.append(attribute)
-            
-        self._attributes = []
-        
-        for attribute in attribute_holder:
-            self.add_attribute(attribute.__dict__)
-
-
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
@@ -148,30 +126,6 @@ class EmitterMode():
 
         return localDifferences
 
-
-    def generators_to_dict(self):
-        holder = []
-        for obj in self.get_generators():
-            holder.append(obj)
-            
-        self._generators = []
-        
-        for obj in holder:
-            obj.attributes_to_dict()
-            obj.sequences_to_dict()
-            self.add_generator(obj.__dict__)
-
-        
-    def clean_generators(self):
-        self.set_generators(list(filterfalse(list_utility.filtertrue, self.get_generators())))
-        
-        # for generator in self.get_generators():
-        #     if generator.get_hasDifferences() == False:
-        #         self.get_generators().remove(generator)
-        #     else:
-        #         generator.clean_attributes()
-        #         generator.clean_sequences()
-                
         
     def sync_generators(self, comparisonObj):
         
@@ -203,34 +157,4 @@ class EmitterMode():
         
             
         return localDifferences
-
-    def print_mode(self, ws, bElnot, cElnot):
-        print_utility.writeLabelCell(ws, print_utility.wsModesRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-        print_utility.writeValueCell(ws, print_utility.wsModesRow, constant.BASE_XL_COL_ELNOT_VAL, bElnot)
-        print_utility.writeLabelCell(ws, print_utility.wsModesRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-        print_utility.writeValueCell(ws, print_utility.wsModesRow, constant.COMP_XL_COL_ELNOT_VAL, cElnot)
-
-        print_utility.writeLabelCell(ws, print_utility.wsModesRow, constant.BASE_XL_COL_MODE_LBL, constant.XL_MISSING_TEXT if self.get_bfile() == False else "MODE:")
-        print_utility.writeValueCell(ws, print_utility.wsModesRow, constant.BASE_XL_COL_MODE_VAL, '' if self.get_bfile() == False else self.get_name())
-        print_utility.writeLabelCell(ws, print_utility.wsModesRow, constant.COMP_XL_COL_MODE_LBL, constant.XL_MISSING_TEXT if self.get_cfile() == False else "MODE:")
-        print_utility.writeValueCell(ws, print_utility.wsModesRow, constant.COMP_XL_COL_MODE_VAL, '' if self.get_cfile() == False else self.get_name())
-
-        print_utility.wsModesRow += 1
-
-        if self.get_bfile() == True and self.get_bfile() == True:
-            self.print_attribute_differences(ws)
-
-
-    def print_attribute_differences(self, ws):
-        for baseAttribute in self.get_attributes():
-            if baseAttribute.get_hasDifferences() == True:
-                baseAttribute.print_attribute(ws, print_utility.wsModesRow, constant.BASE_XL_COL_MODE_ATTRIB_LBL, constant.BASE_XL_COL_MODE_ATTRIB_VAL, constant.COMP_XL_COL_MODE_ATTRIB_LBL, constant.COMP_XL_COL_MODE_ATTRIB_VAL)
-                print_utility.wsModesRow += 1
-        
     
-    def to_dict(self):
-        return {
-            'mode_name': self._mode_name,
-            'attributes': self._attributes,
-            'generators': self._generators
-        }

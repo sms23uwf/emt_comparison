@@ -5,12 +5,7 @@ Created on Mon Aug  3 17:39:36 2020
 @author: Steve
 """
 
-import print_utility
 import constant
-import list_utility
-from emitter_iterator import EmitterIterator
-
-from itertools import filterfalse
 
 
 class Emitter():
@@ -110,14 +105,6 @@ class Emitter():
             return []
 
     
-    def clean_attributes(self):
-        self.set_attributes(list(filterfalse(list_utility.filtertrue, self.get_attributes())))
-        
-        # for attribute in self.get_attributes():
-        #     if attribute.get_hasDifferences() == False:
-        #         self.get_attributes().remove(attribute)
-
-
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
@@ -142,43 +129,6 @@ class Emitter():
         return localDifferences
     
     
-    def clean_modes(self):
-        
-        self.set_modes(list(filterfalse(list_utility.filtertrue, self.get_modes())))
-        
-        
-        # for mode in self.get_modes():
-        #     if mode.get_hasDifferences() == False:
-        #         self.get_modes().remove(mode)
-        #     else:
-        #         mode.clean_attributes()
-        #         mode.clean_generators()
-        
-      
-    def attributes_to_dict(self):
-        attribute_holder = []
-        for attribute in self.get_attributes():
-            attribute_holder.append(attribute)
-            
-        self._attributes = []
-        
-        for attribute in attribute_holder:
-            self.add_attribute(attribute.__dict__)
-            
-            
-    def modes_to_dict(self):
-        mode_holder = []
-        for mode in self.get_modes():
-            mode_holder.append(mode)
-            
-        self._modes = []
-        
-        for mode in mode_holder:
-            mode.attributes_to_dict()
-            mode.generators_to_dict()
-            self.add_mode(mode.__dict__)
-            
-            
     def sync_modes(self, comparisonObj):
         localAttrDifferences = False
         localGeneratorDifferences = False
@@ -203,33 +153,3 @@ class Emitter():
             
         return localDifferences
     
-    
-    def print_emitter(self, ws, baseLabelCol, baseValueCol, comparisonLabelCol, comparisonValueCol):
-        print_utility.writeLabelCell(ws, print_utility.wsEmittersRow, baseLabelCol, constant.XL_MISSING_TEXT if self.get_bfile() == False else "ELNOT:")
-        print_utility.writeValueCell(ws, print_utility.wsEmittersRow, baseValueCol, '' if self.get_bfile() == False else self.get_elnot())
-        print_utility.writeLabelCell(ws, print_utility.wsEmittersRow, comparisonLabelCol, constant.XL_MISSING_TEXT if self.get_cfile() == False else "ELNOT:")
-        print_utility.writeValueCell(ws, print_utility.wsEmittersRow, comparisonValueCol, '' if self.get_cfile() == False else self.get_elnot())
-        print_utility.wsEmittersRow += 1
-        
-        if self.get_bfile() == True and self.get_bfile() == True:
-            self.print_attribute_differences(ws)
-
-        
-    
-    def print_attribute_differences(self, ws):
-        for baseAttribute in self.get_attributes():
-            if baseAttribute.get_hasDifferences() == True:
-                baseAttribute.print_attribute(ws, print_utility.wsEmittersRow, constant.BASE_XL_COL_EMITTER_ATTRIB_LBL, constant.BASE_XL_COL_EMITTER_ATTRIB_VAL, constant.COMP_XL_COL_EMITTER_ATTRIB_LBL, constant.COMP_XL_COL_EMITTER_ATTRIB_VAL)
-                print_utility.wsEmittersRow += 1
-    
-    
-    def to_dict(self):
-        return {
-        'elnot': self._elnot,
-        'attributes': self._attributes,
-        'modes': self._modes
-       }
-    
-    
-    def __iter__(self):
-        return EmitterIterator(self)

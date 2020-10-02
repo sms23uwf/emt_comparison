@@ -5,10 +5,7 @@ Created on Thu Aug  6 17:20:09 2020
 @author: Steve
 """
 
-import print_utility
 import constant
-import list_utility
-from itertools import filterfalse
 
 
 class Sequence():
@@ -116,37 +113,6 @@ class Sequence():
         return []
 
 
-    def attributes_to_dict(self):
-        attribute_holder = []
-        for attribute in self.get_attributes():
-            attribute_holder.append(attribute)
-            
-        self._attributes = []
-        
-        for attribute in attribute_holder:
-            self.add_attribute(attribute.__dict__)
-
-    
-    def segments_to_dict(self):
-        holder = []
-        for obj in self.get_segments():
-            holder.append(obj)
-            
-        self._segments = []
-        
-        for obj in holder:
-            obj.attributes_to_dict()
-            self.add_segment(obj.__dict__)
-        
-
-    def clean_attributes(self):
-        self.set_attributes(list(filterfalse(list_utility.filtertrue, self.get_attributes())))
-        
-        # for attribute in self.get_attributes():
-        #     if attribute.get_hasDifferences() == False:
-        #         self.get_attributes().remove(attribute)
-
-
     def sync_attributes(self, comparisonObj):
         localDifferences = False
         
@@ -171,16 +137,6 @@ class Sequence():
         return localDifferences
 
 
-    def clean_segments(self):
-        self.set_segments(list(filterfalse(list_utility.filtertrue, self.get_segments())))
-        
-        # for segment in self.get_segments():
-        #     if segment.get_hasDifferences() == False:
-        #         self.get_segments().remove(segment)
-        #     else:
-        #         segment.clean_attributes()
-
-
     def sync_segments(self, comparisonObj):
         localDifferences = False
         
@@ -203,64 +159,4 @@ class Sequence():
                 self.add_segment(cSegment)
                 
         return localDifferences
-
-
-    def print_pri_sequence(self, ws, elnot, modeName, generatorNumber):
-        self.print_sequence(ws, print_utility.wsPRISequencesRow, elnot, modeName, generatorNumber, "PRI_SEQUENCE:")
-        print_utility.wsPRISequencesRow += 1
-        
-        if self.get_bfile() == True and self.get_bfile() == True:
-            self.print_attribute_differences_pri(ws)
-        
-        
-    def print_freq_sequence(self, ws, elnot, modeName, generatorNumber):
-        self.print_sequence(ws, print_utility.wsFREQSequencesRow, elnot, modeName, generatorNumber, "FREQ_SEQUENCE:")
-        print_utility.wsFREQSequencesRow += 1
-
-        if self.get_bfile() == True and self.get_bfile() == True:
-            self.print_attribute_differences_freq(ws)
-        
-
-    def print_sequence(self, ws, wsRow, elnot, modeName, generatorNumber, label):
-        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_LBL, "ELNOT:")
-        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_ELNOT_VAL, elnot)
-        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_LBL, "ELNOT:")
-        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_ELNOT_VAL, elnot)
-
-        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_MODE_LBL, "MODE:")
-        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_MODE_VAL, modeName)
-        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_MODE_LBL, "MODE:")
-        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_MODE_VAL, modeName)
-
-        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_GENERATOR_VAL, generatorNumber)
-        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_LBL, "GENERATOR:")
-        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_GENERATOR_VAL, generatorNumber)
-        
-        print_utility.writeLabelCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT if self.get_bfile() == False else label)
-        print_utility.writeValueCell(ws, wsRow, constant.BASE_XL_COL_PF_SEQUENCE_VAL, '' if self.get_bfile() == False else self.get_ordinal_pos())
-        print_utility.writeLabelCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_LBL, constant.XL_MISSING_TEXT if self.get_cfile() == False else label)
-        print_utility.writeValueCell(ws, wsRow, constant.COMP_XL_COL_PF_SEQUENCE_VAL, '' if self.get_cfile() == False else self.get_ordinal_pos())
-
-
-    def print_attribute_differences_pri(self, ws):
-        for baseAttribute in self.get_attributes():
-            if baseAttribute.get_hasDifferences() == True:
-                baseAttribute.print_attribute(ws, print_utility.wsPRISequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_VAL)
-                print_utility.wsPRISequencesRow += 1
-
-
-    def print_attribute_differences_freq(self, ws):
-        for baseAttribute in self.get_attributes():
-            if baseAttribute.get_hasDifferences() == True:
-                baseAttribute.print_attribute(ws, print_utility.wsFREQSequencesRow, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.BASE_XL_COL_PF_SEQUENCE_ATTRIB_VAL, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_LBL, constant.COMP_XL_COL_PF_SEQUENCE_ATTRIB_VAL)
-                print_utility.wsFREQSequencesRow += 1
-
-
-    def to_dict(self):
-        return {
-            'ordinal_pos': self._ordinal_pos,
-            'number_of_segments': self._number_of_segments,
-            'attributes': self._attributes,
-            'segments': self._segments
-        }
+    

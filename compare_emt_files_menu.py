@@ -18,6 +18,7 @@ from PyQt5.QtWidgets import *
 import sys
 from compare_emt_files_detailed_xlsx import CompareEMTFiles
 
+
 class CompareEMTFilesMenu(QDialog):
     def __init__(self):
         QDialog.__init__(self)
